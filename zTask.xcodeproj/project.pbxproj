@@ -1,0 +1,315 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2329E9471594148800FFC5AA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2329E9461594148800FFC5AA /* UIKit.framework */; };
+		2329E9491594148800FFC5AA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2329E9481594148800FFC5AA /* Foundation.framework */; };
+		2329E94B1594148800FFC5AA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2329E94A1594148800FFC5AA /* CoreGraphics.framework */; };
+		2329E9511594148800FFC5AA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2329E94F1594148800FFC5AA /* InfoPlist.strings */; };
+		2329E9531594148800FFC5AA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E9521594148800FFC5AA /* main.m */; };
+		2329E9571594148800FFC5AA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E9561594148800FFC5AA /* AppDelegate.m */; };
+		2329E95A1594148800FFC5AA /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E9591594148800FFC5AA /* FirstViewController.m */; };
+		2329E95C1594148800FFC5AA /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329E95B1594148800FFC5AA /* first.png */; };
+		2329E95E1594148800FFC5AA /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329E95D1594148800FFC5AA /* first@2x.png */; };
+		2329E9611594148800FFC5AA /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E9601594148800FFC5AA /* SecondViewController.m */; };
+		2329E9631594148900FFC5AA /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329E9621594148900FFC5AA /* second.png */; };
+		2329E9651594148900FFC5AA /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329E9641594148900FFC5AA /* second@2x.png */; };
+		2329E9681594148900FFC5AA /* FirstViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2329E9661594148900FFC5AA /* FirstViewController.xib */; };
+		2329E96B1594148900FFC5AA /* SecondViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2329E9691594148900FFC5AA /* SecondViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2329E9421594148800FFC5AA /* zTask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = zTask.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2329E9461594148800FFC5AA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2329E9481594148800FFC5AA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2329E94A1594148800FFC5AA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2329E94E1594148800FFC5AA /* zTask-Info.plist */ = {isa = PBXFileReference; path = "zTask-Info.plist"; sourceTree = "<group>"; };
+		2329E9501594148800FFC5AA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2329E9521594148800FFC5AA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2329E9541594148800FFC5AA /* zTask-Prefix.pch */ = {isa = PBXFileReference; path = "zTask-Prefix.pch"; sourceTree = "<group>"; };
+		2329E9551594148800FFC5AA /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		2329E9561594148800FFC5AA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		2329E9581594148800FFC5AA /* FirstViewController.h */ = {isa = PBXFileReference; path = FirstViewController.h; sourceTree = "<group>"; };
+		2329E9591594148800FFC5AA /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
+		2329E95B1594148800FFC5AA /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		2329E95D1594148800FFC5AA /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		2329E95F1594148800FFC5AA /* SecondViewController.h */ = {isa = PBXFileReference; path = SecondViewController.h; sourceTree = "<group>"; };
+		2329E9601594148800FFC5AA /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		2329E9621594148900FFC5AA /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		2329E9641594148900FFC5AA /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		2329E9671594148900FFC5AA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/FirstViewController.xib; sourceTree = "<group>"; };
+		2329E96A1594148900FFC5AA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SecondViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2329E93F1594148800FFC5AA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2329E9471594148800FFC5AA /* UIKit.framework in Frameworks */,
+				2329E9491594148800FFC5AA /* Foundation.framework in Frameworks */,
+				2329E94B1594148800FFC5AA /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2329E9371594148800FFC5AA = {
+			isa = PBXGroup;
+			children = (
+				2329E94C1594148800FFC5AA /* zTask */,
+				2329E9451594148800FFC5AA /* Frameworks */,
+				2329E9431594148800FFC5AA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2329E9431594148800FFC5AA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2329E9421594148800FFC5AA /* zTask.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2329E9451594148800FFC5AA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2329E9461594148800FFC5AA /* UIKit.framework */,
+				2329E9481594148800FFC5AA /* Foundation.framework */,
+				2329E94A1594148800FFC5AA /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2329E94C1594148800FFC5AA /* zTask */ = {
+			isa = PBXGroup;
+			children = (
+				2329E9551594148800FFC5AA /* AppDelegate.h */,
+				2329E9561594148800FFC5AA /* AppDelegate.m */,
+				2329E9581594148800FFC5AA /* FirstViewController.h */,
+				2329E9591594148800FFC5AA /* FirstViewController.m */,
+				2329E95B1594148800FFC5AA /* first.png */,
+				2329E95D1594148800FFC5AA /* first@2x.png */,
+				2329E95F1594148800FFC5AA /* SecondViewController.h */,
+				2329E9601594148800FFC5AA /* SecondViewController.m */,
+				2329E9621594148900FFC5AA /* second.png */,
+				2329E9641594148900FFC5AA /* second@2x.png */,
+				2329E9661594148900FFC5AA /* FirstViewController.xib */,
+				2329E9691594148900FFC5AA /* SecondViewController.xib */,
+				2329E94D1594148800FFC5AA /* Supporting Files */,
+			);
+			path = zTask;
+			sourceTree = "<group>";
+		};
+		2329E94D1594148800FFC5AA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2329E94E1594148800FFC5AA /* zTask-Info.plist */,
+				2329E94F1594148800FFC5AA /* InfoPlist.strings */,
+				2329E9521594148800FFC5AA /* main.m */,
+				2329E9541594148800FFC5AA /* zTask-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2329E9411594148800FFC5AA /* zTask */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2329E96E1594148900FFC5AA /* Build configuration list for PBXNativeTarget "zTask" */;
+			buildPhases = (
+				2329E93E1594148800FFC5AA /* Sources */,
+				2329E93F1594148800FFC5AA /* Frameworks */,
+				2329E9401594148800FFC5AA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = zTask;
+			productName = zTask;
+			productReference = 2329E9421594148800FFC5AA /* zTask.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2329E9391594148800FFC5AA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 2329E93C1594148800FFC5AA /* Build configuration list for PBXProject "zTask" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2329E9371594148800FFC5AA;
+			productRefGroup = 2329E9431594148800FFC5AA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2329E9411594148800FFC5AA /* zTask */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2329E9401594148800FFC5AA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2329E9511594148800FFC5AA /* InfoPlist.strings in Resources */,
+				2329E95C1594148800FFC5AA /* first.png in Resources */,
+				2329E95E1594148800FFC5AA /* first@2x.png in Resources */,
+				2329E9631594148900FFC5AA /* second.png in Resources */,
+				2329E9651594148900FFC5AA /* second@2x.png in Resources */,
+				2329E9681594148900FFC5AA /* FirstViewController.xib in Resources */,
+				2329E96B1594148900FFC5AA /* SecondViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2329E93E1594148800FFC5AA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2329E9531594148800FFC5AA /* main.m in Sources */,
+				2329E9571594148800FFC5AA /* AppDelegate.m in Sources */,
+				2329E95A1594148800FFC5AA /* FirstViewController.m in Sources */,
+				2329E9611594148800FFC5AA /* SecondViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2329E94F1594148800FFC5AA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2329E9501594148800FFC5AA /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2329E9661594148900FFC5AA /* FirstViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2329E9671594148900FFC5AA /* en */,
+			);
+			name = FirstViewController.xib;
+			sourceTree = "<group>";
+		};
+		2329E9691594148900FFC5AA /* SecondViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2329E96A1594148900FFC5AA /* en */,
+			);
+			name = SecondViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2329E96C1594148900FFC5AA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		2329E96D1594148900FFC5AA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2329E96F1594148900FFC5AA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "zTask/zTask-Prefix.pch";
+				INFOPLIST_FILE = "zTask/zTask-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		2329E9701594148900FFC5AA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "zTask/zTask-Prefix.pch";
+				INFOPLIST_FILE = "zTask/zTask-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2329E93C1594148800FFC5AA /* Build configuration list for PBXProject "zTask" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2329E96C1594148900FFC5AA /* Debug */,
+				2329E96D1594148900FFC5AA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2329E96E1594148900FFC5AA /* Build configuration list for PBXNativeTarget "zTask" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2329E96F1594148900FFC5AA /* Debug */,
+				2329E9701594148900FFC5AA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2329E9391594148800FFC5AA /* Project object */;
+}
