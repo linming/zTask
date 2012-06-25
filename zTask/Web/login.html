@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Port Site Log In</title>
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="/css/default.css" />
+		<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="/js/bootstrap.js"></script>
+		<style>
+			html, body{
+				background: none repeat scroll 0 0 #FBFBFB !important;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="login" class="">
+			<form class="well login-form" method="post" action="/apis/login">
+				<fieldset>
+					<legend>Port Site Log In</legend>
+					<label class="control-label">Please enter access password:</label>
+					<input id="password" type="text" class="login-input" placeholder="Enter password here">
+					<button type="submit" class="btn btn-primary btn-large pull-right">Enter</button>
+				</fieldset>
+			</form>
+		</div>
+	</body>
+	<script>
+		$(document).ready(function(){
+			$('#password').focus();
+		});
+	</script>
+</html>

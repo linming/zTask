@@ -1,0 +1,157 @@
+html, body {
+	/*background-image: url("/img/bg-wood.png");*/
+	font-size: 15px;
+	background-color: #E2E2E2;
+	height: 100%;
+}
+
+#main-sheet {
+	background-color: #FFFFFF;
+	min-height: 100%;
+	position: relative;
+	height: auto !important;
+	overflow: hidden;
+}
+
+#main-container {
+	padding: 50px 0px 0px;
+	position: absolute;
+	height: 100%;
+}
+
+.toolbar {
+	bottom: 0;
+	right: 0px;
+	overflow: hidden;
+	position: fixed;
+}
+
+.post_view {
+	padding: 5px 10px;
+}
+
+.content {
+	margin: 10px 0px;
+	font-size: 15px;
+}
+
+.content p {
+	font-size: 15px;
+}
+
+.photo-area {
+	border: 3px dashed #DDDDDD;
+	height: 300px;
+	overflow-y: auto;
+}
+
+.upload-hint {
+	margin: 100px 10px;
+	text-align: center;
+}
+
+.drag-hint {
+	margin: 10px;
+	font-size: 24px;
+	color: #ccc;
+}
+.prefer-hint {
+	margin: 10px;
+	color: #ccc;
+}
+
+#upload-photos-box {
+	overflow: hidden;
+}
+.upload-btn {
+	margin: 10px;
+	display: block;
+	overflow: hidden;
+}
+
+#upload-button {
+	position: relative;
+	cursor:pointer;
+}
+
+#files {
+	font-size: 16px;
+	width: 230px;
+	opacity: 0;
+	filter:alpha(opacity: 0);
+	position: absolute;
+	left: 200px;
+	cursor:pointer;
+}
+
+#upload-photos-box {
+	width: 640px;
+	height: 480px;
+}
+
+.box {float:left;width:150px;height:120px;background:lightgrey;margin:8px;text-align:center}
+.box .name {height:25px;margin-top:5px}
+.box .progresscontainer {height:5px;margin:80px 5px 0px}
+.box .progress {background:grey;height:5px;width:1%}
+.box.picture {background:none center top no-repeat;background-size:100%}
+.box.picture .progresscontainer, .box.picture .name {display:none}
+
+
+#menu1 {
+	width: 22px;
+	height: 22px;
+}
+
+#album-operations-toggle {
+	background-image: url("/img/settings.png");
+	width: 22px;
+	height: 22px;
+	display: block;
+}
+
+#album-operations-menu li {
+	text-shadow: none;
+	display: block;
+}
+
+#album-operations-menu li.divider {
+	display: block;
+}
+
+#album-operations-menu {
+	left: inherit;
+	right: -9px;
+}
+
+.photo-check {
+	text-align: center;
+	padding: 10px;
+}
+
+#op-delete {
+	overflow: hidden;
+}
+
+#login {
+	margin: 7em auto;
+	width: 330px;
+}
+.login-form {
+	margin-top: 20px;
+	overflow: hidden;
+}
+.login-input {
+	background: none repeat scroll 0 0 #FBFBFB;
+	border: 1px solid #E5E5E5;
+	box-shadow: 1px 1px 2px rgba(200, 200, 200, 0.2) inset;
+	font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;
+	font-size: 24px;
+	font-weight: 200;
+	margin-bottom: 16px;
+	margin-right: 6px;
+	margin-top: 2px;
+	outline: medium none;
+	padding: 3px;
+	width: 97%;
+	height: 36px;
+}
