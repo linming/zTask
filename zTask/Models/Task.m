@@ -96,4 +96,16 @@
     //[[NSNotificationCenter defaultCenter] taskNotificationName:@"TasksChanged" object:nil];
 }
 
+- (NSData *)jsonData
+{
+    NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                          [NSNumber numberWithInt: self.rowid], @"rowid",
+                          self.title, @"title", 
+                          nil];
+    
+    NSError *writeError = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data options:NSJSONWritingPrettyPrinted error:&writeError];
+    return jsonData;
+}
+
 @end

@@ -6,11 +6,15 @@
 		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="/css/default.css" />
 		<link rel="stylesheet" type="text/css" href="/css/tasks.css" />
+		<link rel="stylesheet" type="text/css" href="/css/smoothness/jquery-ui-1.8.18.custom.css" />
 		<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 		<script type="text/javascript" src="/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="/js/bootstrap-scrollspy.js"></script>
 		<script type="text/javascript" src="/js/default.js"></script>
 		<script type="text/javascript" src="/js/tasks.js"></script>
+		<script type="text/javascript" src="/js/jquery.tmpl.min.js"></script>
+		<script type="text/javascript" src="/js/jquery-ui-1.8.18.custom.min.js"></script>
+
 	</head>
 	<body>
 		<div class="navbar navbar-fixed-top">
@@ -36,7 +40,7 @@
 							</li>
 						</ul>
 					</div>
-					<a class="btn btn-primary pull-right" href="javascript:void(0);" onclick="create_new_task()">Create new task</a>
+					<a id="new_task" class="btn btn-primary pull-right" href="javascript:void(0);">Create new task</a>
 				</div>
 			</div>
 		</div>

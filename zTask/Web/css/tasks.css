@@ -216,7 +216,7 @@
 }
 
 .drawpanel .input-prepend input {
-	width: 220px;
+	width: 230px;
 }
 
 .task_logs_title {
@@ -266,6 +266,9 @@
 	width:383px;
 }
 
-
+.task_desc {
+	width: 255px;
+	height: 120px;
+}
 
 /*---x tasks ---*/

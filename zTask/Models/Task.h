@@ -22,4 +22,7 @@
 + (void)update:(Task *)task;
 + (void)remove:(NSInteger)rowid;
 
+- (NSData *)jsonData;
+
 @end
+

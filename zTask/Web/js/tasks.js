@@ -1,7 +1,7 @@
 var ori_value = '';
 $(document).ready(function() {
 	$('#new_task').click(function(){
-		$.post($(this).attr('action_url'), {}, function(data){
+		$.post('/tasks/add', {}, function(data){
 			$('#markup_new_task').tmpl(data).prependTo(".task_list");
 			$('.task_list').children(':first').find('textarea:first').focus();
 		}, 'json');
@@ -11,7 +11,7 @@ $(document).ready(function() {
 	$('#delete_task').click(function(){
 		if (confirm('你确定要删除这个任务吗?')){
 			var task_id = $('#panel_frame').attr('data_id');
-			$.post('./tasks/delete', {task_id: task_id}, function(data){
+			$.post('/tasks/delete', {task_id: task_id}, function(data){
 				$('.drawpanel').animate({left: 0});
 			}, 'json');			
 		}
@@ -22,7 +22,7 @@ $(document).ready(function() {
 		var is_checked = $(this).is(':checked');
 		var status = is_checked ? 'completed' : 'ongoing';
 
-		$.post('./tasks/edit/' + task_li.attr('data_id'), {status: status}, function(data){
+		$.post('/tasks/edit/' + task_li.attr('data_id'), {status: status}, function(data){
 			task_li.attr('class', data.status);			
 		}, 'json');
 	});
@@ -37,7 +37,7 @@ $(document).ready(function() {
 		if(selected_id != detail_id) {
 			$('#panel_frame').attr('data_id', selected_id);
 			//load data
-			$.get('./tasks/view/' + selected_id, {}, function(data){
+			$.get('/tasks/view/' + selected_id, {}, function(data){
 				$('#assignee').val(data.assignee_nick);
 				$('#task_desc').val(data.description);
 				$('#due_date').val(data.due_date);
@@ -80,7 +80,7 @@ function task_save_title(textarea) {
 		$(textarea).parent().html('<span class="title">'+$(textarea).val()+'</span>');
 		return;
 	}
-	$.post('./tasks/edit/' + $(textarea).parent().parent().parent().attr('data_id'), {title: $(textarea).val()}, function(data){
+	$.post('/tasks/edit/' + $(textarea).parent().parent().parent().attr('data_id'), {title: $(textarea).val()}, function(data){
 		$(textarea).parent().html('<span class="title">'+$(textarea).val()+'</span>');
 	}, 'json');
 }
@@ -91,7 +91,7 @@ function task_save_desc(textarea) {
 		return;
 	}
 
-	$.post('./tasks/edit/' + $('#panel_frame').attr('data_id'), {description:desc}, function(data){
+	$.post('/tasks/edit/' + $('#panel_frame').attr('data_id'), {description:desc}, function(data){
 		
 	}, 'json');
 }
@@ -105,7 +105,7 @@ function task_save_assignee(textfield) {
 	if (assignee.indexOf(';') != -1) {
 		assignee = assignee.substring(0, assignee.indexOf(';'));
 	}
-	$.post('./tasks/edit/' + $('#panel_frame').attr('data_id'), {assignee:assignee}, function(data){
+	$.post('/tasks/edit/' + $('#panel_frame').attr('data_id'), {assignee:assignee}, function(data){
 		$(textfield).val(assignee);
 	}, 'json');
 }
@@ -116,7 +116,7 @@ function task_save_due_date(textfield) {
 		return;
 	}
 
-	$.post('./tasks/edit/' + $('#panel_frame').attr('data_id'), {due_date:due_date}, function(data){
+	$.post('/tasks/edit/' + $('#panel_frame').attr('data_id'), {due_date:due_date}, function(data){
 
 	}, 'json');
 }
@@ -164,7 +164,7 @@ function do_comment_summit(event) {
 
 		var task_id = $('#panel_frame').attr('data_id');
 		
-		$.post("./tasks/add_comment",
+		$.post("/tasks/add_comment",
 			   {task_id: task_id, memo: content},
 			   function(data) {
 				   $('#markup_task_log').tmpl(data).prependTo('#tasks_logs');

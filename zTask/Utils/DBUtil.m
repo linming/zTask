@@ -27,7 +27,6 @@
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *dbPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:kDBFile];
-    NSLog(@"db path: %@", dbPath);
     FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
     if (![db open]) {
         return nil;
