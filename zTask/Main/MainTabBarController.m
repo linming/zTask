@@ -7,8 +7,9 @@
 //
 
 #import "MainTabBarController.h"
+#import "HomeViewController.h"
 #import "MainViewController.h"
-#import "TaskListController.h"
+#import "TaskViewController.h"
 #import "SettingsController.h"
 #import "KTPhotoScrollViewController.h"
 
@@ -22,18 +23,24 @@
 {
     self = [super init];
     if (self) {
+        UIViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
+        UINavigationController *homeNavigationController = [[UINavigationController alloc] initWithRootViewController:homeViewController];
+        homeNavigationController.tabBarItem.title = @"Home";
+        homeNavigationController.tabBarItem.image = [UIImage imageNamed:@"home"];
+        homeNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+        
+        UIViewController *taskViewController = [[TaskViewController alloc] initWithNibName:@"TaskViewController" bundle:nil];
+        UINavigationController *taskNavigationController = [[UINavigationController alloc] initWithRootViewController:taskViewController];
+        taskNavigationController.tabBarItem.title = @"New Task";
+        taskNavigationController.tabBarItem.image = [UIImage imageNamed:@"inbox_plus"];
+        taskNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+        
         UIViewController *mainViewController = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
         UINavigationController *mainNavigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
-        mainNavigationController.tabBarItem.title = @"Home";
-        mainNavigationController.tabBarItem.image = [UIImage imageNamed:@"home"];
+        mainNavigationController.tabBarItem.title = @"WiFi";
+        mainNavigationController.tabBarItem.image = [UIImage imageNamed:@"wifi"];
         mainNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
-        
-        UITableViewController *taskListController = [[TaskListController alloc] initWithNibName:@"TaskListController" bundle:nil];
-        UINavigationController *taskNavigationController = [[UINavigationController alloc] initWithRootViewController:taskListController];
-        taskNavigationController.tabBarItem.title = @"Pages";
-        taskNavigationController.tabBarItem.image = [UIImage imageNamed:@"pages"];
-        taskNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
         UITableViewController *setttingsController = [[SettingsController alloc] initWithNibName:@"SettingsController" bundle:nil];
         UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:setttingsController];
@@ -41,7 +48,7 @@
         settingsNavigationController.tabBarItem.image = [UIImage imageNamed:@"settings"];
         settingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
-        self.viewControllers = [NSArray arrayWithObjects:mainNavigationController, taskNavigationController, settingsNavigationController, nil];
+        self.viewControllers = [NSArray arrayWithObjects:homeNavigationController, taskNavigationController, mainNavigationController, settingsNavigationController, nil];
     }
     return self;
 }

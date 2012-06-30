@@ -1,20 +1,18 @@
 //
-//  TaskListController.m
+//  TaskViewController.m
 //  zTask
 //
-//  Created by ming lin on 6/22/12.
+//  Created by ming lin on 6/28/12.
 //  Copyright (c) 2012 mingslab. All rights reserved.
 //
 
-#import "TaskListController.h"
-#import "Task.h"
-#import "TaskCell.h"
+#import "TaskViewController.h"
 
-@interface TaskListController ()
+@interface TaskViewController ()
 
 @end
 
-@implementation TaskListController
+@implementation TaskViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -34,8 +32,7 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.navigationItem.title = @"Task List";
-    tasks = [Task findAll:20 page:1]; 
+    self.navigationItem.title = @"New Task";
 }
 
 - (void)viewDidUnload
@@ -54,26 +51,46 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 1;
+    return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return [tasks count];
+    return 0;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return 144;
+    } else {
+        return 0;
+    }
+	
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        UIView *taskViewHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+        return taskViewHeader;
+    } else {
+        return nil;
+    }
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"TaskCell";
-    TaskCell *cell = (TaskCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-
-    if (cell == nil) {
-        cell = [[TaskCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    Task *task = [tasks objectAtIndex:indexPath.row];
-    [cell setTask:task];
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    // Configure the cell...
+    
     return cell;
 }
 

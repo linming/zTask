@@ -1,20 +1,23 @@
 //
-//  TaskListController.m
+//  HomeViewController.m
 //  zTask
 //
-//  Created by ming lin on 6/22/12.
+//  Created by ming lin on 6/27/12.
 //  Copyright (c) 2012 mingslab. All rights reserved.
 //
 
+#import "HomeViewController.h"
 #import "TaskListController.h"
-#import "Task.h"
-#import "TaskCell.h"
+#import "CountIndicator.h"
 
-@interface TaskListController ()
+#define TAG_INBOX_CELL 101
+#define TAG_INBOX_CELL_DISCLOSURE_COUNT_BUTTON 102
+
+@interface HomeViewController ()
 
 @end
 
-@implementation TaskListController
+@implementation HomeViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -34,8 +37,8 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.navigationItem.title = @"Task List";
-    tasks = [Task findAll:20 page:1]; 
+    self.navigationItem.title = @"zTask";
+    tableItems = [[NSArray alloc] initWithObjects: @"Inbox", @"Projects", @"Flagged", @"Search",nil];
 }
 
 - (void)viewDidUnload
@@ -54,26 +57,50 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return [tasks count];
+    return [tableItems count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"TaskCell";
-    TaskCell *cell = (TaskCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    // Configure the cell...
     if (cell == nil) {
-        cell = [[TaskCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    Task *task = [tasks objectAtIndex:indexPath.row];
-    [cell setTask:task];
+    NSString *title = [tableItems objectAtIndex:indexPath.row];
+    if ([title isEqualToString: @"Inbox"]) {
+        cell.textLabel.text = title;
+        cell.tag = TAG_INBOX_CELL;
+        cell.imageView.image = [UIImage imageNamed:@"inbox.png"];
+        
+        CountIndicator *countIndicator = [[CountIndicator alloc] initWithPoint:CGPointMake(265.0f, 14.0f) andFontSize:15.0f andWidth:26.0f];
+        countIndicator.backgroundColor = [UIColor clearColor];
+        countIndicator.indicatorText = [NSString stringWithFormat:@"%d", 12];
+        [cell.contentView addSubview:countIndicator];
+        
+    } else if ([title isEqualToString:@"Projects"]) {
+        cell.textLabel.text = title;
+        cell.imageView.image = [UIImage imageNamed:@"project.png"];
+    } else if ([title isEqualToString:@"Flagged"]) {
+        cell.textLabel.text = title;
+        cell.imageView.image = [UIImage imageNamed:@"flag.png"];
+    } else if ([title isEqualToString:@"Search"]) {
+        cell.textLabel.text = title;
+        cell.imageView.image = [UIImage imageNamed:@"search.png"];
+        
+    } else {
+        cell.textLabel.text = title;
+    }
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
     return cell;
 }
 
@@ -120,13 +147,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    if (indexPath.row == 0) {
+        TaskListController *taskListController = [[TaskListController alloc] initWithNibName:@"TaskListController" bundle:nil];
+        [self.navigationController pushViewController:taskListController animated:YES];
+    } 
 }
 
 @end
