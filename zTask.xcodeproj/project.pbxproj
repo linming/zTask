@@ -147,6 +147,14 @@
 		234F5A31159BF70100AF0E78 /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 234F5A2F159BF70100AF0E78 /* TaskViewController.m */; };
 		234F5A32159BF70100AF0E78 /* TaskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 234F5A30159BF70100AF0E78 /* TaskViewController.xib */; };
 		234F5A35159BF9E800AF0E78 /* ToggleImageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 234F5A34159BF9E800AF0E78 /* ToggleImageControl.m */; };
+		2363820D159EF01F00CB565E /* Attach.m in Sources */ = {isa = PBXBuildFile; fileRef = 2363820C159EF01F00CB565E /* Attach.m */; };
+		23638210159EF05F00CB565E /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 2363820F159EF05F00CB565E /* Project.m */; };
+		23638218159EF41B00CB565E /* ProjectSelectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23638216159EF41A00CB565E /* ProjectSelectorController.m */; };
+		23638219159EF41B00CB565E /* ProjectSelectorController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23638217159EF41A00CB565E /* ProjectSelectorController.xib */; };
+		2363821D159EF4DD00CB565E /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2363821B159EF4DC00CB565E /* ImageViewController.m */; };
+		2363821E159EF4DD00CB565E /* ImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2363821C159EF4DD00CB565E /* ImageViewController.xib */; };
+		23638222159EF6DD00CB565E /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23638220159EF6DC00CB565E /* NoteViewController.m */; };
+		23638223159EF6DD00CB565E /* NoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23638221159EF6DD00CB565E /* NoteViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -399,6 +407,19 @@
 		234F5A30159BF70100AF0E78 /* TaskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskViewController.xib; sourceTree = "<group>"; };
 		234F5A33159BF9E800AF0E78 /* ToggleImageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToggleImageControl.h; sourceTree = "<group>"; };
 		234F5A34159BF9E800AF0E78 /* ToggleImageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToggleImageControl.m; sourceTree = "<group>"; };
+		2363820B159EF01F00CB565E /* Attach.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attach.h; sourceTree = "<group>"; };
+		2363820C159EF01F00CB565E /* Attach.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Attach.m; sourceTree = "<group>"; };
+		2363820E159EF05F00CB565E /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Project.h; sourceTree = "<group>"; };
+		2363820F159EF05F00CB565E /* Project.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Project.m; sourceTree = "<group>"; };
+		23638215159EF41A00CB565E /* ProjectSelectorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectSelectorController.h; sourceTree = "<group>"; };
+		23638216159EF41A00CB565E /* ProjectSelectorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectSelectorController.m; sourceTree = "<group>"; };
+		23638217159EF41A00CB565E /* ProjectSelectorController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectSelectorController.xib; sourceTree = "<group>"; };
+		2363821A159EF4DC00CB565E /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
+		2363821B159EF4DC00CB565E /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
+		2363821C159EF4DD00CB565E /* ImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewController.xib; sourceTree = "<group>"; };
+		2363821F159EF6DC00CB565E /* NoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteViewController.h; sourceTree = "<group>"; };
+		23638220159EF6DC00CB565E /* NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteViewController.m; sourceTree = "<group>"; };
+		23638221159EF6DD00CB565E /* NoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -593,6 +614,10 @@
 		2329E99B1594195700FFC5AA /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2363820B159EF01F00CB565E /* Attach.h */,
+				2363820C159EF01F00CB565E /* Attach.m */,
+				2363820E159EF05F00CB565E /* Project.h */,
+				2363820F159EF05F00CB565E /* Project.m */,
 				2329EAFD15941CBE00FFC5AA /* Task.h */,
 				2329EAFE15941CBE00FFC5AA /* Task.m */,
 			);
@@ -931,6 +956,15 @@
 				234F5A2E159BF70100AF0E78 /* TaskViewController.h */,
 				234F5A2F159BF70100AF0E78 /* TaskViewController.m */,
 				234F5A30159BF70100AF0E78 /* TaskViewController.xib */,
+				23638215159EF41A00CB565E /* ProjectSelectorController.h */,
+				23638216159EF41A00CB565E /* ProjectSelectorController.m */,
+				23638217159EF41A00CB565E /* ProjectSelectorController.xib */,
+				2363821A159EF4DC00CB565E /* ImageViewController.h */,
+				2363821B159EF4DC00CB565E /* ImageViewController.m */,
+				2363821C159EF4DD00CB565E /* ImageViewController.xib */,
+				2363821F159EF6DC00CB565E /* NoteViewController.h */,
+				23638220159EF6DC00CB565E /* NoteViewController.m */,
+				23638221159EF6DD00CB565E /* NoteViewController.xib */,
 			);
 			path = Tasks;
 			sourceTree = "<group>";
@@ -1033,6 +1067,9 @@
 				2329BA36159E271E006C1AF7 /* sample.m4a in Resources */,
 				2329BA37159E271E006C1AF7 /* sound_meter_background.png in Resources */,
 				2329BA38159E271E006C1AF7 /* sound_meter_glare.png in Resources */,
+				23638219159EF41B00CB565E /* ProjectSelectorController.xib in Resources */,
+				2363821E159EF4DD00CB565E /* ImageViewController.xib in Resources */,
+				23638223159EF6DD00CB565E /* NoteViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1132,6 +1169,11 @@
 				2329BA33159E271E006C1AF7 /* GLLevelMeter.m in Sources */,
 				2329BA34159E271E006C1AF7 /* LevelMeter.m in Sources */,
 				2329BA35159E271E006C1AF7 /* MeterTable.cpp in Sources */,
+				2363820D159EF01F00CB565E /* Attach.m in Sources */,
+				23638210159EF05F00CB565E /* Project.m in Sources */,
+				23638218159EF41B00CB565E /* ProjectSelectorController.m in Sources */,
+				2363821D159EF4DD00CB565E /* ImageViewController.m in Sources */,
+				23638222159EF6DD00CB565E /* NoteViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1206,7 +1248,7 @@
 					"\"$(SRCROOT)/zTask/Vendor/GRMustache\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1223,7 +1265,7 @@
 					"\"$(SRCROOT)/zTask/Vendor/GRMustache\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
