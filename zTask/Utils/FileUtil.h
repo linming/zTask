@@ -16,6 +16,8 @@
 
 + (NSString *)getFilePath:(NSString *)relativePath;
 
++ (NSString *)makeFilePath:(NSString *)relativePath;
+
 + (NSArray *)listSubDir:(NSString *)dir;
 
 + (NSArray *)listFiles:(NSString *)path;

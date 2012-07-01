@@ -29,6 +29,16 @@
     return [documentPath stringByAppendingPathComponent:relativePath];
 }
 
++ (NSString *)makeFilePath:(NSString *)relativePath
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *filePath = [FileUtil getFilePath:relativePath];
+    if (![fileManager fileExistsAtPath:filePath]) {
+        [fileManager createDirectoryAtPath:filePath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    return filePath;
+}
+
 + (NSArray *)listSubDir:(NSString *)dir;
 {
     NSString *fullPath = [FileUtil getFilePath:dir];
@@ -80,17 +90,6 @@
 {
     NSString *mspPath = [FileUtil getMspRoot];
     return [NSString stringWithFormat:@"%@%@.msp", mspPath, relativePath]; 
-}
-
-+ (void)albumInfo
-{
-    //album info
-    NSString *plistFile = [NSString stringWithFormat:@"%@/files/albums/info.plist", [FileUtil getWebRoot]];
-    NSMutableDictionary *plist= [[NSMutableDictionary alloc] initWithContentsOfFile:plistFile];
-    if (!plist) {
-        plist = [NSMutableDictionary new];
-        [plist writeToFile:plistFile atomically:YES];
-    }
 }
 
 + (BOOL)moveFiles:(NSString *)srcPath target:(NSString *)targetPath

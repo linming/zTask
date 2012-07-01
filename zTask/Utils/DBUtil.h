@@ -12,7 +12,7 @@
 #import "FMDatabasePool.h"
 #import "FMDatabaseQueue.h"
 
-#define kDBFile @"data.sqlite"
+#define kDBFile @"ztask.sqlite"
 
 @interface DBUtil : NSObject
 

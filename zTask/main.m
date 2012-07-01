@@ -3,7 +3,7 @@
 //  zTask
 //
 //  Created by ming lin on 6/22/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 mingslab. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

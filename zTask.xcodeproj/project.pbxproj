@@ -21,14 +21,6 @@
 		2329BA12159E0C44006C1AF7 /* CountIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329BA11159E0C44006C1AF7 /* CountIndicator.m */; };
 		2329BA16159E125A006C1AF7 /* TaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329BA15159E125A006C1AF7 /* TaskCell.m */; };
 		2329BA18159E17BE006C1AF7 /* inbox_plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329BA17159E17BE006C1AF7 /* inbox_plus.png */; };
-		2329BA31159E271E006C1AF7 /* CALevelMeter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2329BA25159E271E006C1AF7 /* CALevelMeter.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		2329BA32159E271E006C1AF7 /* CASound.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2329BA27159E271E006C1AF7 /* CASound.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		2329BA33159E271E006C1AF7 /* GLLevelMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329BA29159E271E006C1AF7 /* GLLevelMeter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		2329BA34159E271E006C1AF7 /* LevelMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329BA2B159E271E006C1AF7 /* LevelMeter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		2329BA35159E271E006C1AF7 /* MeterTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2329BA2C159E271E006C1AF7 /* MeterTable.cpp */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		2329BA36159E271E006C1AF7 /* sample.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 2329BA2E159E271E006C1AF7 /* sample.m4a */; };
-		2329BA37159E271E006C1AF7 /* sound_meter_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329BA2F159E271E006C1AF7 /* sound_meter_background.png */; };
-		2329BA38159E271E006C1AF7 /* sound_meter_glare.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329BA30159E271E006C1AF7 /* sound_meter_glare.png */; };
 		2329BA3A159E284B006C1AF7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2329BA39159E284B006C1AF7 /* AVFoundation.framework */; };
 		2329BA3C159E2854006C1AF7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2329BA3B159E2854006C1AF7 /* QuartzCore.framework */; };
 		2329BA3E159E285E006C1AF7 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2329BA3D159E285E006C1AF7 /* OpenGLES.framework */; };
@@ -147,6 +139,8 @@
 		234F5A31159BF70100AF0E78 /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 234F5A2F159BF70100AF0E78 /* TaskViewController.m */; };
 		234F5A32159BF70100AF0E78 /* TaskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 234F5A30159BF70100AF0E78 /* TaskViewController.xib */; };
 		234F5A35159BF9E800AF0E78 /* ToggleImageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 234F5A34159BF9E800AF0E78 /* ToggleImageControl.m */; };
+		2357A0A815A0B6EB00C48FDE /* AVMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2357A0A515A0B6EB00C48FDE /* AVMeterView.m */; };
+		2357A0A915A0B6EB00C48FDE /* LevelMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2357A0A715A0B6EB00C48FDE /* LevelMeter.m */; };
 		2363820D159EF01F00CB565E /* Attach.m in Sources */ = {isa = PBXBuildFile; fileRef = 2363820C159EF01F00CB565E /* Attach.m */; };
 		23638210159EF05F00CB565E /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 2363820F159EF05F00CB565E /* Project.m */; };
 		23638218159EF41B00CB565E /* ProjectSelectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23638216159EF41A00CB565E /* ProjectSelectorController.m */; };
@@ -177,19 +171,6 @@
 		2329BA14159E125A006C1AF7 /* TaskCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCell.h; sourceTree = "<group>"; };
 		2329BA15159E125A006C1AF7 /* TaskCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCell.m; sourceTree = "<group>"; };
 		2329BA17159E17BE006C1AF7 /* inbox_plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inbox_plus.png; sourceTree = "<group>"; };
-		2329BA24159E271E006C1AF7 /* CALevelMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CALevelMeter.h; sourceTree = "<group>"; };
-		2329BA25159E271E006C1AF7 /* CALevelMeter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CALevelMeter.mm; sourceTree = "<group>"; };
-		2329BA26159E271E006C1AF7 /* CASound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CASound.h; sourceTree = "<group>"; };
-		2329BA27159E271E006C1AF7 /* CASound.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CASound.mm; sourceTree = "<group>"; };
-		2329BA28159E271E006C1AF7 /* GLLevelMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLLevelMeter.h; sourceTree = "<group>"; };
-		2329BA29159E271E006C1AF7 /* GLLevelMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLLevelMeter.m; sourceTree = "<group>"; };
-		2329BA2A159E271E006C1AF7 /* LevelMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelMeter.h; sourceTree = "<group>"; };
-		2329BA2B159E271E006C1AF7 /* LevelMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelMeter.m; sourceTree = "<group>"; };
-		2329BA2C159E271E006C1AF7 /* MeterTable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeterTable.cpp; sourceTree = "<group>"; };
-		2329BA2D159E271E006C1AF7 /* MeterTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeterTable.h; sourceTree = "<group>"; };
-		2329BA2E159E271E006C1AF7 /* sample.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = sample.m4a; sourceTree = "<group>"; };
-		2329BA2F159E271E006C1AF7 /* sound_meter_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sound_meter_background.png; sourceTree = "<group>"; };
-		2329BA30159E271E006C1AF7 /* sound_meter_glare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sound_meter_glare.png; sourceTree = "<group>"; };
 		2329BA39159E284B006C1AF7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		2329BA3B159E2854006C1AF7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		2329BA3D159E285E006C1AF7 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -407,6 +388,10 @@
 		234F5A30159BF70100AF0E78 /* TaskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskViewController.xib; sourceTree = "<group>"; };
 		234F5A33159BF9E800AF0E78 /* ToggleImageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToggleImageControl.h; sourceTree = "<group>"; };
 		234F5A34159BF9E800AF0E78 /* ToggleImageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToggleImageControl.m; sourceTree = "<group>"; };
+		2357A0A415A0B6EB00C48FDE /* AVMeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVMeterView.h; sourceTree = "<group>"; };
+		2357A0A515A0B6EB00C48FDE /* AVMeterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVMeterView.m; sourceTree = "<group>"; };
+		2357A0A615A0B6EB00C48FDE /* LevelMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelMeter.h; sourceTree = "<group>"; };
+		2357A0A715A0B6EB00C48FDE /* LevelMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelMeter.m; sourceTree = "<group>"; };
 		2363820B159EF01F00CB565E /* Attach.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attach.h; sourceTree = "<group>"; };
 		2363820C159EF01F00CB565E /* Attach.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Attach.m; sourceTree = "<group>"; };
 		2363820E159EF05F00CB565E /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Project.h; sourceTree = "<group>"; };
@@ -455,26 +440,6 @@
 				230E6D06159B5D6200807C76 /* HPTextViewInternal.m */,
 			);
 			path = HPGrowingTextView;
-			sourceTree = "<group>";
-		};
-		2329BA23159E271E006C1AF7 /* AVMeter */ = {
-			isa = PBXGroup;
-			children = (
-				2329BA24159E271E006C1AF7 /* CALevelMeter.h */,
-				2329BA25159E271E006C1AF7 /* CALevelMeter.mm */,
-				2329BA26159E271E006C1AF7 /* CASound.h */,
-				2329BA27159E271E006C1AF7 /* CASound.mm */,
-				2329BA28159E271E006C1AF7 /* GLLevelMeter.h */,
-				2329BA29159E271E006C1AF7 /* GLLevelMeter.m */,
-				2329BA2A159E271E006C1AF7 /* LevelMeter.h */,
-				2329BA2B159E271E006C1AF7 /* LevelMeter.m */,
-				2329BA2C159E271E006C1AF7 /* MeterTable.cpp */,
-				2329BA2D159E271E006C1AF7 /* MeterTable.h */,
-				2329BA2E159E271E006C1AF7 /* sample.m4a */,
-				2329BA2F159E271E006C1AF7 /* sound_meter_background.png */,
-				2329BA30159E271E006C1AF7 /* sound_meter_glare.png */,
-			);
-			path = AVMeter;
 			sourceTree = "<group>";
 		};
 		2329E9371594148800FFC5AA = {
@@ -650,7 +615,6 @@
 		2329E9A91594195700FFC5AA /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				2329BA23159E271E006C1AF7 /* AVMeter */,
 				230E6D02159B5D6200807C76 /* HPGrowingTextView */,
 				2329E9AA1594195700FFC5AA /* AFNetworking */,
 				2329E9D71594195700FFC5AA /* CocoaAsyncSocket */,
@@ -933,6 +897,10 @@
 		2329EA761594195700FFC5AA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2357A0A415A0B6EB00C48FDE /* AVMeterView.h */,
+				2357A0A515A0B6EB00C48FDE /* AVMeterView.m */,
+				2357A0A615A0B6EB00C48FDE /* LevelMeter.h */,
+				2357A0A715A0B6EB00C48FDE /* LevelMeter.m */,
 				2329EA771594195700FFC5AA /* PSLabelSwitchCell.h */,
 				2329EA781594195700FFC5AA /* PSLabelSwitchCell.m */,
 				2329EA791594195700FFC5AA /* PSLabelTextFieldCell.h */,
@@ -1064,9 +1032,6 @@
 				230E6D0C159B6BB400807C76 /* uncheck.png in Resources */,
 				234F5A32159BF70100AF0E78 /* TaskViewController.xib in Resources */,
 				2329BA18159E17BE006C1AF7 /* inbox_plus.png in Resources */,
-				2329BA36159E271E006C1AF7 /* sample.m4a in Resources */,
-				2329BA37159E271E006C1AF7 /* sound_meter_background.png in Resources */,
-				2329BA38159E271E006C1AF7 /* sound_meter_glare.png in Resources */,
 				23638219159EF41B00CB565E /* ProjectSelectorController.xib in Resources */,
 				2363821E159EF4DD00CB565E /* ImageViewController.xib in Resources */,
 				23638223159EF6DD00CB565E /* NoteViewController.xib in Resources */,
@@ -1164,16 +1129,13 @@
 				234F5A35159BF9E800AF0E78 /* ToggleImageControl.m in Sources */,
 				2329BA12159E0C44006C1AF7 /* CountIndicator.m in Sources */,
 				2329BA16159E125A006C1AF7 /* TaskCell.m in Sources */,
-				2329BA31159E271E006C1AF7 /* CALevelMeter.mm in Sources */,
-				2329BA32159E271E006C1AF7 /* CASound.mm in Sources */,
-				2329BA33159E271E006C1AF7 /* GLLevelMeter.m in Sources */,
-				2329BA34159E271E006C1AF7 /* LevelMeter.m in Sources */,
-				2329BA35159E271E006C1AF7 /* MeterTable.cpp in Sources */,
 				2363820D159EF01F00CB565E /* Attach.m in Sources */,
 				23638210159EF05F00CB565E /* Project.m in Sources */,
 				23638218159EF41B00CB565E /* ProjectSelectorController.m in Sources */,
 				2363821D159EF4DD00CB565E /* ImageViewController.m in Sources */,
 				23638222159EF6DD00CB565E /* NoteViewController.m in Sources */,
+				2357A0A815A0B6EB00C48FDE /* AVMeterView.m in Sources */,
+				2357A0A915A0B6EB00C48FDE /* LevelMeter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

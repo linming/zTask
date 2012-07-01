@@ -11,7 +11,7 @@
 
 @implementation Task
 
-@synthesize rowid, title, content, created;
+@synthesize rowid, title, note, created;
 
 
 + (NSArray *)findAll:(NSInteger)perPage page:(NSInteger)page
@@ -51,12 +51,12 @@
 {
     Task *task = [[Task alloc] init];
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = [NSString stringWithFormat: @"select rowid, title, content, created from tasks where rowid = %d", rowid];
+    NSString *sql = [NSString stringWithFormat: @"select rowid, title, note, created from tasks where rowid = %d", rowid];
     FMResultSet *result = [db executeQuery:sql];
     while ([result next]) {
         task.rowid = [result intForColumn:@"rowid"];
         task.title = [result stringForColumn:@"title"];
-        task.content = [result stringForColumn:@"content"];
+        task.note = [result stringForColumn:@"note"];
         task.created = [result stringForColumn:@"created"];
     }
     [result close];
@@ -67,8 +67,8 @@
 + (NSInteger)create:(Task *)task
 {
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = @"insert into tasks (title, content) values (?, ?)";
-    [db executeUpdate: sql, task.title, task.content];
+    NSString *sql = @"insert into tasks (title, note) values (?, ?)";
+    [db executeUpdate: sql, task.title, task.note];
     NSInteger lastId = [db lastInsertRowId];
     [db close];
     
@@ -79,8 +79,8 @@
 + (void)update:(Task *)task
 {
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = @"update tasks set title = ?, content = ? where rowid = ?";
-    [db executeUpdate: sql, task.title, task.content, [NSNumber numberWithInteger:task.rowid]];
+    NSString *sql = @"update tasks set title = ?, note = ? where rowid = ?";
+    [db executeUpdate: sql, task.title, task.note, [NSNumber numberWithInteger:task.rowid]];
     [db close];
     
     //[[NSNotificationCenter defaultCenter] taskNotificationName:@"TasksChanged" object:nil];

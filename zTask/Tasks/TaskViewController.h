@@ -12,33 +12,40 @@
 #import "HPGrowingTextView.h"
 #import "Task.h"
 #import "Attach.h"
+#import "AVMeterView.h"
 
 @interface TaskViewController : UITableViewController <HPGrowingTextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate>
 {
     AVAudioRecorder *audioRecorder;
     AVAudioPlayer *audioPlayer;
+    AVMeterView *meterView;
     
+    Task *task;
     NSMutableArray *attaches;
+    
+    UIView *taskViewHeaderContainer;
+    HPGrowingTextView *titleTextView;
 }
 
 @property BOOL isEdit;
+@property NSInteger taskId;
 @property(nonatomic, retain) IBOutlet UIButton *editButton;
 @property(nonatomic, retain) IBOutlet UIButton *recordAudioButton;
 
 - (void)save;
 - (void)cancel;
 
-- (IBAction)showDetail:(id)sender;
+- (void)showDetail;
 
 - (void)removeAttach:(Attach *)attach;
 
-- (IBAction)takePhoto:(id)sender;
-- (IBAction)pickPhoto:(id)sender;
+- (void)takePhoto;
+- (void)pickPhoto;
 
 - (void)prepareAudio:(NSString *)path;
 - (void)playAudio:(Attach *)attach;
-- (IBAction)recordAudio:(id)sender;
-- (IBAction)stopAudio:(id)sender;
+- (void)recordAudio;
+- (void)stopAudio;
 - (void)stopAll;
 
 @end

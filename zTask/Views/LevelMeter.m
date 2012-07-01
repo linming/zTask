@@ -1,52 +1,3 @@
-/*
- 
- File: LevelMeter.m
- Abstract: n/a
- Version: 1.3
- 
- Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
- Inc. ("Apple") in consideration of your agreement to the following
- terms, and your use, installation, modification or redistribution of
- this Apple software constitutes acceptance of these terms.  If you do
- not agree with these terms, please do not use, install, modify or
- redistribute this Apple software.
- 
- In consideration of your agreement to abide by the following terms, and
- subject to these terms, Apple grants you a personal, non-exclusive
- license, under Apple's copyrights in this original Apple software (the
- "Apple Software"), to use, reproduce, modify and redistribute the Apple
- Software, with or without modifications, in source and/or binary forms;
- provided that if you redistribute the Apple Software in its entirety and
- without modifications, you must retain this notice and the following
- text and disclaimers in all such redistributions of the Apple Software.
- Neither the name, trademarks, service marks or logos of Apple Inc. may
- be used to endorse or promote products derived from the Apple Software
- without specific prior written permission from Apple.  Except as
- expressly stated in this notice, no other rights or licenses, express or
- implied, are granted by Apple herein, including but not limited to any
- patent rights that may be infringed by your derivative works or by other
- works in which the Apple Software may be incorporated.
- 
- The Apple Software is provided by Apple on an "AS IS" basis.  APPLE
- MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION
- THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS
- FOR A PARTICULAR PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND
- OPERATION ALONE OR IN COMBINATION WITH YOUR PRODUCTS.
- 
- IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL
- OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- INTERRUPTION) ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION,
- MODIFICATION AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED
- AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
- STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
- POSSIBILITY OF SUCH DAMAGE.
- 
- Copyright (C) 2010 Apple Inc. All Rights Reserved.
- 
- 
- */
-
 #import "LevelMeter.h"
 
 
@@ -75,18 +26,32 @@ int _cmp_levelThresholds(const void * a, const void * b)
 	_borderColor = [[UIColor alloc] initWithRed:0. green:0. blue:0. alpha:1.];
 	_colorThresholds = malloc(3 * sizeof(LevelMeterColorThreshold));
 	_colorThresholds[0].maxValue = 0.25;
-	_colorThresholds[0].color = [[UIColor alloc] initWithRed:0. green:1. blue:0. alpha:1.];
+	//_colorThresholds[0].color = [[UIColor alloc] initWithRed:0. green:1. blue:0. alpha:1.];
+    _colorThresholds[0].color = 1;
 	_colorThresholds[1].maxValue = 0.8;
-	_colorThresholds[1].color = [[UIColor alloc] initWithRed:1. green:1. blue:0. alpha:1.];
+	//_colorThresholds[1].color = [[UIColor alloc] initWithRed:1. green:1. blue:0. alpha:1.];
+    _colorThresholds[1].color = 2;
 	_colorThresholds[2].maxValue = 1.;
-	_colorThresholds[2].color = [[UIColor alloc] initWithRed:1. green:0. blue:0. alpha:1.];
+	//_colorThresholds[2].color = [[UIColor alloc] initWithRed:1. green:0. blue:0. alpha:1.];
+    _colorThresholds[2].color = 3;
 	_vertical = ([self frame].size.width < [self frame].size.height) ? YES : NO;
+}
+
+- (UIColor *)getColorByIndex:(NSInteger)index
+{
+    if (index == 1) {
+        return [[UIColor alloc] initWithRed:0. green:1. blue:0. alpha:1.];
+    } else if (index == 2) {
+        return [[UIColor alloc] initWithRed:1. green:1. blue:0. alpha:1.];
+    } else {
+        return [[UIColor alloc] initWithRed:1. green:0. blue:0. alpha:1.];
+    }
 }
 
 
 - (id)initWithFrame:(CGRect)frame
 {
-	if (self = [super initWithFrame:frame]) {
+	if ((self = [super initWithFrame:frame])) {
 		[self _performInit];
 	}
 	return self;
@@ -95,7 +60,7 @@ int _cmp_levelThresholds(const void * a, const void * b)
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-	if (self = [super initWithCoder:coder]) {
+	if ((self = [super initWithCoder:coder])) {
 		[self _performInit];
 	}
 	return self;
@@ -148,7 +113,8 @@ int _cmp_levelThresholds(const void * a, const void * b)
 									 (bds.size.height) * (val - currentTop)
 									 );
 			
-			[thisThresh.color set];
+			//[thisThresh.color set];
+            [[self getColorByIndex:thisThresh.color] set];
 			CGContextFillRect(cxt, rect);
 			
 			if (_level < thisThresh.maxValue) break;
@@ -194,13 +160,15 @@ int _cmp_levelThresholds(const void * a, const void * b)
 				if ((!_variableLightIntensity) && (lightIntensity > 0.)) lightIntensity = 1.;
 			}
 			
-			lightColor = _colorThresholds[0].color;
+			//lightColor = _colorThresholds[0].color;
+            lightColor = [self getColorByIndex: _colorThresholds[0].color];
 			int color_i;
 			for (color_i=0; color_i<(_numColorThresholds-1); color_i++)
 			{
 				LevelMeterColorThreshold thisThresh = _colorThresholds[color_i];
 				LevelMeterColorThreshold nextThresh = _colorThresholds[color_i + 1];
-				if (thisThresh.maxValue <= lightMaxVal) lightColor = nextThresh.color;
+				//if (thisThresh.maxValue <= lightMaxVal) lightColor = nextThresh.color;
+                if (thisThresh.maxValue <= lightMaxVal) lightColor = [self getColorByIndex:nextThresh.color];
 			}
 			
 			lightRect = CGRectMake(
@@ -244,14 +212,14 @@ int _cmp_levelThresholds(const void * a, const void * b)
 
 
 - (void)dealloc {
-	int i;
-	for (i=0; i<_numColorThresholds; i++) [_colorThresholds[i].color release];
+	//int i;
+	//for (i=0; i<_numColorThresholds; i++) [_colorThresholds[i].color release];
 	free(_colorThresholds);
 	
-	[_bgColor release];
-	[_borderColor release];
+	//[_bgColor release];
+	//[_borderColor release];
 	
-	[super dealloc];
+	//[super dealloc];
 }
 
 
@@ -273,13 +241,14 @@ int _cmp_levelThresholds(const void * a, const void * b)
 - (void)setColorThresholds:(LevelMeterColorThreshold *)thresholds count:(NSUInteger)count
 {
 	int i;
-	for (i=0; i<_numColorThresholds; i++) [_colorThresholds[i].color release];
+	//for (i=0; i<_numColorThresholds; i++) [_colorThresholds[i].color release];
 	_colorThresholds = realloc(_colorThresholds, sizeof(LevelMeterColorThreshold) * count);
 	
 	for (i=0; i<count; i++)
 	{
 		_colorThresholds[i].maxValue = thresholds[i].maxValue;
-		_colorThresholds[i].color = [thresholds[i].color copy];
+		//_colorThresholds[i].color = [thresholds[i].color copy];
+        _colorThresholds[i].color = thresholds[i].color;
 	}
 	
 	qsort(_colorThresholds, count, sizeof(LevelMeterColorThreshold), _cmp_levelThresholds);

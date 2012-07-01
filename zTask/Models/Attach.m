@@ -12,9 +12,14 @@
 
 @implementation Attach
 
-@synthesize rowid, taskId, name, path, type, created, index;
+@synthesize rowid, taskId, name, type, created, index;
 @synthesize audioStatus;
 
+- (NSString *)getPath
+{
+    NSString *relativePath = [NSString stringWithFormat:@"/files/tasks/%d/%@", taskId, name];
+    return [FileUtil getFilePath:relativePath];
+}
 
 - (id)initWithDict:(NSDictionary *)dict
 {
@@ -22,6 +27,7 @@
     if (self) {
         self.rowid = [[dict objectForKey:@"rowid"] intValue];
         self.name = [dict objectForKey:@"name"];
+        self.type = [dict objectForKey:@"type"];
     }
     return self;
 }
@@ -67,12 +73,13 @@
 {
     Attach *attach = [[Attach alloc] init];
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = [NSString stringWithFormat: @"select rowid, task_id, name, intro, created from attaches where rowid = %d", rowid];
+    NSString *sql = [NSString stringWithFormat: @"select rowid, task_id, name, type, created from attaches where rowid = %d", rowid];
     FMResultSet *result = [db executeQuery:sql];
     while ([result next]) {
         attach.rowid = [result intForColumn:@"rowid"];
         attach.taskId = [result intForColumn:@"task_id"];
         attach.name = [result stringForColumn:@"name"];
+        attach.type = [result stringForColumn:@"type"];
         attach.created = [result stringForColumn:@"created"];
     }
     [result close];
@@ -84,12 +91,13 @@
 {
     Attach *attach = [[Attach alloc] init];
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = [NSString stringWithFormat: @"select rowid, task_id, name, intro, created from attaches where task_id = %d limit 1", taskId];
+    NSString *sql = [NSString stringWithFormat: @"select rowid, task_id, name, type, created from attaches where task_id = %d limit 1", taskId];
     FMResultSet *result = [db executeQuery:sql];
     while ([result next]) {
         attach.rowid = [result intForColumn:@"rowid"];
         attach.taskId = [result intForColumn:@"task_id"];
         attach.name = [result stringForColumn:@"name"];
+        attach.type = [result stringForColumn:@"type"];
         attach.created = [result stringForColumn:@"created"];
     }
     [result close];
@@ -100,39 +108,39 @@
 + (NSInteger)create:(Attach *)attach
 {
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = @"insert into attaches (task_id, name, intro) values (?, ?, ?)";
-    [db executeUpdate: sql, [NSNumber numberWithInteger:attach.taskId], attach.name];
+    NSString *sql = @"insert into attaches (task_id, name, type) values (?, ?, ?)";
+    [db executeUpdate: sql, [NSNumber numberWithInteger:attach.taskId], attach.name, attach.type];
     NSInteger lastId = [db lastInsertRowId];
     [db close];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"AttachsChanged" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AttachesChanged" object:nil];
     return lastId;
 }
 
 + (void)update:(Attach *)attach
 {
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = @"update attaches set name = ?, intro = ? where rowid = ?";
+    NSString *sql = @"update attaches set name = ? where rowid = ?";
     [db executeUpdate: sql, attach.name, [NSNumber numberWithInteger:attach.rowid]];
     [db close];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"AttachsChanged" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AttachesChanged" object:nil];
 }
 
 + (void)remove:(NSInteger)rowid
 {
     Attach *attach = [Attach find:rowid];
     //remove files
-    NSString *albumRelativePath = [NSString stringWithFormat:@"/files/albums/%d", attach.taskId];
-    NSString *albumPath = [FileUtil getFilePath:albumRelativePath];
+    NSString *taskRelativePath = [NSString stringWithFormat:@"/files/tasks/%d", attach.taskId];
+    NSString *taskPath = [FileUtil getFilePath:taskRelativePath];
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     
-    NSString *oriAttach = [[albumPath stringByAppendingPathComponent:@"ori"] stringByAppendingPathComponent:attach.name];
+    NSString *oriAttach = [[taskPath stringByAppendingPathComponent:@"ori"] stringByAppendingPathComponent:attach.name];
     if ([fileManager fileExistsAtPath:oriAttach]) {
         [fileManager removeItemAtPath:oriAttach error:nil];
     }
     
-    NSString *thumbAttach = [[albumPath stringByAppendingPathComponent:@"thumb"] stringByAppendingPathComponent:attach.name];
+    NSString *thumbAttach = [[taskPath stringByAppendingPathComponent:@"thumb"] stringByAppendingPathComponent:attach.name];
     if ([fileManager fileExistsAtPath:thumbAttach]) {
         [fileManager removeItemAtPath:thumbAttach error:nil];
     }
@@ -143,7 +151,6 @@
     [db close];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"AttachsChanged" object:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"AlbumsChanged" object:nil];
 }
 
 @end

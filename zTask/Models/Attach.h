@@ -14,12 +14,12 @@
 @property NSInteger index;
 @property NSInteger taskId;
 @property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSString *path;
 @property (nonatomic, retain) NSString *type;
 @property (nonatomic, retain) NSString *created;
 
 @property (nonatomic, retain) NSString *audioStatus;
 
+- (NSString *)getPath;
 - (id)initWithDict:(NSDictionary *)dict;
 
 + (NSArray *)findAll:(NSInteger)taskId;

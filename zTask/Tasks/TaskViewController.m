@@ -11,6 +11,10 @@
 #import "ProjectSelectorController.h"
 #import "ImageViewController.h"
 #import "NoteViewController.h"
+#import "PSLabelSwitchCell.h"
+#import "FileUtil.h"
+#import "Utils.h"
+
 
 #define SECTION_COUNT 2
 #define SECTION_DETAIL 0
@@ -26,7 +30,7 @@
 
 @implementation TaskViewController
 
-@synthesize isEdit, editButton, recordAudioButton;
+@synthesize isEdit, taskId, editButton, recordAudioButton;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -47,6 +51,32 @@
     
     UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(save)];
     self.navigationItem.rightBarButtonItem = saveButtonItem;
+    
+    if (taskId) {
+        NSLog(@"edit task: %d", taskId);
+        task = [Task find:taskId];
+        attaches = [[Attach findAll:taskId] mutableCopy];
+    } else { 
+        NSLog(@"new task");
+        task = [[Task alloc] init];
+        task.rowid = [Task create:task];
+        NSString *relativePath = [NSString stringWithFormat:@"/files/tasks/%d", task.rowid];
+        [FileUtil makeFilePath:relativePath];
+        attaches = [NSMutableArray array];
+    }
+    
+    [self updateTableViewHeaderWithHeight:0];
+    [self updateTableFooterView];
+    
+
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    gestureRecognizer.cancelsTouchesInView = NO;
+    [self.tableView addGestureRecognizer:gestureRecognizer];
+}
+
+- (void)hideKeyboard 
+{
+    [titleTextView resignFirstResponder];
 }
 
 - (void)viewDidUnload
@@ -73,7 +103,7 @@
     if (section == SECTION_DETAIL) {
         return 3;
     } else if (section == SECTION_ATTACHMENT) {
-        return 0;
+        return [attaches count];
     } else {
         return 0;
     }
@@ -81,9 +111,7 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section == SECTION_DETAIL) {
-        return 54;
-    } else if (section == SECTION_ATTACHMENT) {
+    if (section == SECTION_ATTACHMENT) {
         return 44;
     } else {
         return 0;
@@ -93,38 +121,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section == SECTION_DETAIL) {
-        UIView *taskViewHeaderContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-        
-        
-        UIView *taskViewHeader = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-
-
-        ToggleImageControl *statusControl = [[ToggleImageControl alloc] initWithFrame: CGRectMake(20, 10, 24, 24)];
-        [taskViewHeader addSubview:statusControl];
-        
-        HPGrowingTextView *titleTextView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(60, 4, 200, 24)];
-        [titleTextView setMinNumberOfLines : 1];
-        [titleTextView setMaxNumberOfLines : 3];
-        titleTextView.returnKeyType = UIReturnKeyDone;
-        titleTextView.font = [UIFont boldSystemFontOfSize:15.0f];
-        titleTextView.delegate = self;
-        [taskViewHeader addSubview:titleTextView];
-        
-        UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure]; 
-        detailButton.frame = CGRectMake(285, 5, 29, 31);
-        [taskViewHeader addSubview:detailButton];
-        
-        taskViewHeader.layer.shadowColor = [[UIColor blackColor] CGColor];
-        taskViewHeader.layer.shadowOffset = CGSizeMake(1.0, 1.0);
-        taskViewHeader.layer.shadowOpacity = 1;
-        taskViewHeader.layer.masksToBounds = NO;
-        taskViewHeader.layer.borderWidth = 1.0f;
-        taskViewHeader.backgroundColor = [UIColor whiteColor];
-
-        [taskViewHeaderContainer addSubview:taskViewHeader];
-        return taskViewHeaderContainer;
-    } else if (section == SECTION_ATTACHMENT) {
+    if (section == SECTION_ATTACHMENT) {
         UIView *headerView  = [[UIView alloc] init];
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.text = @"Attachments";
@@ -150,44 +147,6 @@
     
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    if (section == SECTION_ATTACHMENT) {
-        UIView *footerView  = [[UIView alloc] init];
-        
-        UIButton *takePhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [takePhotoButton setFrame:CGRectMake(10, 3, 145, 44)];
-        [takePhotoButton setTitle:@"Take Photo" forState:UIControlStateNormal];
-        [takePhotoButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [takePhotoButton addTarget:self action:@selector(takePhoto:) forControlEvents:UIControlEventTouchUpInside];
-        [footerView addSubview:takePhotoButton];
-        
-        UIButton *pickPhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [pickPhotoButton setFrame:CGRectMake(165, 3, 145, 44)];
-        [pickPhotoButton setTitle:@"Pick Photo" forState:UIControlStateNormal];
-        [pickPhotoButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [pickPhotoButton addTarget:self action:@selector(pickPhoto:) forControlEvents:UIControlEventTouchUpInside];
-        [footerView addSubview:pickPhotoButton];
-        
-        recordAudioButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [recordAudioButton setFrame:CGRectMake(87, 53, 146, 44)];
-        [recordAudioButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        if (audioRecorder.recording || audioPlayer.playing) {
-            [recordAudioButton setTitle:@"Stop" forState:UIControlStateNormal];
-            [recordAudioButton addTarget:self action:@selector(stopAudio:) forControlEvents:UIControlEventTouchUpInside];
-        } else {
-            [recordAudioButton setTitle:@"Record Audio" forState:UIControlStateNormal];
-            [recordAudioButton addTarget:self action:@selector(recordAudio:) forControlEvents:UIControlEventTouchUpInside];
-        }
-        
-        [footerView addSubview:recordAudioButton];
-        NSLog(@"record audio button init");
-        return footerView;
-    } else {
-        return nil;
-    }
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.section) {
@@ -202,8 +161,10 @@
                         cell.textLabel.text = @"project";
                         UILabel *topicLabel = [[UILabel alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
                         topicLabel.text = @"None";
+                        topicLabel.backgroundColor = [UIColor clearColor];
                         [cell.contentView addSubview:topicLabel];
                         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                     }
                     return cell;
                     break;
@@ -215,10 +176,17 @@
                     if (cell == nil) {
                         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                         cell.textLabel.text = @"due";
-                        UILabel *topicLabel = [[UILabel alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
-                        topicLabel.text = @"None";
-                        [cell.contentView addSubview:topicLabel];
-                        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                        UITextField *dueTextField = [[UITextField alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
+                        dueTextField.text = @"None";
+                        
+                        UIDatePicker *datePicker = [[UIDatePicker alloc] init];
+                        datePicker.datePickerMode = UIDatePickerModeDate;
+                        //[datePicker addTarget:self action:@selector(datePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
+                        datePicker.tag = indexPath.row;
+                        dueTextField.inputView = datePicker;
+
+                        [cell.contentView addSubview:dueTextField];
+                        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                     }
                     return cell;
                     break;
@@ -226,15 +194,14 @@
                 case 2: 
                 {
                     NSString *CellIdentifier = @"CELL_DETAIL_FLAG";
-                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                    PSLabelSwitchCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
                     if (cell == nil) {
-                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-                        cell.textLabel.text = @"flag";
-                        UILabel *topicLabel = [[UILabel alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
-                        topicLabel.text = @"None";
-                        [cell.contentView addSubview:topicLabel];
-                        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                        cell = [[PSLabelSwitchCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
                     }
+                    // Configure the cell...
+                    cell.textLabel.text = @"flag";
+                    [cell.switcher addTarget:self action:@selector(flagSwitchDidChange) forControlEvents:UIControlEventValueChanged];
+
                     return cell;
                     break;
                 }
@@ -243,8 +210,32 @@
             }
             break;
         case SECTION_ATTACHMENT:
-            
+        {
+            NSString *CellIdentifier = @"CELL_ATTACHMENT";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            }
+            Attach *attach = [attaches objectAtIndex:indexPath.row];
+            if ([attach.type isEqualToString:@"Audio"]) {
+                if ([attach.audioStatus isEqualToString:@"playing"] || [attach.audioStatus isEqualToString:@"recording"]) {
+                    meterView = [[AVMeterView alloc] initWithFrame:CGRectMake(3,  3, 200, 27)];
+                    meterView.audioPlayer = audioPlayer;
+                    meterView.audioRecorder = audioRecorder;
+                    [meterView startUpdating];
+                    [cell.contentView addSubview:meterView];
+                } else {
+                    cell.textLabel.text = [NSString stringWithFormat:@"%@ created at %@", attach.type, attach.created];
+                }
+            } else {
+                cell.textLabel.text = [NSString stringWithFormat:@"Picture taken %@", attach.created];
+                UIImage *image = [UIImage imageWithContentsOfFile: [attach getPath]];
+                NSLog(@"cell attach path: %@",[attach getPath]);
+                cell.imageView.image = [Utils resizeImage:image scaledToSizeWithSameAspectRatio:CGSizeMake(32, 32)];
+            }
+            return cell;
             break;   
+        }
         default:
             break;
     }
@@ -303,7 +294,7 @@
             [self playAudio: attach];
         } else {
             ImageViewController *imageViewController = [[ImageViewController alloc] initWithNibName:@"ImageViewController" bundle:nil];
-            imageViewController.imagePath = attach.path;
+            imageViewController.imagePath = [attach getPath];
             [self.navigationController pushViewController:imageViewController animated:YES];
         }
     }
@@ -332,14 +323,16 @@
     }
 }
 
-- (IBAction)showDetail:(id)sender 
+- (void)showDetail 
 {
+    NSLog(@"show detail");
     NoteViewController *noteViewController = [[NoteViewController alloc]initWithNibName:@"NoteViewController" bundle:nil];
     [self.navigationController pushViewController:noteViewController animated:YES];
 }
 
-- (IBAction)takePhoto:(id)sender
+- (void)takePhoto
 {
+    NSLog(@"take photo");
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.allowsEditing = YES;
@@ -347,8 +340,9 @@
     [self presentModalViewController:picker animated:YES];
 }
 
-- (IBAction)pickPhoto:(id)sender 
+- (void)pickPhoto 
 {
+    NSLog(@"pick photo");
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.allowsEditing = YES;
@@ -357,7 +351,7 @@
 }
 
 #pragma mark - Attach Actions
-- (IBAction)editAttach:(id)sender 
+- (void)editAttach
 {
     NSLog(@"Edit Attach");
     if (self.tableView.editing) {
@@ -370,18 +364,19 @@
     
 }
 
-- (void)addAttach:(NSString *)type path:(NSString *)path audioStatus:(NSString *)audioStatus
+- (Attach *)addAttach:(NSString *)name type:(NSString *)type audioStatus:(NSString *)audioStatus
 {
     Attach *attach = [[Attach alloc] init];
+    attach.name = name;
     attach.type = type;
-    attach.path = path;
-    attach.created = [NSDate date];
+    attach.taskId = task.rowid;
+    
     if (audioStatus) {
         attach.audioStatus = audioStatus;
     }
     
-    [attaches addObject:attach];
-    [self.tableView reloadData];
+    attach.rowid = [Attach create:attach];
+    return attach;
 }
 
 - (void)removeAttach: (Attach *)attach 
@@ -392,30 +387,18 @@
 #pragma mark - Image Picker Delegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo 
 {
+    NSString *imageName = [NSString stringWithFormat:@"%d.JPG", (long)[[NSDate date] timeIntervalSince1970]];
+    Attach *attach = [self addAttach:imageName type:@"Photo" audioStatus:nil];
     
-    NSData* imageData = UIImagePNGRepresentation(image);
-    
-    // Give a name to the file
-    NSString* imageName = [NSString stringWithFormat:@"%d.JPG", (long)[[NSDate date] timeIntervalSince1970]]; 
-    
-    // Now, we have to find the documents directory so we can save it
-    // Note that you might want to save it elsewhere, like the cache directory,
-    // or something similar.
-    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString* documentsDirectory = [paths objectAtIndex:0];
-    
-    // Now we get the full path to the file
-    NSString* fullPathToFile = [documentsDirectory stringByAppendingPathComponent:imageName];
-    
-    // and then we write it out
-    [imageData writeToFile:fullPathToFile atomically:NO];
-    
-    
-    NSLog(@"%@", fullPathToFile);
-    
+    NSData *imageData = UIImagePNGRepresentation(image);
+    [imageData writeToFile:[attach getPath] atomically:NO];
+
+    NSLog(@"attach path: %@", [attach getPath]);
     
     [picker dismissModalViewControllerAnimated:YES];
-    [self addAttach:@"Photo" path:fullPathToFile audioStatus:nil];
+    
+    [attaches addObject:attach];
+    [self.tableView reloadData];
     
 }
 
@@ -425,9 +408,9 @@
 }
 
 #pragma mark - Audio Actions
-- (void)prepareAudio: (NSString *)path 
+- (void)prepareAudio:(NSString *)path 
 {
-    
+    NSLog(@"prepare audio");
     NSURL *soundFileURL = [NSURL fileURLWithPath:path];
     
     NSDictionary *recordSettings = [NSDictionary 
@@ -455,21 +438,28 @@
         [audioRecorder prepareToRecord];
     }
 }
-- (IBAction)recordAudio:(id)sender 
+- (void)recordAudio 
 {
-    NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docsDir = [dirPaths objectAtIndex:0];
-    NSString *soundFilePath = [docsDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%d.caf", (long)[[NSDate date] timeIntervalSince1970]]];
-    [self addAttach: @"Audio" path:soundFilePath audioStatus:@"recording"];
-    [self prepareAudio: soundFilePath];
+    NSLog(@"record audio");
+    
+    NSString *soundFileName = [NSString stringWithFormat:@"%d.caf", (long)[[NSDate date] timeIntervalSince1970]];
+    Attach *attach = [self addAttach:soundFileName type:@"Audio" audioStatus:@"recording"];
+    [self prepareAudio: [attach getPath]];
     if (!audioRecorder.recording) {
         [audioRecorder record];
     }
+    
+    [self updateRecordAudioButton];
+    [attaches addObject:attach];
+    [self.tableView reloadData];
 }
 
-- (IBAction)stopAudio:(id)sender 
+- (void)stopAudio 
 {
     NSLog(@"stop audio");
+    //[meterView stopUpdating];
+    meterView.audioPlayer = nil;
+    meterView.audioRecorder = nil;
     
     if (audioRecorder.recording) {
         NSLog(@"stop audioRecorder");
@@ -478,7 +468,9 @@
         NSLog(@"stop audioPlayer");
         [audioPlayer stop];
     }
+    NSLog(@"before stop all");
     [self stopAll];
+    NSLog(@"after stop all");
 }
 
 - (void)stopAll 
@@ -490,7 +482,7 @@
 }
 
 - (void)playAudio: (Attach *)attach {    
-    NSURL *soundFileURL = [NSURL fileURLWithPath:attach.path];
+    NSURL *soundFileURL = [NSURL fileURLWithPath:[attach getPath]];
     NSError *error;
     audioPlayer = [[AVAudioPlayer alloc] 
                    initWithContentsOfURL:soundFileURL                                   
@@ -532,7 +524,88 @@
 }
 
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height {
-    [self.tableView reloadData];
+    [self updateTableViewHeaderWithHeight:height];
+}
+
+#pragma mark - TableView Header & Footer
+- (void)updateTableViewHeaderWithHeight:(float)height
+{
+    if (height == 0) {
+        height = 44;
+    }
+    if (taskViewHeaderContainer == nil) {
+        taskViewHeaderContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)];
+        
+        ToggleImageControl *statusControl = [[ToggleImageControl alloc] initWithFrame: CGRectMake(20, 10, 24, 24)];
+        [taskViewHeaderContainer addSubview:statusControl];
+        
+        titleTextView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(60, 4, 200, 24)];
+        [titleTextView setMinNumberOfLines : 1];
+        [titleTextView setMaxNumberOfLines : 3];
+        titleTextView.returnKeyType = UIReturnKeyDone;
+        titleTextView.font = [UIFont boldSystemFontOfSize:15.0f];
+        titleTextView.delegate = self;
+        [taskViewHeaderContainer addSubview:titleTextView];
+        
+        UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure]; 
+        detailButton.frame = CGRectMake(285, 5, 29, 31);
+        [detailButton addTarget:self action:@selector(showDetail) forControlEvents:UIControlEventTouchUpInside];
+        [taskViewHeaderContainer addSubview:detailButton];
+        
+        taskViewHeaderContainer.layer.shadowColor = [[UIColor blackColor] CGColor];
+        taskViewHeaderContainer.layer.shadowOffset = CGSizeMake(1.0, 1.0);
+        taskViewHeaderContainer.layer.shadowOpacity = 1;
+        taskViewHeaderContainer.layer.masksToBounds = NO;
+        taskViewHeaderContainer.layer.borderWidth = 1.0f;
+        taskViewHeaderContainer.backgroundColor = [UIColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
+
+        
+    } else {
+        taskViewHeaderContainer.frame = CGRectMake(0, 0, 320, height + 17);
+    }
+
+    
+    [self.tableView setTableHeaderView:taskViewHeaderContainer];
+    
+}
+
+- (void)updateTableFooterView
+{
+    UIView *footerView  = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+    
+    UIButton *takePhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [takePhotoButton setFrame:CGRectMake(10, 3, 145, 44)];
+    [takePhotoButton setTitle:@"Take Photo" forState:UIControlStateNormal];
+    [takePhotoButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [takePhotoButton addTarget:self action:@selector(takePhoto) forControlEvents:UIControlEventTouchUpInside];
+    [footerView addSubview:takePhotoButton];
+    
+    UIButton *pickPhotoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [pickPhotoButton setFrame:CGRectMake(165, 3, 145, 44)];
+    [pickPhotoButton setTitle:@"Pick Photo" forState:UIControlStateNormal];
+    [pickPhotoButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [pickPhotoButton addTarget:self action:@selector(pickPhoto) forControlEvents:UIControlEventTouchUpInside];
+    [footerView addSubview:pickPhotoButton];
+    
+    recordAudioButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [recordAudioButton setFrame:CGRectMake(87, 53, 146, 44)];
+    [recordAudioButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self updateRecordAudioButton];
+    
+    [footerView addSubview:recordAudioButton];
+    NSLog(@"record audio button init");
+    [self.tableView setTableFooterView:footerView];
+}
+
+- (void)updateRecordAudioButton
+{
+    if (audioRecorder.recording || audioPlayer.playing) {
+        [recordAudioButton setTitle:@"Stop" forState:UIControlStateNormal];
+        [recordAudioButton addTarget:self action:@selector(stopAudio) forControlEvents:UIControlEventTouchUpInside];
+    } else {
+        [recordAudioButton setTitle:@"Record Audio" forState:UIControlStateNormal];
+        [recordAudioButton addTarget:self action:@selector(recordAudio) forControlEvents:UIControlEventTouchUpInside];
+    }
 }
 
 @end

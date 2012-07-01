@@ -12,7 +12,7 @@
 
 @property NSInteger rowid;
 @property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSString *content;
+@property (nonatomic, retain) NSString *note;
 @property (nonatomic, retain) NSString *created;
 
 + (NSArray *)findAll:(NSInteger)perPage page:(NSInteger)page;
