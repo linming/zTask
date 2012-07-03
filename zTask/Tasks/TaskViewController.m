@@ -30,7 +30,7 @@
 
 @implementation TaskViewController
 
-@synthesize isEdit, taskId, editButton, recordAudioButton;
+@synthesize taskId, editButton, recordAudioButton;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -45,24 +45,25 @@
 {
     [super viewDidLoad];
 
-    self.navigationItem.title = @"New Task";
-    UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
-    self.navigationItem.leftBarButtonItem = cancelButtonItem;
-    
-    UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(save)];
-    self.navigationItem.rightBarButtonItem = saveButtonItem;
-    
     if (taskId) {
         NSLog(@"edit task: %d", taskId);
         task = [Task find:taskId];
         attaches = [[Attach findAll:taskId] mutableCopy];
+        attachPath = [FileUtil getFilePath:[NSString stringWithFormat:@"/files/tasks/%d", taskId]];
+        
+        self.navigationItem.title = @"Edit Task";
     } else { 
         NSLog(@"new task");
         task = [[Task alloc] init];
-        task.rowid = [Task create:task];
-        NSString *relativePath = [NSString stringWithFormat:@"/files/tasks/%d", task.rowid];
-        [FileUtil makeFilePath:relativePath];
         attaches = [NSMutableArray array];
+        attachPath = [FileUtil getFilePath:@"/files/tmp"];
+        
+        self.navigationItem.title = @"New Task";
+        UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
+        self.navigationItem.leftBarButtonItem = cancelButtonItem;
+        
+        UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(save)];
+        self.navigationItem.rightBarButtonItem = saveButtonItem;
     }
     
     [self updateTableViewHeaderWithHeight:0];
@@ -112,7 +113,7 @@
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == SECTION_ATTACHMENT) {
-        return 44;
+        return 30;
     } else {
         return 0;
     }
@@ -125,7 +126,7 @@
         UIView *headerView  = [[UIView alloc] init];
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.text = @"Attachments";
-        [titleLabel setFrame:CGRectMake(13, 3, 200, 31)];
+        [titleLabel setFrame:CGRectMake(13, 3, 200, 24)];
         [titleLabel setBackgroundColor:[tableView backgroundColor]];
         [headerView addSubview:titleLabel];
         
@@ -133,7 +134,7 @@
             if ([attaches count] > 0) {
                 editButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
                 [editButton setTitle:@"Edit" forState:UIControlStateNormal];
-                [editButton setFrame:CGRectMake(250, 3, 50, 31)];
+                [editButton setFrame:CGRectMake(250, 3, 50, 24)];
                 [editButton setBackgroundColor:[tableView backgroundColor]];
                 [editButton addTarget:self action:@selector(editAttach:) forControlEvents:UIControlEventTouchUpInside];
                 [headerView addSubview:editButton];
@@ -218,12 +219,16 @@
             }
             Attach *attach = [attaches objectAtIndex:indexPath.row];
             if ([attach.type isEqualToString:@"Audio"]) {
-                if ([attach.audioStatus isEqualToString:@"playing"] || [attach.audioStatus isEqualToString:@"recording"]) {
-                    meterView = [[AVMeterView alloc] initWithFrame:CGRectMake(3,  3, 200, 27)];
-                    meterView.audioPlayer = audioPlayer;
-                    meterView.audioRecorder = audioRecorder;
-                    [meterView startUpdating];
-                    [cell.contentView addSubview:meterView];
+                if ([attach.audioStatus isEqualToString:@"playing"]) {
+                    playerMeterView = [[AVPlayerMeterView alloc] initWithFrame:CGRectMake(3,  3, 200, 27)];
+                    playerMeterView.audioPlayer = audioPlayer;
+                    [playerMeterView startUpdating];
+                    [cell.contentView addSubview:playerMeterView];
+                } else if ([attach.audioStatus isEqualToString:@"recording"]) {
+                    recorderMeterView = [[AVRecorderMeterView alloc] initWithFrame:CGRectMake(3,  3, 200, 27)];
+                    recorderMeterView.audioRecorder = audioRecorder;
+                    [recorderMeterView startUpdating];
+                    [cell.contentView addSubview:recorderMeterView];
                 } else {
                     cell.textLabel.text = [NSString stringWithFormat:@"%@ created at %@", attach.type, attach.created];
                 }
@@ -305,22 +310,21 @@
 
 - (void)save 
 {
-    //todo: save action
-	    
-    if (isEdit) {
-        [self.navigationController popViewControllerAnimated:YES];
-    } else {
-        //[self.delegate questionAddViewController:self didAddQuestion:question];
+    task.rowid = [Task create:task];
+    NSString *relativePath = [NSString stringWithFormat:@"/files/tasks/%d", task.rowid];
+    [FileUtil makeFilePath:relativePath];
+    
+    for (Attach *attach in attaches) {
+        attach.taskId = task.rowid;
+        [Attach create:attach];
     }
+
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)cancel 
 {
-	if (isEdit) {
-        [self.navigationController popViewControllerAnimated:YES];
-    } else {
-        //save draft ?
-    }
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)showDetail 
@@ -435,6 +439,8 @@
     if (error) {
         NSLog(@"error: %@", [error localizedDescription]);
     } else {
+        NSLog(@"set delegate ......");
+        [audioRecorder setDelegate:self];
         [audioRecorder prepareToRecord];
     }
 }
@@ -457,20 +463,18 @@
 - (void)stopAudio 
 {
     NSLog(@"stop audio");
-    //[meterView stopUpdating];
-    meterView.audioPlayer = nil;
-    meterView.audioRecorder = nil;
-    
     if (audioRecorder.recording) {
         NSLog(@"stop audioRecorder");
+        [recorderMeterView stopUpdating];
+        recorderMeterView.audioRecorder = nil;
         [audioRecorder stop];
     } else if (audioPlayer.playing) {
         NSLog(@"stop audioPlayer");
+        [playerMeterView stopUpdating];
+        playerMeterView.audioPlayer = nil;
         [audioPlayer stop];
     }
-    NSLog(@"before stop all");
     [self stopAll];
-    NSLog(@"after stop all");
 }
 
 - (void)stopAll 
@@ -536,15 +540,16 @@
     if (taskViewHeaderContainer == nil) {
         taskViewHeaderContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)];
         
-        ToggleImageControl *statusControl = [[ToggleImageControl alloc] initWithFrame: CGRectMake(20, 10, 24, 24)];
+        ToggleImageControl *statusControl = [[ToggleImageControl alloc] initWithFrame: CGRectMake(10, 10, 24, 24)];
         [taskViewHeaderContainer addSubview:statusControl];
         
-        titleTextView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(60, 4, 200, 24)];
+        titleTextView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(40, 4, 240, 24)];
         [titleTextView setMinNumberOfLines : 1];
         [titleTextView setMaxNumberOfLines : 3];
         titleTextView.returnKeyType = UIReturnKeyDone;
         titleTextView.font = [UIFont boldSystemFontOfSize:15.0f];
         titleTextView.delegate = self;
+        titleTextView.backgroundColor = [UIColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
         [taskViewHeaderContainer addSubview:titleTextView];
         
         UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure]; 
@@ -593,7 +598,6 @@
     [self updateRecordAudioButton];
     
     [footerView addSubview:recordAudioButton];
-    NSLog(@"record audio button init");
     [self.tableView setTableFooterView:footerView];
 }
 
@@ -601,9 +605,11 @@
 {
     if (audioRecorder.recording || audioPlayer.playing) {
         [recordAudioButton setTitle:@"Stop" forState:UIControlStateNormal];
+        [recordAudioButton removeTarget:self action:@selector(recordAudio) forControlEvents:UIControlEventTouchUpInside];
         [recordAudioButton addTarget:self action:@selector(stopAudio) forControlEvents:UIControlEventTouchUpInside];
     } else {
         [recordAudioButton setTitle:@"Record Audio" forState:UIControlStateNormal];
+        [recordAudioButton removeTarget:self action:@selector(stopAudio) forControlEvents:UIControlEventTouchUpInside];
         [recordAudioButton addTarget:self action:@selector(recordAudio) forControlEvents:UIControlEventTouchUpInside];
     }
 }

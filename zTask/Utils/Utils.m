@@ -19,6 +19,7 @@ static inline double radians (double degrees) {return degrees * M_PI/180;}
 
 @implementation Utils
 
+
 + (BOOL)isEnableWIFI {
     return ([[Reachability reachabilityForLocalWiFi] currentReachabilityStatus] != NotReachable);
 }

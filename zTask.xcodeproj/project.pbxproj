@@ -43,8 +43,7 @@
 		2329EA851594195700FFC5AA /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329E97C1594195700FFC5AA /* settings.png */; };
 		2329EA861594195700FFC5AA /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E97F1594195700FFC5AA /* MainTabBarController.m */; };
 		2329EA871594195700FFC5AA /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E9811594195700FFC5AA /* MainViewController.m */; };
-		2329EA881594195700FFC5AA /* MainViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2329E9821594195700FFC5AA /* MainViewController~ipad.xib */; };
-		2329EA891594195700FFC5AA /* MainViewController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2329E9831594195700FFC5AA /* MainViewController~iphone.xib */; };
+		2329EA891594195700FFC5AA /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2329E9831594195700FFC5AA /* MainViewController.xib */; };
 		2329EA8B1594195700FFC5AA /* ApisMSPController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E9881594195700FFC5AA /* ApisMSPController.m */; };
 		2329EA8C1594195700FFC5AA /* MingHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E98A1594195700FFC5AA /* MingHTTPConnection.m */; };
 		2329EA8D1594195700FFC5AA /* MSPController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E98C1594195700FFC5AA /* MSPController.m */; };
@@ -139,7 +138,6 @@
 		234F5A31159BF70100AF0E78 /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 234F5A2F159BF70100AF0E78 /* TaskViewController.m */; };
 		234F5A32159BF70100AF0E78 /* TaskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 234F5A30159BF70100AF0E78 /* TaskViewController.xib */; };
 		234F5A35159BF9E800AF0E78 /* ToggleImageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 234F5A34159BF9E800AF0E78 /* ToggleImageControl.m */; };
-		2357A0A815A0B6EB00C48FDE /* AVMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2357A0A515A0B6EB00C48FDE /* AVMeterView.m */; };
 		2357A0A915A0B6EB00C48FDE /* LevelMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2357A0A715A0B6EB00C48FDE /* LevelMeter.m */; };
 		2363820D159EF01F00CB565E /* Attach.m in Sources */ = {isa = PBXBuildFile; fileRef = 2363820C159EF01F00CB565E /* Attach.m */; };
 		23638210159EF05F00CB565E /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 2363820F159EF05F00CB565E /* Project.m */; };
@@ -149,6 +147,9 @@
 		2363821E159EF4DD00CB565E /* ImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2363821C159EF4DD00CB565E /* ImageViewController.xib */; };
 		23638222159EF6DD00CB565E /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23638220159EF6DC00CB565E /* NoteViewController.m */; };
 		23638223159EF6DD00CB565E /* NoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23638221159EF6DD00CB565E /* NoteViewController.xib */; };
+		23B6783715A1D73100761213 /* AVRecorderMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6783615A1D73100761213 /* AVRecorderMeterView.m */; };
+		23B6783B15A1D75000761213 /* AVPlayerMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6783A15A1D75000761213 /* AVPlayerMeterView.m */; };
+		23B6784215A1E23F00761213 /* DateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6784115A1E23F00761213 /* DateUtil.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -199,8 +200,7 @@
 		2329E97F1594195700FFC5AA /* MainTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
 		2329E9801594195700FFC5AA /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		2329E9811594195700FFC5AA /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		2329E9821594195700FFC5AA /* MainViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainViewController~ipad.xib"; sourceTree = "<group>"; };
-		2329E9831594195700FFC5AA /* MainViewController~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MainViewController~iphone.xib"; sourceTree = "<group>"; };
+		2329E9831594195700FFC5AA /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		2329E9871594195700FFC5AA /* ApisMSPController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApisMSPController.h; sourceTree = "<group>"; };
 		2329E9881594195700FFC5AA /* ApisMSPController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApisMSPController.m; sourceTree = "<group>"; };
 		2329E9891594195700FFC5AA /* MingHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MingHTTPConnection.h; sourceTree = "<group>"; };
@@ -388,8 +388,6 @@
 		234F5A30159BF70100AF0E78 /* TaskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskViewController.xib; sourceTree = "<group>"; };
 		234F5A33159BF9E800AF0E78 /* ToggleImageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToggleImageControl.h; sourceTree = "<group>"; };
 		234F5A34159BF9E800AF0E78 /* ToggleImageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToggleImageControl.m; sourceTree = "<group>"; };
-		2357A0A415A0B6EB00C48FDE /* AVMeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVMeterView.h; sourceTree = "<group>"; };
-		2357A0A515A0B6EB00C48FDE /* AVMeterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVMeterView.m; sourceTree = "<group>"; };
 		2357A0A615A0B6EB00C48FDE /* LevelMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelMeter.h; sourceTree = "<group>"; };
 		2357A0A715A0B6EB00C48FDE /* LevelMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelMeter.m; sourceTree = "<group>"; };
 		2363820B159EF01F00CB565E /* Attach.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attach.h; sourceTree = "<group>"; };
@@ -405,6 +403,12 @@
 		2363821F159EF6DC00CB565E /* NoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteViewController.h; sourceTree = "<group>"; };
 		23638220159EF6DC00CB565E /* NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteViewController.m; sourceTree = "<group>"; };
 		23638221159EF6DD00CB565E /* NoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteViewController.xib; sourceTree = "<group>"; };
+		23B6783515A1D73100761213 /* AVRecorderMeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVRecorderMeterView.h; sourceTree = "<group>"; };
+		23B6783615A1D73100761213 /* AVRecorderMeterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVRecorderMeterView.m; sourceTree = "<group>"; };
+		23B6783915A1D75000761213 /* AVPlayerMeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerMeterView.h; sourceTree = "<group>"; };
+		23B6783A15A1D75000761213 /* AVPlayerMeterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerMeterView.m; sourceTree = "<group>"; };
+		23B6784015A1E23F00761213 /* DateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateUtil.h; sourceTree = "<group>"; };
+		23B6784115A1E23F00761213 /* DateUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateUtil.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -544,8 +548,7 @@
 				2329E97F1594195700FFC5AA /* MainTabBarController.m */,
 				2329E9801594195700FFC5AA /* MainViewController.h */,
 				2329E9811594195700FFC5AA /* MainViewController.m */,
-				2329E9821594195700FFC5AA /* MainViewController~ipad.xib */,
-				2329E9831594195700FFC5AA /* MainViewController~iphone.xib */,
+				2329E9831594195700FFC5AA /* MainViewController.xib */,
 				230E6CEC159B499D00807C76 /* HomeViewController.h */,
 				230E6CED159B499D00807C76 /* HomeViewController.m */,
 				230E6CEE159B499D00807C76 /* HomeViewController.xib */,
@@ -608,6 +611,8 @@
 				2329E9A61594195700FFC5AA /* FileUtil.m */,
 				2329E9A71594195700FFC5AA /* Utils.h */,
 				2329E9A81594195700FFC5AA /* Utils.m */,
+				23B6784015A1E23F00761213 /* DateUtil.h */,
+				23B6784115A1E23F00761213 /* DateUtil.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -897,8 +902,10 @@
 		2329EA761594195700FFC5AA /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2357A0A415A0B6EB00C48FDE /* AVMeterView.h */,
-				2357A0A515A0B6EB00C48FDE /* AVMeterView.m */,
+				23B6783915A1D75000761213 /* AVPlayerMeterView.h */,
+				23B6783A15A1D75000761213 /* AVPlayerMeterView.m */,
+				23B6783515A1D73100761213 /* AVRecorderMeterView.h */,
+				23B6783615A1D73100761213 /* AVRecorderMeterView.m */,
 				2357A0A615A0B6EB00C48FDE /* LevelMeter.h */,
 				2357A0A715A0B6EB00C48FDE /* LevelMeter.m */,
 				2329EA771594195700FFC5AA /* PSLabelSwitchCell.h */,
@@ -1009,8 +1016,7 @@
 				2329EA831594195700FFC5AA /* Icon~ipad.png in Resources */,
 				2329EA841594195700FFC5AA /* pages.png in Resources */,
 				2329EA851594195700FFC5AA /* settings.png in Resources */,
-				2329EA881594195700FFC5AA /* MainViewController~ipad.xib in Resources */,
-				2329EA891594195700FFC5AA /* MainViewController~iphone.xib in Resources */,
+				2329EA891594195700FFC5AA /* MainViewController.xib in Resources */,
 				2329EA961594195700FFC5AA /* SettingsController.xib in Resources */,
 				2329EACF1594195700FFC5AA /* KTPhotoBrowser.bundle in Resources */,
 				2329EADA1594195700FFC5AA /* GCPINViewController~ipad.xib in Resources */,
@@ -1134,8 +1140,10 @@
 				23638218159EF41B00CB565E /* ProjectSelectorController.m in Sources */,
 				2363821D159EF4DD00CB565E /* ImageViewController.m in Sources */,
 				23638222159EF6DD00CB565E /* NoteViewController.m in Sources */,
-				2357A0A815A0B6EB00C48FDE /* AVMeterView.m in Sources */,
 				2357A0A915A0B6EB00C48FDE /* LevelMeter.m in Sources */,
+				23B6783715A1D73100761213 /* AVRecorderMeterView.m in Sources */,
+				23B6783B15A1D75000761213 /* AVPlayerMeterView.m in Sources */,
+				23B6784215A1E23F00761213 /* DateUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

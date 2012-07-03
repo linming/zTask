@@ -25,7 +25,7 @@
         Task *task = [[Task alloc] init];
         task.rowid = [result intForColumn:@"rowid"];
         task.title = [result stringForColumn:@"title"];
-        task.created = [result stringForColumn:@"created"];
+        task.created = [result dateForColumn:@"created"];
         [tasks addObject:task];
     }
     [result close];
@@ -57,7 +57,7 @@
         task.rowid = [result intForColumn:@"rowid"];
         task.title = [result stringForColumn:@"title"];
         task.note = [result stringForColumn:@"note"];
-        task.created = [result stringForColumn:@"created"];
+        task.created = [result dateForColumn:@"created"];
     }
     [result close];
     [db close];

@@ -15,7 +15,7 @@
 @property NSInteger taskId;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *type;
-@property (nonatomic, retain) NSString *created;
+@property (nonatomic, retain) NSDate *created;
 
 @property (nonatomic, retain) NSString *audioStatus;
 

@@ -20,7 +20,4 @@
 @property(nonatomic, retain) IBOutlet UILabel *urlHintLabel;
 @property(nonatomic, retain) IBOutlet UIImageView *addressBarImageView;
 
-@property(nonatomic, retain) IBOutlet UILabel *proverbLabel;
-@property(nonatomic, retain) IBOutlet UIView *ipadView;
-
 @end

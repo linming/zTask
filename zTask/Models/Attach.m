@@ -46,7 +46,7 @@
         attach.rowid = [result intForColumn:@"rowid"];
         attach.taskId = [result intForColumn:@"task_id"];
         attach.name = [result stringForColumn:@"name"];
-        attach.created = [result stringForColumn:@"created"];
+        attach.created = [result dateForColumn:@"created"];
         
         [attaches addObject:attach];
     }
@@ -80,7 +80,7 @@
         attach.taskId = [result intForColumn:@"task_id"];
         attach.name = [result stringForColumn:@"name"];
         attach.type = [result stringForColumn:@"type"];
-        attach.created = [result stringForColumn:@"created"];
+        attach.created = [result dateForColumn:@"created"];
     }
     [result close];
     [db close];
@@ -98,7 +98,7 @@
         attach.taskId = [result intForColumn:@"task_id"];
         attach.name = [result stringForColumn:@"name"];
         attach.type = [result stringForColumn:@"type"];
-        attach.created = [result stringForColumn:@"created"];
+        attach.created = [result dateForColumn:@"created"];
     }
     [result close];
     [db close];

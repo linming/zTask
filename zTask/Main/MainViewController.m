@@ -17,7 +17,6 @@
 @implementation MainViewController
 
 @synthesize urlLabel, addressBarLabel, serverSwitch, urlHintLabel, addressBarImageView;
-@synthesize proverbLabel, ipadView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,14 +38,6 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayInfoUpdate:) name:@"WebServerStarted" object:nil];
     
-    if (proverbLabel) {
-        proverbLabel.text =  [NSString stringWithFormat:@"%@\n\n%@", [Utils getProverb], @"Tagore -- Stray Birds"];
-        proverbLabel.frame = CGRectMake(self.view.frame.size.width * (1 - 0.618), self.view.frame.size.height - 300, self.view.frame.size.width * 0.618, 200);
-    }
-    
-    if (ipadView) {
-        ipadView.frame = CGRectMake(self.view.frame.size.width / 2 - 250, 36, 500, 360);
-    }
 }
 
 - (void)viewDidUnload
@@ -62,15 +53,6 @@
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    if (proverbLabel) {
-        proverbLabel.text =  [NSString stringWithFormat:@"%@\n\n%@", [Utils getProverb], @"Tagore -- Stray Birds"];
-        proverbLabel.frame = CGRectMake(self.view.frame.size.width * (1 - 0.618), self.view.frame.size.height - 200, self.view.frame.size.width * 0.618, 200);
-    }
-    
-    if (ipadView) {
-        ipadView.frame = CGRectMake(self.view.frame.size.width / 2 - 250, 36, 500, 360);
-    }
-
 
 }
 

@@ -1,16 +1,16 @@
 //
-//  AVMeterView.m
-//  GoodQuestion
+//  AVPlayerMeterView.m
+//  zTask
 //
-//  Created by linming on 6/18/11.
-//  Copyright 2011 mingidea. All rights reserved.
+//  Created by ming lin on 7/2/12.
+//  Copyright (c) 2012 mingslab. All rights reserved.
 //
 
-#import "AVMeterView.h"
+#import "AVPlayerMeterView.h"
 
-@implementation AVMeterView
+@implementation AVPlayerMeterView
 
-@synthesize audioPlayer, audioRecorder;
+@synthesize audioPlayer;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -33,13 +33,14 @@
 	BOOL success = NO;
     
 	// if we have no queue, but still have levels, gradually bring them down
-	if (audioPlayer == nil && audioRecorder == nil)
+	if (audioPlayer == nil)
 	{
+        NSLog(@"record is nil");
 		CGFloat maxLvl = -1.;
 		CFAbsoluteTime thisFire = CFAbsoluteTimeGetCurrent();
 		// calculate how much time passed since the last draw
 		CFAbsoluteTime timePassed = thisFire - _peakFalloffLastFire;
-
+        
         CGFloat newPeak, newLevel;
         newLevel = levelMeter.level - timePassed * kLevelFalloffPerSec;
         if (newLevel < 0.) newLevel = 0.;
@@ -49,10 +50,10 @@
         if (newPeak < 0.) newPeak = 0.;
         levelMeter.peakLevel = newPeak;
         if (newPeak > maxLvl) maxLvl = newPeak;
-
-			
+        
+        
         [levelMeter setNeedsDisplay];
-
+        
 		// stop the timer when the last level has hit 0
 		if (maxLvl <= 0.)
 		{
@@ -62,15 +63,16 @@
 		
 		_peakFalloffLastFire = thisFire;
 		success = YES;
+        NSLog(@"record is nil end.");
 	} else {
         
         float db;
         float averagePower, peakPower;
-        [ audioRecorder updateMeters ];
-        db = [ audioRecorder peakPowerForChannel: 0];
+        [ audioPlayer updateMeters ];
+        db = [ audioPlayer peakPowerForChannel: 0];
         NSLog(@"ori peak power: %f", db);
         peakPower = (50.0 + db) / 50.0;
-        db = [ audioRecorder averagePowerForChannel: 0 ];
+        db = [ audioPlayer averagePowerForChannel: 0 ];
         NSLog(@"ori average power: %f", db);
         averagePower = (50.0 + db) / 50.0;
         NSLog(@"Power for channel %d: %f DB %f Peak: %f\n", 0, averagePower, db, peakPower);
@@ -90,21 +92,21 @@
     float averagePower, peakPower;
     float cachedAveragePower = 0.0, cachedPeakPower;
     /* Read meter values */
-	if (!audioRecorder || audioRecorder.meteringEnabled == NO) {
+	if (!audioPlayer || audioPlayer.meteringEnabled == NO) {
 		averagePower = 0.0;
 		peakPower = cachedPeakPower = 0.0;
 	} else {
         float db;
-        [ audioRecorder updateMeters ];
-        db = [ audioRecorder peakPowerForChannel: 0];
+        [ audioPlayer updateMeters ];
+        db = [ audioPlayer peakPowerForChannel: 0];
         
         peakPower = (50.0 + db) / 50.0;
-        db = [ audioRecorder averagePowerForChannel: 0 ];
+        db = [ audioPlayer averagePowerForChannel: 0 ];
         
         averagePower = (50.0 + db) / 50.0;
         NSLog(@"Power for channel %d: %f DB %f Peak: %f\n", 0, averagePower, db, peakPower);
 	}
-		
+    
     if (averagePower > cachedAveragePower) {
         cachedAveragePower = averagePower;
     } 
@@ -112,7 +114,7 @@
     if (cachedAveragePower < 0) {
         cachedAveragePower = 0;
     }
-		
+    
     if (peakPower > cachedPeakPower) {
         cachedPeakPower = peakPower;
     } 
@@ -142,30 +144,25 @@
 
 - (void)startUpdating {
 	updating = YES;
-	audioPlayer.meteringEnabled = YES;
-    audioRecorder.meteringEnabled = YES;
+    audioPlayer.meteringEnabled = YES;
 	[ self setNeedsDisplay ];
     
     if (updating == YES) {
-		[ NSTimer scheduledTimerWithTimeInterval: 0.01
-                                          target: self
-                                        selector: @selector(_refresh)
-                                        userInfo: nil
-                                         repeats: YES ];
+		_updateTimer = [ NSTimer scheduledTimerWithTimeInterval: 0.01
+                                                         target: self
+                                                       selector: @selector(_refresh)
+                                                       userInfo: nil
+                                                        repeats: YES ];
 	}
+    
 }
 
 - (void)stopUpdating {
 	updating = NO;
-	audioPlayer.meteringEnabled = NO;
-    audioRecorder.meteringEnabled = NO;
+    audioPlayer.meteringEnabled = NO;
 	[ self setNeedsDisplay ];
 }
 
 
-- (void)dealloc
-{
-    //[super dealloc];
-}
 
 @end

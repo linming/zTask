@@ -29,12 +29,6 @@
         homeNavigationController.tabBarItem.image = [UIImage imageNamed:@"home"];
         homeNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
-        UIViewController *taskViewController = [[TaskViewController alloc] initWithNibName:@"TaskViewController" bundle:nil];
-        UINavigationController *taskNavigationController = [[UINavigationController alloc] initWithRootViewController:taskViewController];
-        taskNavigationController.tabBarItem.title = @"New Task";
-        taskNavigationController.tabBarItem.image = [UIImage imageNamed:@"inbox_plus"];
-        taskNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
         UIViewController *mainViewController = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
         UINavigationController *mainNavigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
         mainNavigationController.tabBarItem.title = @"WiFi";
@@ -48,7 +42,7 @@
         settingsNavigationController.tabBarItem.image = [UIImage imageNamed:@"settings"];
         settingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
-        self.viewControllers = [NSArray arrayWithObjects:homeNavigationController, taskNavigationController, mainNavigationController, settingsNavigationController, nil];
+        self.viewControllers = [NSArray arrayWithObjects:homeNavigationController, mainNavigationController, settingsNavigationController, nil];
     }
     return self;
 }

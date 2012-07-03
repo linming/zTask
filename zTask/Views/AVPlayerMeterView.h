@@ -1,9 +1,9 @@
 //
-//  AVMeterView.h
-//  GoodQuestion
+//  AVPlayerMeterView.h
+//  zTask
 //
-//  Created by linming on 6/18/11.
-//  Copyright 2011 mingidea. All rights reserved.
+//  Created by ming lin on 7/2/12.
+//  Copyright (c) 2012 mingslab. All rights reserved.
 //
 
 
@@ -16,13 +16,10 @@
 #define kLevelFalloffPerSec .8
 #define kMinDBvalue -80.0
 
-@interface AVMeterView : UIView {
+@interface AVPlayerMeterView : UIView {
     BOOL updating;
-    
     LevelMeter *levelMeter;
-    
     NSTimer						*_updateTimer;
-    
     CFAbsoluteTime				_peakFalloffLastFire;
 }
 
@@ -30,6 +27,5 @@
 - (void)stopUpdating;
 
 @property(nonatomic,assign)	AVAudioPlayer *audioPlayer;
-@property(nonatomic,assign)	AVAudioRecorder *audioRecorder;
 
 @end

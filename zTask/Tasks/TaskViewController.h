@@ -12,22 +12,24 @@
 #import "HPGrowingTextView.h"
 #import "Task.h"
 #import "Attach.h"
-#import "AVMeterView.h"
+#import "AVPlayerMeterView.h"
+#import "AVRecorderMeterView.h"
 
 @interface TaskViewController : UITableViewController <HPGrowingTextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate>
 {
     AVAudioRecorder *audioRecorder;
     AVAudioPlayer *audioPlayer;
-    AVMeterView *meterView;
+    AVPlayerMeterView *playerMeterView;
+    AVRecorderMeterView *recorderMeterView;
     
     Task *task;
     NSMutableArray *attaches;
+    NSString *attachPath;
     
     UIView *taskViewHeaderContainer;
     HPGrowingTextView *titleTextView;
 }
 
-@property BOOL isEdit;
 @property NSInteger taskId;
 @property(nonatomic, retain) IBOutlet UIButton *editButton;
 @property(nonatomic, retain) IBOutlet UIButton *recordAudioButton;

@@ -8,6 +8,7 @@
 
 #import "HomeViewController.h"
 #import "TaskListController.h"
+#import "TaskViewController.h"
 #import "CountIndicator.h"
 
 #define TAG_INBOX_CELL 101
@@ -32,13 +33,21 @@
 {
     [super viewDidLoad];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.navigationItem.title = @"zTask";
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                              initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
+                                              target:self
+                                              action:@selector(compose)];
+    
     tableItems = [[NSArray alloc] initWithObjects: @"Inbox", @"Projects", @"Flagged", @"Search",nil];
+}
+
+- (void)compose
+{
+    TaskViewController *taskViewController = [[TaskViewController alloc] initWithNibName:@"TaskViewController" bundle:nil];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:taskViewController];
+    [self presentModalViewController:navigationController animated:YES];
 }
 
 - (void)viewDidUnload
