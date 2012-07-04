@@ -150,6 +150,9 @@
 		239B6AEA15A4823B00618185 /* PPRevealSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 239B6AE915A4823B00618185 /* PPRevealSideViewController.m */; };
 		239B6AF615A4966E00618185 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 239B6AF415A4966E00618185 /* menu.png */; };
 		239B6AF715A4966E00618185 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 239B6AF515A4966E00618185 /* menu@2x.png */; };
+		239B6AFA15A4A8D600618185 /* MenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 239B6AF915A4A8D600618185 /* MenuCell.m */; };
+		239B6AFF15A4B93A00618185 /* accessoryIndicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 239B6AFD15A4B93A00618185 /* accessoryIndicator.png */; };
+		239B6B0015A4B93A00618185 /* accessoryIndicator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 239B6AFE15A4B93A00618185 /* accessoryIndicator@2x.png */; };
 		23B6783715A1D73100761213 /* AVRecorderMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6783615A1D73100761213 /* AVRecorderMeterView.m */; };
 		23B6783B15A1D75000761213 /* AVPlayerMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6783A15A1D75000761213 /* AVPlayerMeterView.m */; };
 		23B6784215A1E23F00761213 /* DateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6784115A1E23F00761213 /* DateUtil.m */; };
@@ -410,6 +413,10 @@
 		239B6AE915A4823B00618185 /* PPRevealSideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRevealSideViewController.m; sourceTree = "<group>"; };
 		239B6AF415A4966E00618185 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		239B6AF515A4966E00618185 /* menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu@2x.png"; sourceTree = "<group>"; };
+		239B6AF815A4A8D600618185 /* MenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuCell.h; sourceTree = "<group>"; };
+		239B6AF915A4A8D600618185 /* MenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuCell.m; sourceTree = "<group>"; };
+		239B6AFD15A4B93A00618185 /* accessoryIndicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accessoryIndicator.png; sourceTree = "<group>"; };
+		239B6AFE15A4B93A00618185 /* accessoryIndicator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "accessoryIndicator@2x.png"; sourceTree = "<group>"; };
 		23B6783515A1D73100761213 /* AVRecorderMeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVRecorderMeterView.h; sourceTree = "<group>"; };
 		23B6783615A1D73100761213 /* AVRecorderMeterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVRecorderMeterView.m; sourceTree = "<group>"; };
 		23B6783915A1D75000761213 /* AVPlayerMeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerMeterView.h; sourceTree = "<group>"; };
@@ -525,6 +532,8 @@
 		2329E9711594195700FFC5AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				239B6AFD15A4B93A00618185 /* accessoryIndicator.png */,
+				239B6AFE15A4B93A00618185 /* accessoryIndicator@2x.png */,
 				239B6AF415A4966E00618185 /* menu.png */,
 				239B6AF515A4966E00618185 /* menu@2x.png */,
 				2329BA17159E17BE006C1AF7 /* inbox_plus.png */,
@@ -928,6 +937,8 @@
 				2329BA11159E0C44006C1AF7 /* CountIndicator.m */,
 				2329BA14159E125A006C1AF7 /* TaskCell.h */,
 				2329BA15159E125A006C1AF7 /* TaskCell.m */,
+				239B6AF815A4A8D600618185 /* MenuCell.h */,
+				239B6AF915A4A8D600618185 /* MenuCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1062,6 +1073,8 @@
 				23638223159EF6DD00CB565E /* NoteViewController.xib in Resources */,
 				239B6AF615A4966E00618185 /* menu.png in Resources */,
 				239B6AF715A4966E00618185 /* menu@2x.png in Resources */,
+				239B6AFF15A4B93A00618185 /* accessoryIndicator.png in Resources */,
+				239B6B0015A4B93A00618185 /* accessoryIndicator@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1166,6 +1179,7 @@
 				23B6783B15A1D75000761213 /* AVPlayerMeterView.m in Sources */,
 				23B6784215A1E23F00761213 /* DateUtil.m in Sources */,
 				239B6AEA15A4823B00618185 /* PPRevealSideViewController.m in Sources */,
+				239B6AFA15A4A8D600618185 /* MenuCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

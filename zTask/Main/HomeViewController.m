@@ -12,6 +12,7 @@
 #import "TaskListController.h"
 #import "TaskViewController.h"
 #import "CountIndicator.h"
+#import "MenuCell.h"
 
 #define TAG_INBOX_CELL 101
 #define TAG_INBOX_CELL_DISCLOSURE_COUNT_BUTTON 102
@@ -39,6 +40,7 @@
     
     tableItems = [[NSArray alloc] initWithObjects: @"Inbox", @"Projects", @"Flagged", @"Search", @"WiFi", @"Settings", nil];
     
+    self.tableView.backgroundColor = [UIColor darkGrayColor];
 }
 
 - (void)viewDidUnload
@@ -75,6 +77,21 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     NSString *title = [tableItems objectAtIndex:indexPath.row];
+    cell.textLabel.text = title;
+    cell.textLabel.textColor = [UIColor whiteColor];
+    
+    //UIButton *disclosureButton = [UIButton buttonWithType:UITableViewCellAccessoryDisclosureIndicator];
+    
+    //disclosureButton.frame = CGRectMake(320 - 5 - 40 - cell.revealSideInset.right, (cell.frame.size.height - 40) / 2, 40, 40);
+    
+    UIImageView *disclosureButton = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"accessoryIndicator"]];
+    disclosureButton.frame = CGRectMake( 220, (cell.frame.size.height - 14) / 2, 9, 14);
+    [cell.contentView addSubview:disclosureButton];
+    
+    //cell.textLabel.backgroundColor = [UIColor blackColor];
+    //cell.backgroundColor = [UIColor blackColor];
+    //cell.contentView.backgroundColor = [UIColor blackColor];
+    /*
     if ([title isEqualToString: @"Inbox"]) {
         cell.textLabel.text = title;
         cell.tag = TAG_INBOX_CELL;
@@ -103,8 +120,7 @@
     } else {
         cell.textLabel.text = title;
     }
-    
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+     */
     
     return cell;
 }
