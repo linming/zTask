@@ -28,11 +28,13 @@
     
     UIView *taskViewHeaderContainer;
     HPGrowingTextView *titleTextView;
+    
+    UIButton *editButton;
+    UIButton *recordAudioButton;
+    UISwitch *flagSwitch;
 }
 
 @property NSInteger taskId;
-@property(nonatomic, retain) IBOutlet UIButton *editButton;
-@property(nonatomic, retain) IBOutlet UIButton *recordAudioButton;
 
 - (void)save;
 - (void)cancel;

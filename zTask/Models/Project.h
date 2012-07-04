@@ -10,6 +10,15 @@
 
 @interface Project : NSObject
 
+@property NSInteger rowid;
 @property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSDate *created;
+
++ (NSArray *)findAll;
++ (NSInteger)countAll;
++ (Project *)find:(NSInteger)rowid;
++ (NSInteger)create:(Project *)project;
++ (void)update:(Project *)project;
++ (void)remove:(NSInteger)rowid;
 
 @end

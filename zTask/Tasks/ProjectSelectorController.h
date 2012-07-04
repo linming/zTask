@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Project.h"
 
-@interface ProjectSelectorController : UITableViewController
+@interface ProjectSelectorController : UITableViewController <UISearchBarDelegate>
+{
+    NSArray *allProjects;
+    NSMutableArray *projects;
+}
+
+@property (nonatomic, retain) IBOutlet UISearchBar *projectSearchBar;
 
 @end

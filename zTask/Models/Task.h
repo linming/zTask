@@ -11,8 +11,12 @@
 @interface Task : NSObject
 
 @property NSInteger rowid;
+@property NSInteger projectId;
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *note;
+@property BOOL flag;
+@property (nonatomic, retain) NSDate *startDate;
+@property (nonatomic, retain) NSDate *dueDate;
 @property (nonatomic, retain) NSDate *created;
 
 + (NSArray *)findAll:(NSInteger)perPage page:(NSInteger)page;

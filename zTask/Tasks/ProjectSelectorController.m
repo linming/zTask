@@ -14,6 +14,8 @@
 
 @implementation ProjectSelectorController
 
+@synthesize projectSearchBar;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -27,11 +29,12 @@
 {
     [super viewDidLoad];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.title = @"Project";
+    UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
+    self.navigationItem.leftBarButtonItem = cancelButtonItem;
+    
+    allProjects = [Project findAll];
+    projects = [allProjects mutableCopy];
 }
 
 - (void)viewDidUnload
@@ -55,16 +58,19 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return [projects count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
     // Configure the cell...
-    
+    Project *project = [projects objectAtIndex:indexPath.row];
+    cell.textLabel.text = project.name;
     return cell;
 }
 
@@ -118,6 +124,54 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+#pragma mark - button actions
+
+- (void)cancel
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark - search bar delegate
+
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchTerm 
+{
+    if ([searchTerm length] == 0) {
+        [self resetSearch];
+        [self.tableView reloadData];
+        return;
+    }
+    [self handleSearchForTerm:searchTerm];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    projectSearchBar.text = @"";
+    
+    [searchBar setShowsCancelButton:NO animated:YES];
+    [searchBar resignFirstResponder];
+    [self resetSearch];
+    [self.tableView reloadData];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    [searchBar setShowsCancelButton:YES animated:YES];
+    [self.tableView reloadData];
+}
+
+- (void)resetSearch {
+    projects = [allProjects mutableCopy];
+}
+
+- (void)handleSearchForTerm:(NSString *)searchTerm {
+    [self resetSearch];
+    for (Project *project in projects) {
+        if ([project.name rangeOfString:searchTerm options:NSCaseInsensitiveSearch].location == NSNotFound) {
+            [projects removeObject:project];
+        }
+    }
+    [self.tableView reloadData];
 }
 
 @end

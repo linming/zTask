@@ -30,7 +30,7 @@
 
 @implementation TaskViewController
 
-@synthesize taskId, editButton, recordAudioButton;
+@synthesize taskId;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -160,11 +160,10 @@
                     if (cell == nil) {
                         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                         cell.textLabel.text = @"project";
-                        UILabel *topicLabel = [[UILabel alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
-                        topicLabel.text = @"None";
-                        topicLabel.backgroundColor = [UIColor clearColor];
-                        [cell.contentView addSubview:topicLabel];
-                        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                        UILabel *projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
+                        projectLabel.text = @"None";
+                        projectLabel.backgroundColor = [UIColor clearColor];
+                        [cell.contentView addSubview:projectLabel];
                         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                     }
                     return cell;
@@ -201,8 +200,11 @@
                     }
                     // Configure the cell...
                     cell.textLabel.text = @"flag";
+                    flagSwitch = cell.switcher;
                     [cell.switcher addTarget:self action:@selector(flagSwitchDidChange) forControlEvents:UIControlEventValueChanged];
-
+                    if (task.flag) {
+                        [cell.switcher setOn:YES];
+                    }
                     return cell;
                     break;
                 }
@@ -292,7 +294,8 @@
 {
     if (indexPath.section == SECTION_DETAIL && indexPath.row == ROW_PROJECT) {
         ProjectSelectorController *projectSelectorController = [[ProjectSelectorController alloc] initWithNibName:@"ProjectSelectorController" bundle:nil];
-        [self.navigationController pushViewController:projectSelectorController animated:YES];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:projectSelectorController];
+        [self presentModalViewController:navigationController animated:YES];
     } else if (indexPath.section == SECTION_ATTACHMENT) {
         Attach *attach = [attaches objectAtIndex:indexPath.row];
         if ([attach.type isEqualToString:@"Audio"]) {
@@ -310,13 +313,18 @@
 
 - (void)save 
 {
+    task.title = titleTextView.text;
+    task.flag = flagSwitch.on;
     task.rowid = [Task create:task];
-    NSString *relativePath = [NSString stringWithFormat:@"/files/tasks/%d", task.rowid];
-    [FileUtil makeFilePath:relativePath];
     
-    for (Attach *attach in attaches) {
-        attach.taskId = task.rowid;
-        [Attach create:attach];
+    if ([attaches count] > 0) {
+        NSString *relativePath = [NSString stringWithFormat:@"/files/tasks/%d", task.rowid];
+        [FileUtil makeFilePath:relativePath];
+        
+        for (Attach *attach in attaches) {
+            attach.taskId = task.rowid;
+            [Attach create:attach];
+        }
     }
 
     [self dismissModalViewControllerAnimated:YES];
@@ -332,6 +340,13 @@
     NSLog(@"show detail");
     NoteViewController *noteViewController = [[NoteViewController alloc]initWithNibName:@"NoteViewController" bundle:nil];
     [self.navigationController pushViewController:noteViewController animated:YES];
+}
+
+- (void)flagSwitchDidChange
+{
+    if (taskId) {
+        //update flag
+    }
 }
 
 - (void)takePhoto
