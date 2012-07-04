@@ -147,6 +147,9 @@
 		2363821E159EF4DD00CB565E /* ImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2363821C159EF4DD00CB565E /* ImageViewController.xib */; };
 		23638222159EF6DD00CB565E /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23638220159EF6DC00CB565E /* NoteViewController.m */; };
 		23638223159EF6DD00CB565E /* NoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23638221159EF6DD00CB565E /* NoteViewController.xib */; };
+		239B6AEA15A4823B00618185 /* PPRevealSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 239B6AE915A4823B00618185 /* PPRevealSideViewController.m */; };
+		239B6AF615A4966E00618185 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 239B6AF415A4966E00618185 /* menu.png */; };
+		239B6AF715A4966E00618185 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 239B6AF515A4966E00618185 /* menu@2x.png */; };
 		23B6783715A1D73100761213 /* AVRecorderMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6783615A1D73100761213 /* AVRecorderMeterView.m */; };
 		23B6783B15A1D75000761213 /* AVPlayerMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6783A15A1D75000761213 /* AVPlayerMeterView.m */; };
 		23B6784215A1E23F00761213 /* DateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6784115A1E23F00761213 /* DateUtil.m */; };
@@ -403,6 +406,10 @@
 		2363821F159EF6DC00CB565E /* NoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteViewController.h; sourceTree = "<group>"; };
 		23638220159EF6DC00CB565E /* NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteViewController.m; sourceTree = "<group>"; };
 		23638221159EF6DD00CB565E /* NoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteViewController.xib; sourceTree = "<group>"; };
+		239B6AE815A4823B00618185 /* PPRevealSideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPRevealSideViewController.h; sourceTree = "<group>"; };
+		239B6AE915A4823B00618185 /* PPRevealSideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRevealSideViewController.m; sourceTree = "<group>"; };
+		239B6AF415A4966E00618185 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
+		239B6AF515A4966E00618185 /* menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu@2x.png"; sourceTree = "<group>"; };
 		23B6783515A1D73100761213 /* AVRecorderMeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVRecorderMeterView.h; sourceTree = "<group>"; };
 		23B6783615A1D73100761213 /* AVRecorderMeterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVRecorderMeterView.m; sourceTree = "<group>"; };
 		23B6783915A1D75000761213 /* AVPlayerMeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerMeterView.h; sourceTree = "<group>"; };
@@ -518,6 +525,8 @@
 		2329E9711594195700FFC5AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				239B6AF415A4966E00618185 /* menu.png */,
+				239B6AF515A4966E00618185 /* menu@2x.png */,
 				2329BA17159E17BE006C1AF7 /* inbox_plus.png */,
 				230E6D09159B6BB400807C76 /* check.png */,
 				230E6D0A159B6BB400807C76 /* uncheck.png */,
@@ -620,6 +629,7 @@
 		2329E9A91594195700FFC5AA /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				239B6AE715A4823B00618185 /* PPRevealSideviewController */,
 				230E6D02159B5D6200807C76 /* HPGrowingTextView */,
 				2329E9AA1594195700FFC5AA /* AFNetworking */,
 				2329E9D71594195700FFC5AA /* CocoaAsyncSocket */,
@@ -953,6 +963,15 @@
 			path = MSPControllers;
 			sourceTree = "<group>";
 		};
+		239B6AE715A4823B00618185 /* PPRevealSideviewController */ = {
+			isa = PBXGroup;
+			children = (
+				239B6AE815A4823B00618185 /* PPRevealSideViewController.h */,
+				239B6AE915A4823B00618185 /* PPRevealSideViewController.m */,
+			);
+			path = PPRevealSideviewController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1041,6 +1060,8 @@
 				23638219159EF41B00CB565E /* ProjectSelectorController.xib in Resources */,
 				2363821E159EF4DD00CB565E /* ImageViewController.xib in Resources */,
 				23638223159EF6DD00CB565E /* NoteViewController.xib in Resources */,
+				239B6AF615A4966E00618185 /* menu.png in Resources */,
+				239B6AF715A4966E00618185 /* menu@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1144,6 +1165,7 @@
 				23B6783715A1D73100761213 /* AVRecorderMeterView.m in Sources */,
 				23B6783B15A1D75000761213 /* AVPlayerMeterView.m in Sources */,
 				23B6784215A1E23F00761213 /* DateUtil.m in Sources */,
+				239B6AEA15A4823B00618185 /* PPRevealSideViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

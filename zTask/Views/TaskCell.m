@@ -17,12 +17,13 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        statusControl = [[ToggleImageControl alloc] initWithFrame: CGRectMake(20, 10, 24, 24)];
+        statusControl = [[ToggleImageControl alloc] initWithFrame: CGRectMake(10, 10, 24, 24)];
         //toggleControl.tag = indexPath.row;  // for reference in notifications.
         [self.contentView addSubview: statusControl];
         
-        titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, 250, 24)];
+        titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 10, 250, 24)];
         [self.contentView addSubview:titleLabel];
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     return self;
 }

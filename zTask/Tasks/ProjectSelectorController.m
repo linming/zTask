@@ -135,7 +135,6 @@
 
 #pragma mark - search bar delegate
 
-
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchTerm 
 {
     if ([searchTerm length] == 0) {

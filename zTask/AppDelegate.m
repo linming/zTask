@@ -13,11 +13,12 @@
 #import "FileUtil.h"
 #import "DBUtil.h"
 #import "Utils.h"
+#import "TaskListController.h"
 
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize tabBarController = _tabBarController;
+@synthesize revealSideViewController = _revealSideViewController;
 @synthesize session;
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
@@ -83,9 +84,14 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
+    TaskListController *taskListController = [[TaskListController alloc] initWithNibName:@"TaskListController" bundle:nil];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:taskListController];
+    self.revealSideViewController = [[PPRevealSideViewController alloc] initWithRootViewController:nav];
+    [self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];
+    [self.revealSideViewController setPanInteractionsWhenClosed:PPRevealSideInteractionContentView | PPRevealSideInteractionNavigationBar];
     
-    self.tabBarController = [[MainTabBarController alloc] init];
-    self.window.rootViewController = self.tabBarController;
+    self.window.rootViewController = self.revealSideViewController;
+    
     [self.window makeKeyAndVisible];
 }
 

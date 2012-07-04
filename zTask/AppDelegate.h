@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "HTTPServer.h"
-#import "MainTabBarController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate> {
     HTTPServer *httpServer;
@@ -16,7 +15,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) MainTabBarController *tabBarController;
+@property (strong, nonatomic) PPRevealSideViewController *revealSideViewController;
 
 @property (nonatomic, retain) NSMutableDictionary *session;
 

@@ -7,6 +7,8 @@
 //
 
 #import "HomeViewController.h"
+#import "SettingsController.h"
+#import "MainViewController.h"
 #import "TaskListController.h"
 #import "TaskViewController.h"
 #import "CountIndicator.h"
@@ -35,19 +37,8 @@
 
     self.navigationItem.title = @"zTask";
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                              initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
-                                              target:self
-                                              action:@selector(compose)];
+    tableItems = [[NSArray alloc] initWithObjects: @"Inbox", @"Projects", @"Flagged", @"Search", @"WiFi", @"Settings", nil];
     
-    tableItems = [[NSArray alloc] initWithObjects: @"Inbox", @"Projects", @"Flagged", @"Search",nil];
-}
-
-- (void)compose
-{
-    TaskViewController *taskViewController = [[TaskViewController alloc] initWithNibName:@"TaskViewController" bundle:nil];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:taskViewController];
-    [self presentModalViewController:navigationController animated:YES];
 }
 
 - (void)viewDidUnload
@@ -103,7 +94,12 @@
     } else if ([title isEqualToString:@"Search"]) {
         cell.textLabel.text = title;
         cell.imageView.image = [UIImage imageNamed:@"search.png"];
-        
+    } else if ([title isEqualToString:@"WiFi"]) {
+        cell.textLabel.text = title;
+        cell.imageView.image = [UIImage imageNamed:@"wifi.png"];
+    } else if ([title isEqualToString:@"Settings"]) {
+        cell.textLabel.text = title;
+        cell.imageView.image = [UIImage imageNamed:@"settings.png"];
     } else {
         cell.textLabel.text = title;
     }
@@ -156,10 +152,32 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
+    NSString *title = [tableItems objectAtIndex:indexPath.row];
+    if ([title isEqualToString: @"Inbox"]) {
         TaskListController *taskListController = [[TaskListController alloc] initWithNibName:@"TaskListController" bundle:nil];
-        [self.navigationController pushViewController:taskListController animated:YES];
-    } 
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:taskListController];
+        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController
+                                                                       animated:YES];
+    } else if ([title isEqualToString:@"Projects"]) {
+
+    } else if ([title isEqualToString:@"Flagged"]) {
+
+    } else if ([title isEqualToString:@"Search"]) {
+
+    } else if ([title isEqualToString:@"WiFi"]) {
+        MainViewController *mainViewController = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController
+                                                                       animated:YES];
+    } else if ([title isEqualToString:@"Settings"]) {
+        SettingsController *settingsController = [[SettingsController alloc] initWithNibName:@"SettingsController" bundle:nil];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:settingsController];
+        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController
+                                                                       animated:YES];
+    } else {
+        
+    }
+
 }
 
 @end

@@ -9,6 +9,8 @@
 #import "TaskListController.h"
 #import "Task.h"
 #import "TaskCell.h"
+#import "HomeViewController.h"
+#import "TaskViewController.h"
 
 @interface TaskListController ()
 
@@ -29,13 +31,31 @@
 {
     [super viewDidLoad];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.navigationItem.title = @"Task List";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                              initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
+                                              target:self
+                                              action:@selector(compose)];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] 
+                                             initWithImage:[UIImage imageNamed:@"menu"] 
+                                             style:UIBarButtonItemStylePlain 
+                                             target:self 
+                                             action:@selector(showMenu)];
+
+    self.navigationItem.title = @"zTask";
     tasks = [Task findAll:20 page:1]; 
+}
+
+- (void)showMenu
+{
+    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
+}
+
+- (void)compose
+{
+    TaskViewController *taskViewController = [[TaskViewController alloc] initWithNibName:@"TaskViewController" bundle:nil];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:taskViewController];
+    [self presentModalViewController:navigationController animated:YES];
 }
 
 - (void)viewDidUnload
@@ -43,6 +63,14 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
+    [self.revealSideViewController preloadViewController:homeViewController forSide:PPRevealSideDirectionLeft];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -120,13 +148,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    TaskViewController *taskViewController = [[TaskViewController alloc] initWithNibName:@"TaskViewController" bundle:nil];
+    Task *task = [tasks objectAtIndex:indexPath.row];
+    taskViewController.taskId = task.rowid;
+    // We don't want to be able to pan on nav bar to see the left side when we pushed a controller
+    [self.revealSideViewController unloadViewControllerForSide:PPRevealSideDirectionLeft];
+    
+    [self.navigationController pushViewController:taskViewController animated:YES];
 }
 
 @end
