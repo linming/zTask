@@ -1,20 +1,20 @@
 //
-//  MainViewController.m
+//  WiFiViewController.m
 //  PortSite
 //
 //  Created by ming lin on 4/3/12.
 //  Copyright (c) 2012 mingslab. All rights reserved.
 //
 
-#import "MainViewController.h"
+#import "WiFiViewController.h"
 #import "AppDelegate.h"
 #import "Utils.h"
 
-@interface MainViewController ()
+@interface WiFiViewController ()
 
 @end
 
-@implementation MainViewController
+@implementation WiFiViewController
 
 @synthesize urlLabel, addressBarLabel, serverSwitch, urlHintLabel, addressBarImageView;
 
@@ -32,12 +32,23 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] 
+                                             initWithImage:[UIImage imageNamed:@"menu"] 
+                                             style:UIBarButtonItemStylePlain 
+                                             target:self 
+                                             action:@selector(showMenu)];
 
     
     [serverSwitch addTarget:self action:@selector(serverSwitchDidChange) forControlEvents:UIControlEventValueChanged];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayInfoUpdate:) name:@"WebServerStarted" object:nil];
     
+}
+
+- (void)showMenu
+{
+    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
 }
 
 - (void)viewDidUnload

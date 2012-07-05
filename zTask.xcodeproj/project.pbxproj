@@ -41,9 +41,8 @@
 		2329EA831594195700FFC5AA /* Icon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329E97A1594195700FFC5AA /* Icon~ipad.png */; };
 		2329EA841594195700FFC5AA /* pages.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329E97B1594195700FFC5AA /* pages.png */; };
 		2329EA851594195700FFC5AA /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329E97C1594195700FFC5AA /* settings.png */; };
-		2329EA861594195700FFC5AA /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E97F1594195700FFC5AA /* MainTabBarController.m */; };
-		2329EA871594195700FFC5AA /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E9811594195700FFC5AA /* MainViewController.m */; };
-		2329EA891594195700FFC5AA /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2329E9831594195700FFC5AA /* MainViewController.xib */; };
+		2329EA871594195700FFC5AA /* WiFiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E9811594195700FFC5AA /* WiFiViewController.m */; };
+		2329EA891594195700FFC5AA /* WiFiViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2329E9831594195700FFC5AA /* WiFiViewController.xib */; };
 		2329EA8B1594195700FFC5AA /* ApisMSPController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E9881594195700FFC5AA /* ApisMSPController.m */; };
 		2329EA8C1594195700FFC5AA /* MingHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E98A1594195700FFC5AA /* MingHTTPConnection.m */; };
 		2329EA8D1594195700FFC5AA /* MSPController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E98C1594195700FFC5AA /* MSPController.m */; };
@@ -202,11 +201,9 @@
 		2329E97A1594195700FFC5AA /* Icon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon~ipad.png"; sourceTree = "<group>"; };
 		2329E97B1594195700FFC5AA /* pages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pages.png; sourceTree = "<group>"; };
 		2329E97C1594195700FFC5AA /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
-		2329E97E1594195700FFC5AA /* MainTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
-		2329E97F1594195700FFC5AA /* MainTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
-		2329E9801594195700FFC5AA /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		2329E9811594195700FFC5AA /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		2329E9831594195700FFC5AA /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		2329E9801594195700FFC5AA /* WiFiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiFiViewController.h; sourceTree = "<group>"; };
+		2329E9811594195700FFC5AA /* WiFiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WiFiViewController.m; sourceTree = "<group>"; };
+		2329E9831594195700FFC5AA /* WiFiViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WiFiViewController.xib; sourceTree = "<group>"; };
 		2329E9871594195700FFC5AA /* ApisMSPController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApisMSPController.h; sourceTree = "<group>"; };
 		2329E9881594195700FFC5AA /* ApisMSPController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApisMSPController.m; sourceTree = "<group>"; };
 		2329E9891594195700FFC5AA /* MingHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MingHTTPConnection.h; sourceTree = "<group>"; };
@@ -562,11 +559,9 @@
 		2329E97D1594195700FFC5AA /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				2329E97E1594195700FFC5AA /* MainTabBarController.h */,
-				2329E97F1594195700FFC5AA /* MainTabBarController.m */,
-				2329E9801594195700FFC5AA /* MainViewController.h */,
-				2329E9811594195700FFC5AA /* MainViewController.m */,
-				2329E9831594195700FFC5AA /* MainViewController.xib */,
+				2329E9801594195700FFC5AA /* WiFiViewController.h */,
+				2329E9811594195700FFC5AA /* WiFiViewController.m */,
+				2329E9831594195700FFC5AA /* WiFiViewController.xib */,
 				230E6CEC159B499D00807C76 /* HomeViewController.h */,
 				230E6CED159B499D00807C76 /* HomeViewController.m */,
 				230E6CEE159B499D00807C76 /* HomeViewController.xib */,
@@ -1046,7 +1041,7 @@
 				2329EA831594195700FFC5AA /* Icon~ipad.png in Resources */,
 				2329EA841594195700FFC5AA /* pages.png in Resources */,
 				2329EA851594195700FFC5AA /* settings.png in Resources */,
-				2329EA891594195700FFC5AA /* MainViewController.xib in Resources */,
+				2329EA891594195700FFC5AA /* WiFiViewController.xib in Resources */,
 				2329EA961594195700FFC5AA /* SettingsController.xib in Resources */,
 				2329EACF1594195700FFC5AA /* KTPhotoBrowser.bundle in Resources */,
 				2329EADA1594195700FFC5AA /* GCPINViewController~ipad.xib in Resources */,
@@ -1087,8 +1082,7 @@
 			files = (
 				2329E9531594148800FFC5AA /* main.m in Sources */,
 				2329E9571594148800FFC5AA /* AppDelegate.m in Sources */,
-				2329EA861594195700FFC5AA /* MainTabBarController.m in Sources */,
-				2329EA871594195700FFC5AA /* MainViewController.m in Sources */,
+				2329EA871594195700FFC5AA /* WiFiViewController.m in Sources */,
 				2329EA8B1594195700FFC5AA /* ApisMSPController.m in Sources */,
 				2329EA8C1594195700FFC5AA /* MingHTTPConnection.m in Sources */,
 				2329EA8D1594195700FFC5AA /* MSPController.m in Sources */,

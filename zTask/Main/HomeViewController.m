@@ -8,7 +8,7 @@
 
 #import "HomeViewController.h"
 #import "SettingsController.h"
-#import "MainViewController.h"
+#import "WiFiViewController.h"
 #import "TaskListController.h"
 #import "TaskViewController.h"
 #import "CountIndicator.h"
@@ -181,8 +181,8 @@
     } else if ([title isEqualToString:@"Search"]) {
 
     } else if ([title isEqualToString:@"WiFi"]) {
-        MainViewController *mainViewController = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+        WiFiViewController *wifiViewController = [[WiFiViewController alloc] initWithNibName:@"WiFiViewController" bundle:nil];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:wifiViewController];
         [self.revealSideViewController popViewControllerWithNewCenterController:navigationController
                                                                        animated:YES];
     } else if ([title isEqualToString:@"Settings"]) {

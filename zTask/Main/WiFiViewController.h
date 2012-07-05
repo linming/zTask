@@ -1,5 +1,5 @@
 //
-//  MainViewController.h
+//  WiFiViewController.h
 //  PortSite
 //
 //  Created by ming lin on 4/3/12.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 
-@interface MainViewController : UIViewController <MBProgressHUDDelegate> {
+@interface WiFiViewController : UIViewController <MBProgressHUDDelegate> {
     MBProgressHUD *hud;
 }
 

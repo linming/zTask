@@ -45,6 +45,12 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.navigationItem.title = @"Settings";
     
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] 
+                                             initWithImage:[UIImage imageNamed:@"menu"] 
+                                             style:UIBarButtonItemStylePlain 
+                                             target:self 
+                                             action:@selector(showMenu)];
+    
     self.data = [NSArray arrayWithObjects:
                  [NSArray arrayWithObjects:@"require password", @"password", nil],
                  [NSArray arrayWithObjects:@"share albums", @"passcode", nil],
@@ -61,6 +67,11 @@
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     gestureRecognizer.cancelsTouchesInView = NO;
     [self.tableView addGestureRecognizer:gestureRecognizer];
+}
+
+- (void)showMenu
+{
+    [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
 }
 
 - (void)hideKeyboard 
