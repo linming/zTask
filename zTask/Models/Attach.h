@@ -28,6 +28,6 @@
 + (Attach *)findFirst:(NSInteger)taskId;
 + (NSInteger)create:(Attach *)attach;
 + (void)update:(Attach *)attach;
-+ (void)remove:(NSInteger)rowid;
++ (void)remove:(Attach *)attach;
 
 @end

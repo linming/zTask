@@ -11,6 +11,7 @@
 @interface TaskListController : UITableViewController
 {
     NSArray *tasks;
+    BOOL reloadSideMenu;
 }
 
 @end

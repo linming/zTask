@@ -15,7 +15,7 @@
 #import "AVPlayerMeterView.h"
 #import "AVRecorderMeterView.h"
 
-@interface TaskViewController : UITableViewController <HPGrowingTextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate>
+@interface TaskViewController : UITableViewController <HPGrowingTextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate, UITextFieldDelegate>
 {
     AVAudioRecorder *audioRecorder;
     AVAudioPlayer *audioPlayer;
@@ -24,10 +24,13 @@
     
     Task *task;
     NSMutableArray *attaches;
-    NSString *attachPath;
     
     UIView *taskViewHeaderContainer;
     HPGrowingTextView *titleTextView;
+    
+    UILabel *projectLabel;
+    UITextField *dueDateTextField;
+    UIDatePicker *dueDatePicker;
     
     UIButton *editButton;
     UIButton *recordAudioButton;
@@ -36,20 +39,7 @@
 
 @property NSInteger taskId;
 
-- (void)save;
-- (void)cancel;
-
-- (void)showDetail;
-
-- (void)removeAttach:(Attach *)attach;
-
-- (void)takePhoto;
-- (void)pickPhoto;
-
-- (void)prepareAudio:(NSString *)path;
-- (void)playAudio:(Attach *)attach;
-- (void)recordAudio;
-- (void)stopAudio;
-- (void)stopAll;
+- (void)updateProject:(NSInteger)projectId projectName:(NSString *)projectName;
+- (void)updateNote:(NSString *)note;
 
 @end

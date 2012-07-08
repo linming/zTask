@@ -28,6 +28,8 @@
 
 + (NSString *)getMspPath:(NSString *)relativePath;
 
++ (BOOL)moveFile:(NSString *)srcFile target:(NSString *)destFile;
+
 + (BOOL)moveFiles:(NSString *)srcPath target:(NSString *)targetPath;
 
 + (NSArray *)moveUploadPhotos:(NSString *)srcPath target:(NSString *)targetPath;

@@ -108,6 +108,19 @@
     return YES;
 }
 
++ (BOOL)moveFile:(NSString *)srcFile target:(NSString *)destFile
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error; 
+    BOOL ret = [fileManager moveItemAtPath:srcFile toPath:destFile error:&error];
+    if (!ret) {
+        NSLog(@"%@", [error localizedDescription]);
+    } else {
+        [fileManager removeItemAtPath:srcFile error:nil];
+    }
+    return ret;
+}
+
 + (NSArray *)moveUploadPhotos:(NSString *)srcPath target:(NSString *)targetPath
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];

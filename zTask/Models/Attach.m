@@ -17,7 +17,10 @@
 
 - (NSString *)getPath
 {
-    NSString *relativePath = [NSString stringWithFormat:@"/files/tasks/%d/%@", taskId, name];
+    NSString *relativePath = [NSString stringWithFormat:@"/files/tasks/tmp/%@", name];
+    if (taskId) {
+        relativePath = [NSString stringWithFormat:@"/files/tasks/%d/%@", taskId, name];
+    }
     return [FileUtil getFilePath:relativePath];
 }
 
@@ -36,7 +39,7 @@
 {
     NSMutableArray *attaches = [NSMutableArray array];
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = [NSString stringWithFormat:@"select rowid, task_id, name, created from attaches where task_id = %d order by created", taskId];
+    NSString *sql = [NSString stringWithFormat:@"select rowid, task_id, name, type, created from attaches where task_id = %d order by created", taskId];
     FMResultSet *result = [db executeQuery:sql];
     int index = 1;
     while ([result next]) {
@@ -46,8 +49,8 @@
         attach.rowid = [result intForColumn:@"rowid"];
         attach.taskId = [result intForColumn:@"task_id"];
         attach.name = [result stringForColumn:@"name"];
+        attach.type = [result stringForColumn:@"type"];
         attach.created = [result dateForColumn:@"created"];
-        
         [attaches addObject:attach];
     }
     [result close];
@@ -107,11 +110,19 @@
 
 + (NSInteger)create:(Attach *)attach
 {
+    if (!attach.created) {
+        attach.created = [NSDate date];
+    }
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = @"insert into attaches (task_id, name, type) values (?, ?, ?)";
-    [db executeUpdate: sql, [NSNumber numberWithInteger:attach.taskId], attach.name, attach.type];
+    NSString *sql = @"insert into attaches (task_id, name, type, created) values (?, ?, ?, ?)";
+    [db executeUpdate: sql, [NSNumber numberWithInteger:attach.taskId], attach.name, attach.type, attach.created];
     NSInteger lastId = [db lastInsertRowId];
     [db close];
+    
+    //move file
+    NSString *srcFile = [FileUtil getFilePath:[NSString stringWithFormat:@"/files/tasks/tmp/%@", attach.name]];
+    NSString *destFile = [attach getPath];
+    [FileUtil moveFile:srcFile target:destFile];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"AttachesChanged" object:nil];
     return lastId;
@@ -127,30 +138,24 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"AttachesChanged" object:nil];
 }
 
-+ (void)remove:(NSInteger)rowid
++ (void)remove:(Attach *)attach
 {
-    Attach *attach = [Attach find:rowid];
     //remove files
-    NSString *taskRelativePath = [NSString stringWithFormat:@"/files/tasks/%d", attach.taskId];
-    NSString *taskPath = [FileUtil getFilePath:taskRelativePath];
+    NSString *attachPath = [attach getPath];
     NSFileManager *fileManager = [[NSFileManager alloc] init];
-    
-    NSString *oriAttach = [[taskPath stringByAppendingPathComponent:@"ori"] stringByAppendingPathComponent:attach.name];
-    if ([fileManager fileExistsAtPath:oriAttach]) {
-        [fileManager removeItemAtPath:oriAttach error:nil];
+    if ([fileManager fileExistsAtPath:attachPath]) {
+        [fileManager removeItemAtPath:attachPath error:nil];
     }
     
-    NSString *thumbAttach = [[taskPath stringByAppendingPathComponent:@"thumb"] stringByAppendingPathComponent:attach.name];
-    if ([fileManager fileExistsAtPath:thumbAttach]) {
-        [fileManager removeItemAtPath:thumbAttach error:nil];
+    if (attach.rowid) {
+        FMDatabase *db = [DBUtil openDatabase];
+        NSString *sql = @"delete from attaches where rowid = ?";
+        [db executeUpdate: sql, [NSNumber numberWithInteger:attach.rowid]];
+        [db close];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"AttachsChanged" object:nil];
     }
-    
-    FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = @"delete from attaches where rowid = ?";
-    [db executeUpdate: sql, [NSNumber numberWithInteger:rowid]];
-    [db close];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"AttachsChanged" object:nil];
+
 }
 
 @end

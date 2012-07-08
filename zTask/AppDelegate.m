@@ -14,6 +14,7 @@
 #import "DBUtil.h"
 #import "Utils.h"
 #import "TaskListController.h"
+#import "HomeViewController.h"
 
 @implementation AppDelegate
 
@@ -90,6 +91,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     [self.revealSideViewController setDirectionsToShowBounce:PPRevealSideDirectionNone];
     [self.revealSideViewController setPanInteractionsWhenClosed:PPRevealSideInteractionContentView | PPRevealSideInteractionNavigationBar];
     
+    HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
+    [self.revealSideViewController preloadViewController:homeViewController forSide:PPRevealSideDirectionLeft];
+    
     self.window.rootViewController = self.revealSideViewController;
     
     [self.window makeKeyAndVisible];
@@ -123,6 +127,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     if (!port) {
         [[NSUserDefaults standardUserDefaults] setObject:@"12345" forKey:@"PORTSITE_PORT"];
     }
+    
+    [FileUtil makeFilePath:@"/files/tasks/tmp"];
     
 }
 

@@ -64,7 +64,10 @@
 
 + (NSInteger)create:(Project *)project
 {
-    project.created = [NSDate date];
+    if (!project.created) {
+        project.created = [NSDate date];
+    }
+    
     FMDatabase *db = [DBUtil openDatabase];
     NSString *sql = @"insert into projects (name, created) values (?, ?)";
     [db executeUpdate: sql, project.name, project.created];

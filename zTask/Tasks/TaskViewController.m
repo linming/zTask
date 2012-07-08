@@ -13,6 +13,7 @@
 #import "NoteViewController.h"
 #import "PSLabelSwitchCell.h"
 #import "FileUtil.h"
+#import "DateUtil.h"
 #import "Utils.h"
 
 
@@ -23,6 +24,8 @@
 #define ROW_PROJECT 0
 #define ROW_DUE_DATE 1
 #define ROW_FLAG 2
+
+#define TAG_DUE_DATE 101
 
 @interface TaskViewController ()
 
@@ -49,14 +52,12 @@
         NSLog(@"edit task: %d", taskId);
         task = [Task find:taskId];
         attaches = [[Attach findAll:taskId] mutableCopy];
-        attachPath = [FileUtil getFilePath:[NSString stringWithFormat:@"/files/tasks/%d", taskId]];
         
         self.navigationItem.title = @"Edit Task";
     } else { 
         NSLog(@"new task");
         task = [[Task alloc] init];
         attaches = [NSMutableArray array];
-        attachPath = [FileUtil getFilePath:@"/files/tmp"];
         
         self.navigationItem.title = @"New Task";
         UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
@@ -78,6 +79,7 @@
 - (void)hideKeyboard 
 {
     [titleTextView resignFirstResponder];
+    [dueDateTextField resignFirstResponder];
 }
 
 - (void)viewDidUnload
@@ -110,7 +112,7 @@
     }
 }
 
-- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == SECTION_ATTACHMENT) {
         return 30;
@@ -136,7 +138,7 @@
                 [editButton setTitle:@"Edit" forState:UIControlStateNormal];
                 [editButton setFrame:CGRectMake(250, 3, 50, 24)];
                 [editButton setBackgroundColor:[tableView backgroundColor]];
-                [editButton addTarget:self action:@selector(editAttach:) forControlEvents:UIControlEventTouchUpInside];
+                [editButton addTarget:self action:@selector(editAttach) forControlEvents:UIControlEventTouchUpInside];
                 [headerView addSubview:editButton];
             }
         }
@@ -160,7 +162,7 @@
                     if (cell == nil) {
                         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                         cell.textLabel.text = @"project";
-                        UILabel *projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
+                        projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
                         projectLabel.text = @"None";
                         projectLabel.backgroundColor = [UIColor clearColor];
                         [cell.contentView addSubview:projectLabel];
@@ -176,16 +178,18 @@
                     if (cell == nil) {
                         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                         cell.textLabel.text = @"due";
-                        UITextField *dueTextField = [[UITextField alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
-                        dueTextField.text = @"None";
+                        dueDateTextField = [[UITextField alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
+                        dueDateTextField.text = @"None";
+                        dueDateTextField.tag = TAG_DUE_DATE;
+                        dueDateTextField.delegate = self;
                         
-                        UIDatePicker *datePicker = [[UIDatePicker alloc] init];
-                        datePicker.datePickerMode = UIDatePickerModeDate;
-                        //[datePicker addTarget:self action:@selector(datePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
-                        datePicker.tag = indexPath.row;
-                        dueTextField.inputView = datePicker;
+                        dueDatePicker = [[UIDatePicker alloc] init];
+                        dueDatePicker.datePickerMode = UIDatePickerModeDate;
+                        [dueDatePicker addTarget:self action:@selector(datePickerValueChanged) forControlEvents:UIControlEventValueChanged];
+                        dueDatePicker.tag = indexPath.row;
+                        dueDateTextField.inputView = dueDatePicker;
 
-                        [cell.contentView addSubview:dueTextField];
+                        [cell.contentView addSubview:dueDateTextField];
                         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                     }
                     return cell;
@@ -220,14 +224,15 @@
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             }
             Attach *attach = [attaches objectAtIndex:indexPath.row];
+            NSLog(@"attach: %@", attach.type);
             if ([attach.type isEqualToString:@"Audio"]) {
                 if ([attach.audioStatus isEqualToString:@"playing"]) {
-                    playerMeterView = [[AVPlayerMeterView alloc] initWithFrame:CGRectMake(3,  3, 200, 27)];
+                    playerMeterView = [[AVPlayerMeterView alloc] initWithFrame:CGRectMake(4,  4, 280, 28)];
                     playerMeterView.audioPlayer = audioPlayer;
                     [playerMeterView startUpdating];
                     [cell.contentView addSubview:playerMeterView];
                 } else if ([attach.audioStatus isEqualToString:@"recording"]) {
-                    recorderMeterView = [[AVRecorderMeterView alloc] initWithFrame:CGRectMake(3,  3, 200, 27)];
+                    recorderMeterView = [[AVRecorderMeterView alloc] initWithFrame:CGRectMake(4,  4, 280, 28)];
                     recorderMeterView.audioRecorder = audioRecorder;
                     [recorderMeterView startUpdating];
                     [cell.contentView addSubview:recorderMeterView];
@@ -249,28 +254,37 @@
     return nil;
 }
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
-    return YES;
+    if (indexPath.section == SECTION_ATTACHMENT) {
+        return YES;
+    } else {
+        return NO;        
+    }
 }
-*/
 
-/*
+
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        if (indexPath.section == SECTION_ATTACHMENT) {
+            Attach *attach = [attaches objectAtIndex:indexPath.row];
+            [Attach remove:attach];
+            [attaches removeObject:attach];
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];            
+        }
+
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
+
 
 /*
 // Override to support rearranging the table view.
@@ -294,6 +308,7 @@
 {
     if (indexPath.section == SECTION_DETAIL && indexPath.row == ROW_PROJECT) {
         ProjectSelectorController *projectSelectorController = [[ProjectSelectorController alloc] initWithNibName:@"ProjectSelectorController" bundle:nil];
+        projectSelectorController.taskViewController = self;
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:projectSelectorController];
         [self presentModalViewController:navigationController animated:YES];
     } else if (indexPath.section == SECTION_ATTACHMENT) {
@@ -337,8 +352,10 @@
 
 - (void)showDetail 
 {
-    NSLog(@"show detail");
     NoteViewController *noteViewController = [[NoteViewController alloc]initWithNibName:@"NoteViewController" bundle:nil];
+    noteViewController.taskViewController = self;
+    noteViewController.taskTitle = titleTextView.text;
+    noteViewController.taskNote = task.note;
     [self.navigationController pushViewController:noteViewController animated:YES];
 }
 
@@ -349,9 +366,13 @@
     }
 }
 
+- (void)datePickerValueChanged
+{
+    dueDateTextField.text = [DateUtil formatDate:dueDatePicker.date to:@"yyyy-MM-dd"] ;
+}
+
 - (void)takePhoto
 {
-    NSLog(@"take photo");
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.allowsEditing = YES;
@@ -361,7 +382,6 @@
 
 - (void)pickPhoto 
 {
-    NSLog(@"pick photo");
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.allowsEditing = YES;
@@ -372,7 +392,6 @@
 #pragma mark - Attach Actions
 - (void)editAttach
 {
-    NSLog(@"Edit Attach");
     if (self.tableView.editing) {
         [self.tableView setEditing:NO];
         [editButton setTitle:@"Edit" forState:UIControlStateNormal];
@@ -389,19 +408,18 @@
     attach.name = name;
     attach.type = type;
     attach.taskId = task.rowid;
+    attach.created = [NSDate date];
     
     if (audioStatus) {
         attach.audioStatus = audioStatus;
     }
+    if (taskId) {
+        attach.rowid = [Attach create:attach];
+    }
     
-    attach.rowid = [Attach create:attach];
     return attach;
 }
 
-- (void)removeAttach: (Attach *)attach 
-{
-    [Attach remove:attach.rowid];
-}
 
 #pragma mark - Image Picker Delegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo 
@@ -470,7 +488,7 @@
         [audioRecorder record];
     }
     
-    [self updateRecordAudioButton];
+    [self updateAudioStatus];
     [attaches addObject:attach];
     [self.tableView reloadData];
 }
@@ -483,22 +501,22 @@
         [recorderMeterView stopUpdating];
         recorderMeterView.audioRecorder = nil;
         [audioRecorder stop];
-    } else if (audioPlayer.playing) {
+    } 
+    
+    if (audioPlayer.playing) {
         NSLog(@"stop audioPlayer");
         [playerMeterView stopUpdating];
         playerMeterView.audioPlayer = nil;
         [audioPlayer stop];
     }
-    [self stopAll];
-}
-
-- (void)stopAll 
-{
+    //stop all
     for (Attach *attach in attaches) {
         attach.audioStatus = @"stop";
     }
+    [self updateAudioStatus];
     [self.tableView reloadData];
 }
+
 
 - (void)playAudio: (Attach *)attach {    
     NSURL *soundFileURL = [NSURL fileURLWithPath:[attach getPath]];
@@ -514,14 +532,17 @@
     else
         [audioPlayer play];
     attach.audioStatus = @"playing";
+    [self updateAudioStatus];
     [self.tableView reloadData];
 }
 
 #pragma mark - Audio Player&Recorder Delegate
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     NSLog(@"audioPlayerDidFinishPlaying");
+    [playerMeterView stopUpdating];
+    playerMeterView.audioPlayer = nil;
     [recordAudioButton setTitle:@"Record Audio" forState:UIControlStateNormal];
-    [self stopAll];
+    [self stopAudio];
 }
 -(void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player 
                                 error:(NSError *)error {
@@ -530,7 +551,7 @@
 -(void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder 
                           successfully:(BOOL)flag {
     NSLog(@"audioRecorderDidFinishRecording");
-    [self stopAll];
+    [self stopAudio];
 }
 -(void)audioRecorderEncodeErrorDidOccur:(AVAudioRecorder *)recorder 
                                   error:(NSError *)error {
@@ -544,6 +565,16 @@
 
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height {
     [self updateTableViewHeaderWithHeight:height];
+}
+
+#pragma mark - TextField Delegater
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if (textField.tag == TAG_DUE_DATE) {
+        if ([textField.text isEqualToString:@"None"]) {
+            textField.text = [DateUtil formatDate:[NSDate date] to:@"yyyy-MM-dd"];
+        }
+    }
 }
 
 #pragma mark - TableView Header & Footer
@@ -565,6 +596,9 @@
         titleTextView.font = [UIFont boldSystemFontOfSize:15.0f];
         titleTextView.delegate = self;
         titleTextView.backgroundColor = [UIColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
+        if (taskId) {
+            titleTextView.text = task.title;
+        }
         [taskViewHeaderContainer addSubview:titleTextView];
         
         UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure]; 
@@ -610,13 +644,13 @@
     recordAudioButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [recordAudioButton setFrame:CGRectMake(87, 53, 146, 44)];
     [recordAudioButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self updateRecordAudioButton];
+    [self updateAudioStatus];
     
     [footerView addSubview:recordAudioButton];
     [self.tableView setTableFooterView:footerView];
 }
 
-- (void)updateRecordAudioButton
+- (void)updateAudioStatus
 {
     if (audioRecorder.recording || audioPlayer.playing) {
         [recordAudioButton setTitle:@"Stop" forState:UIControlStateNormal];
@@ -627,6 +661,20 @@
         [recordAudioButton removeTarget:self action:@selector(stopAudio) forControlEvents:UIControlEventTouchUpInside];
         [recordAudioButton addTarget:self action:@selector(recordAudio) forControlEvents:UIControlEventTouchUpInside];
     }
+    [playerMeterView removeFromSuperview];
+    [recorderMeterView removeFromSuperview];
+}
+
+#pragma mark - Set Value Callback Function
+- (void)updateProject:(NSInteger)projectId projectName:(NSString *)projectName
+{
+    task.projectId = projectId;
+    projectLabel.text = projectName;
+}
+
+- (void)updateNote:(NSString *)note
+{
+    task.note = note;
 }
 
 @end

@@ -17,7 +17,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         levelMeter = [[LevelMeter alloc] initWithFrame:frame];
-        levelMeter.numLights = 30;
+        levelMeter.numLights = 36;
 		levelMeter.vertical = NO;
 		levelMeter.bgColor = [[UIColor alloc] initWithRed:.39 green:.44 blue:.57 alpha:.5];
 		levelMeter.borderColor = [[UIColor alloc] initWithRed:.39 green:.44 blue:.57 alpha:.5];
@@ -160,7 +160,7 @@
 - (void)stopUpdating {
 	updating = NO;
     audioRecorder.meteringEnabled = NO;
-	[ self setNeedsDisplay ];
+	[self setNeedsDisplay];
 }
 
 

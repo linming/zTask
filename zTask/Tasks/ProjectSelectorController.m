@@ -14,7 +14,7 @@
 
 @implementation ProjectSelectorController
 
-@synthesize projectSearchBar;
+@synthesize projectSearchBar, taskViewController;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -58,7 +58,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [projects count];
+    return [projects count] + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -69,8 +69,24 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     // Configure the cell...
-    Project *project = [projects objectAtIndex:indexPath.row];
-    cell.textLabel.text = project.name;
+    NSString *searchText = [projectSearchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (searchText && ![searchText isEqualToString:@""]) {
+        if (indexPath.row == projects.count) {
+            cell.textLabel.text = [NSString stringWithFormat:@"Create \"%@\"", searchText];
+        } else {
+            Project *project = [projects objectAtIndex:indexPath.row];
+            cell.textLabel.text = project.name;
+        }
+    } else {
+        if (indexPath.row == 0) {
+            cell.textLabel.text = @"None";
+            cell.textLabel.textColor = [UIColor grayColor];
+        } else {
+            Project *project = [projects objectAtIndex:indexPath.row - 1];
+            cell.textLabel.text = project.name;
+        }
+    }
+    
     return cell;
 }
 
@@ -117,13 +133,27 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSString *searchText = [projectSearchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (searchText && ![searchText isEqualToString:@""]) {
+        if (indexPath.row == projects.count) {
+            Project *project = [[Project alloc] init];
+            project.name = searchText;
+            NSInteger projectId = [Project create:project];
+            [taskViewController updateProject:projectId projectName:project.name];
+        } else {
+            Project *project = [projects objectAtIndex:indexPath.row];
+            [taskViewController updateProject:project.rowid projectName:project.name];
+        }
+    } else {
+        if (indexPath.row == 0) {
+            [taskViewController updateProject:0 projectName:@"None"];
+        } else {
+            Project *project = [projects objectAtIndex:indexPath.row - 1];
+            [taskViewController updateProject:project.rowid projectName:project.name];
+        }
+    }
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark - button actions

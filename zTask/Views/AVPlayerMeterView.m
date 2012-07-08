@@ -17,7 +17,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         levelMeter = [[LevelMeter alloc] initWithFrame:frame];
-        levelMeter.numLights = 30;
+        levelMeter.numLights = 36;
 		levelMeter.vertical = NO;
 		levelMeter.bgColor = [[UIColor alloc] initWithRed:.39 green:.44 blue:.57 alpha:.5];
 		levelMeter.borderColor = [[UIColor alloc] initWithRed:.39 green:.44 blue:.57 alpha:.5];
@@ -70,12 +70,12 @@
         float averagePower, peakPower;
         [ audioPlayer updateMeters ];
         db = [ audioPlayer peakPowerForChannel: 0];
-        NSLog(@"ori peak power: %f", db);
+        NSLog(@"playing ori peak power: %f", db);
         peakPower = (50.0 + db) / 50.0;
         db = [ audioPlayer averagePowerForChannel: 0 ];
-        NSLog(@"ori average power: %f", db);
+        //NSLog(@"ori average power: %f", db);
         averagePower = (50.0 + db) / 50.0;
-        NSLog(@"Power for channel %d: %f DB %f Peak: %f\n", 0, averagePower, db, peakPower);
+        //NSLog(@"Power for channel %d: %f DB %f Peak: %f\n", 0, averagePower, db, peakPower);
         
         levelMeter.level = averagePower;
         levelMeter.peakLevel = peakPower;
@@ -160,7 +160,7 @@
 - (void)stopUpdating {
 	updating = NO;
     audioPlayer.meteringEnabled = NO;
-	[ self setNeedsDisplay ];
+	[self setNeedsDisplay];
 }
 
 

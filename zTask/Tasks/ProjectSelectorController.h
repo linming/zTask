@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Project.h"
+#import "TaskViewController.h"
 
 @interface ProjectSelectorController : UITableViewController <UISearchBarDelegate>
 {
@@ -16,5 +17,6 @@
 }
 
 @property (nonatomic, retain) IBOutlet UISearchBar *projectSearchBar;
+@property (nonatomic, retain) TaskViewController *taskViewController;
 
 @end

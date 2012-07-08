@@ -44,6 +44,9 @@
 
     self.navigationItem.title = @"zTask";
     tasks = [Task findAll:20 page:1]; 
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTasks) name:@"TasksChanged" object:nil];
+    reloadSideMenu = NO;
 }
 
 - (void)showMenu
@@ -58,6 +61,12 @@
     [self presentModalViewController:navigationController animated:YES];
 }
 
+- (void)reloadTasks
+{
+    tasks = [Task findAll:20 page:1]; 
+    [self.tableView reloadData];
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -69,8 +78,11 @@
 {
     [super viewWillAppear:animated];
     
-    HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
-    [self.revealSideViewController preloadViewController:homeViewController forSide:PPRevealSideDirectionLeft];
+    if (reloadSideMenu) {
+        HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
+        [self.revealSideViewController preloadViewController:homeViewController forSide:PPRevealSideDirectionLeft];
+        reloadSideMenu = NO;
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -153,7 +165,7 @@
     taskViewController.taskId = task.rowid;
     // We don't want to be able to pan on nav bar to see the left side when we pushed a controller
     [self.revealSideViewController unloadViewControllerForSide:PPRevealSideDirectionLeft];
-    
+    reloadSideMenu = YES;
     [self.navigationController pushViewController:taskViewController animated:YES];
 }
 

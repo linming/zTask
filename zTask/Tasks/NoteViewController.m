@@ -14,6 +14,8 @@
 
 @implementation NoteViewController
 
+@synthesize taskViewController, titleLabel, noteTextView, taskTitle, taskNote;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -27,6 +29,16 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.navigationItem.title = @"Notes";
+    
+    UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
+    self.navigationItem.leftBarButtonItem = cancelButtonItem;
+    
+    UIBarButtonItem *saveButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(save)];
+    self.navigationItem.rightBarButtonItem = saveButtonItem;
+    
+    titleLabel.text = taskTitle;
+    noteTextView.text = taskNote;
 }
 
 - (void)viewDidUnload
@@ -39,6 +51,16 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)save {
+    [taskViewController updateNote:noteTextView.text];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)cancel {    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

@@ -75,6 +75,9 @@
 
 + (NSInteger)create:(Task *)task
 {
+    if (!task.created) {
+        task.created = [NSDate date];
+    }
     FMDatabase *db = [DBUtil openDatabase];
     NSString *sql = @"insert into tasks (project_id, title, note, flag, start_date, due_date, created) values (?, ?, ?, ?, ?, ?, ?)";
     BOOL result = [db executeUpdate: sql, [NSNumber numberWithInteger:task.projectId], task.title, task.note, [NSNumber numberWithInteger:(task.flag ? 1 : 0)], task.startDate, task.dueDate, task.created];
@@ -84,7 +87,7 @@
     NSInteger lastId = [db lastInsertRowId];
     [db close];
     
-    //[[NSNotificationCenter defaultCenter] taskNotificationName:@"TasksChanged" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TasksChanged" object:nil];
     return lastId;
 }
 
@@ -95,7 +98,7 @@
     [db executeUpdate: sql, task.projectId, task.title, task.note, task.flag, task.startDate, task.dueDate, task.created, [NSNumber numberWithInteger:task.rowid]];
     [db close];
     
-    //[[NSNotificationCenter defaultCenter] taskNotificationName:@"TasksChanged" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TasksChanged" object:nil];
 }
 
 + (void)remove:(NSInteger)rowid
@@ -105,7 +108,7 @@
     [db executeUpdate: sql, [NSNumber numberWithInteger:rowid]];
     [db close];
     
-    //[[NSNotificationCenter defaultCenter] taskNotificationName:@"TasksChanged" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TasksChanged" object:nil];
 }
 
 - (NSData *)jsonData
