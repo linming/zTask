@@ -43,6 +43,8 @@
                                              action:@selector(showMenu)];
 
     self.navigationItem.title = @"zTask";
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
+    
     tasks = [Task findAll:20 page:1]; 
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTasks) name:@"TasksChanged" object:nil];

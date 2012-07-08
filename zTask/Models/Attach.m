@@ -17,7 +17,7 @@
 
 - (NSString *)getPath
 {
-    NSString *relativePath = [NSString stringWithFormat:@"/files/tasks/tmp/%@", name];
+    NSString *relativePath = [NSString stringWithFormat:@"/files/tmp/%@", name];
     if (taskId) {
         relativePath = [NSString stringWithFormat:@"/files/tasks/%d/%@", taskId, name];
     }

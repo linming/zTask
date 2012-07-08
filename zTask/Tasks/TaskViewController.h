@@ -14,6 +14,7 @@
 #import "Attach.h"
 #import "AVPlayerMeterView.h"
 #import "AVRecorderMeterView.h"
+#import "ToggleImageControl.h"
 
 @interface TaskViewController : UITableViewController <HPGrowingTextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate, UITextFieldDelegate>
 {
@@ -25,6 +26,7 @@
     Task *task;
     NSMutableArray *attaches;
     
+    ToggleImageControl *statusControl;
     UIView *taskViewHeaderContainer;
     HPGrowingTextView *titleTextView;
     

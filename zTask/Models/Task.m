@@ -11,7 +11,7 @@
 
 @implementation Task
 
-@synthesize rowid, projectId, title, note, flag, startDate, dueDate, created;
+@synthesize rowid, projectId, title, note, status, flag, startDate, dueDate, created;
 
 
 + (NSArray *)findAll:(NSInteger)perPage page:(NSInteger)page
@@ -19,7 +19,7 @@
     NSInteger rowStart = (page - 1) * perPage;
     NSMutableArray *tasks = [NSMutableArray array];
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = [NSString stringWithFormat:@"select rowid, project_id, title, note, flag, start_date, due_date, created from tasks order by created desc limit %d,%d", rowStart, perPage];
+    NSString *sql = [NSString stringWithFormat:@"select rowid, project_id, title, note, status, flag, start_date, due_date, created from tasks order by created desc limit %d,%d", rowStart, perPage];
     FMResultSet *result = [db executeQuery:sql];
     while ([result next]) {
         Task *task = [[Task alloc] init];
@@ -27,6 +27,7 @@
         task.projectId = [result intForColumn:@"project_id"];
         task.title = [result stringForColumn:@"title"];
         task.note = [result stringForColumn:@"note"];
+        task.status = [result boolForColumn:@"status"];
         task.flag = [result boolForColumn:@"flag"];
         task.startDate = [result dateForColumn:@"start_date"];
         task.dueDate = [result dateForColumn:@"due_date"];
@@ -56,13 +57,14 @@
 {
     Task *task = [[Task alloc] init];
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = [NSString stringWithFormat: @"select rowid, project_id, title, note, flag, start_date, due_date, created from tasks where rowid = %d", rowid];
+    NSString *sql = [NSString stringWithFormat: @"select rowid, project_id, title, note, status, flag, start_date, due_date, created from tasks where rowid = %d", rowid];
     FMResultSet *result = [db executeQuery:sql];
     while ([result next]) {
         task.rowid = [result intForColumn:@"rowid"];
         task.projectId = [result intForColumn:@"project_id"];
         task.title = [result stringForColumn:@"title"];
         task.note = [result stringForColumn:@"note"];
+        task.status = [result boolForColumn:@"status"];
         task.flag = [result boolForColumn:@"flag"];
         task.startDate = [result dateForColumn:@"start_date"];
         task.dueDate = [result dateForColumn:@"due_date"];
@@ -79,8 +81,8 @@
         task.created = [NSDate date];
     }
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = @"insert into tasks (project_id, title, note, flag, start_date, due_date, created) values (?, ?, ?, ?, ?, ?, ?)";
-    BOOL result = [db executeUpdate: sql, [NSNumber numberWithInteger:task.projectId], task.title, task.note, [NSNumber numberWithInteger:(task.flag ? 1 : 0)], task.startDate, task.dueDate, task.created];
+    NSString *sql = @"insert into tasks (project_id, title, note, status, flag, start_date, due_date, created) values (?, ?, ?, ?, ?, ?, ?, ?)";
+    BOOL result = [db executeUpdate: sql, [NSNumber numberWithInteger:task.projectId], task.title, task.note, [NSNumber numberWithInteger:(task.status ? 1 : 0)], [NSNumber numberWithInteger:(task.flag ? 1 : 0)], task.startDate, task.dueDate, task.created];
     if (!result) {
         NSLog(@"db error: %@", [db lastErrorMessage]);
     }
@@ -94,8 +96,8 @@
 + (void)update:(Task *)task
 {
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = @"update tasks set project_id = ?, title = ?, note = ?, flag = ?, start_date = ?, due_date = ?, created = ? where rowid = ?";
-    [db executeUpdate: sql, task.projectId, task.title, task.note, task.flag, task.startDate, task.dueDate, task.created, [NSNumber numberWithInteger:task.rowid]];
+    NSString *sql = @"update tasks set project_id = ?, title = ?, note = ?, status = ?, flag = ?, start_date = ?, due_date = ?, created = ? where rowid = ?";
+    [db executeUpdate: sql, task.projectId, task.title, task.note, [NSNumber numberWithInteger:(task.status ? 1 : 0)], [NSNumber numberWithInteger:(task.flag ? 1 : 0)], task.startDate, task.dueDate, task.created, [NSNumber numberWithInteger:task.rowid]];
     [db close];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TasksChanged" object:nil];

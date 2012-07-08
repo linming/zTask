@@ -7,7 +7,6 @@
 //
 
 #import "TaskViewController.h"
-#import "ToggleImageControl.h"
 #import "ProjectSelectorController.h"
 #import "ImageViewController.h"
 #import "NoteViewController.h"
@@ -366,6 +365,11 @@
     }
 }
 
+- (void)changeTaskStatus
+{
+    task.status = statusControl.isSelected;
+}
+
 - (void)datePickerValueChanged
 {
     dueDateTextField.text = [DateUtil formatDate:dueDatePicker.date to:@"yyyy-MM-dd"] ;
@@ -454,12 +458,14 @@
                                     dictionaryWithObjectsAndKeys:
                                     [NSNumber numberWithInt:AVAudioQualityMin],
                                     AVEncoderAudioQualityKey,
-                                    [NSNumber numberWithInt:16], 
+                                    [NSNumber numberWithInt:8], 
                                     AVEncoderBitRateKey,
-                                    [NSNumber numberWithInt: 2], 
+                                    [NSNumber numberWithInt: 1], 
                                     AVNumberOfChannelsKey,
-                                    [NSNumber numberWithFloat:44100.0], 
+                                    [NSNumber numberWithFloat:11025.0], 
                                     AVSampleRateKey,
+                                    [NSNumber numberWithInt: kAudioFormatAppleIMA4], 
+                                    AVFormatIDKey,
                                     nil];
     
     NSError *error = nil;
@@ -586,7 +592,8 @@
     if (taskViewHeaderContainer == nil) {
         taskViewHeaderContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)];
         
-        ToggleImageControl *statusControl = [[ToggleImageControl alloc] initWithFrame: CGRectMake(10, 10, 24, 24)];
+        statusControl = [[ToggleImageControl alloc] initWithFrame: CGRectMake(10, 10, 24, 24) status:task.status];
+        [statusControl addTarget:self action:@selector(changeTaskStatus) forControlEvents:UIControlEventTouchUpInside];
         [taskViewHeaderContainer addSubview:statusControl];
         
         titleTextView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(40, 4, 240, 24)];

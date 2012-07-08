@@ -14,7 +14,7 @@
 {
     NSArray *sqls = [NSArray arrayWithObjects:
                      @"create table if not exists projects (name text, created date default (datetime('now','localtime')))",
-                     @"create table if not exists tasks (title text, note text, status text, project_id int, flag int, start_date date, due_date date, created date default (datetime('now','localtime')))",
+                     @"create table if not exists tasks (title text, note text, status int, project_id int, flag int, start_date date, due_date date, created date default (datetime('now','localtime')))",
                      @"create table if not exists attaches (name text, type text, task_id int, created date default (datetime('now','localtime')))",
                      nil];
     FMDatabase *db = [DBUtil openDatabase];

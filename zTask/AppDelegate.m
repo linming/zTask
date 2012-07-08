@@ -128,7 +128,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         [[NSUserDefaults standardUserDefaults] setObject:@"12345" forKey:@"PORTSITE_PORT"];
     }
     
-    [FileUtil makeFilePath:@"/files/tasks/tmp"];
+    [FileUtil makeFilePath:@"/files/tmp"];
     
 }
 

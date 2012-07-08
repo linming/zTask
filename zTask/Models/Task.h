@@ -14,6 +14,7 @@
 @property NSInteger projectId;
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *note;
+@property BOOL status;
 @property BOOL flag;
 @property (nonatomic, retain) NSDate *startDate;
 @property (nonatomic, retain) NSDate *dueDate;

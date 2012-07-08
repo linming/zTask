@@ -10,10 +10,16 @@
 
 @interface ToggleImageControl : UIControl
 {
-    BOOL selected;
     UIImageView *imageView;
     UIImage *normalImage;
     UIImage *selectedImage;
+    BOOL isSelected;
 }
+
+
+- (id)initWithFrame:(CGRect)frame status:(BOOL)status;
+
+- (BOOL)isSelected;
+- (void)setIsSelected:(BOOL)_isSelected;
 
 @end

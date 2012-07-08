@@ -35,7 +35,7 @@
 	// if we have no queue, but still have levels, gradually bring them down
 	if (audioRecorder == nil)
 	{
-        NSLog(@"record is nil");
+        //NSLog(@"record is nil");
 		CGFloat maxLvl = -1.;
 		CFAbsoluteTime thisFire = CFAbsoluteTimeGetCurrent();
 		// calculate how much time passed since the last draw
@@ -63,19 +63,19 @@
 		
 		_peakFalloffLastFire = thisFire;
 		success = YES;
-        NSLog(@"record is nil end.");
+        //NSLog(@"record is nil end.");
 	} else {
         
         float db;
         float averagePower, peakPower;
         [ audioRecorder updateMeters ];
         db = [ audioRecorder peakPowerForChannel: 0];
-        NSLog(@"ori peak power: %f", db);
+        //NSLog(@"ori peak power: %f", db);
         peakPower = (50.0 + db) / 50.0;
         db = [ audioRecorder averagePowerForChannel: 0 ];
-        NSLog(@"ori average power: %f", db);
+        //NSLog(@"ori average power: %f", db);
         averagePower = (50.0 + db) / 50.0;
-        NSLog(@"Power for channel %d: %f DB %f Peak: %f\n", 0, averagePower, db, peakPower);
+        //NSLog(@"Power for channel %d: %f DB %f Peak: %f\n", 0, averagePower, db, peakPower);
         
         levelMeter.level = averagePower;
         levelMeter.peakLevel = peakPower;
@@ -104,7 +104,7 @@
         db = [ audioRecorder averagePowerForChannel: 0 ];
         
         averagePower = (50.0 + db) / 50.0;
-        NSLog(@"Power for channel %d: %f DB %f Peak: %f\n", 0, averagePower, db, peakPower);
+        //NSLog(@"Power for channel %d: %f DB %f Peak: %f\n", 0, averagePower, db, peakPower);
 	}
     
     if (averagePower > cachedAveragePower) {

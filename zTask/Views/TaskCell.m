@@ -17,7 +17,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        statusControl = [[ToggleImageControl alloc] initWithFrame: CGRectMake(10, 10, 24, 24)];
+        statusControl = [[ToggleImageControl alloc] initWithFrame: CGRectMake(10, 10, 24, 24) status:NO];
         //toggleControl.tag = indexPath.row;  // for reference in notifications.
         [self.contentView addSubview: statusControl];
         
@@ -41,6 +41,7 @@
         task = newTask;
 	}
     titleLabel.text = newTask.title;
+    [statusControl setIsSelected:task.status];
 }
 
 @end
