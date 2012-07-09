@@ -39,6 +39,30 @@
     return tasks;
 }
 
++ (NSArray *)findAllByConditions:(NSString *)conditions
+{
+    NSMutableArray *tasks = [NSMutableArray array];
+    FMDatabase *db = [DBUtil openDatabase];
+    NSString *sql = [NSString stringWithFormat:@"select rowid, project_id, title, note, status, flag, start_date, due_date, created from tasks %@", conditions];
+    FMResultSet *result = [db executeQuery:sql];
+    while ([result next]) {
+        Task *task = [[Task alloc] init];
+        task.rowid = [result intForColumn:@"rowid"];
+        task.projectId = [result intForColumn:@"project_id"];
+        task.title = [result stringForColumn:@"title"];
+        task.note = [result stringForColumn:@"note"];
+        task.status = [result boolForColumn:@"status"];
+        task.flag = [result boolForColumn:@"flag"];
+        task.startDate = [result dateForColumn:@"start_date"];
+        task.dueDate = [result dateForColumn:@"due_date"];
+        task.created = [result dateForColumn:@"created"];
+        [tasks addObject:task];
+    }
+    [result close];
+    [db close];
+    return tasks;
+}
+
 + (NSInteger)countAll
 {
     NSInteger total = 0;

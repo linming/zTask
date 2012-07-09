@@ -21,6 +21,7 @@
 @property (nonatomic, retain) NSDate *created;
 
 + (NSArray *)findAll:(NSInteger)perPage page:(NSInteger)page;
++ (NSArray *)findAllByConditions:(NSString *)conditions;
 + (NSInteger)countAll;
 + (Task *)find:(NSInteger)rowid;
 + (NSInteger)create:(Task *)task;

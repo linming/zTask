@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Project.h"
 
 @interface TaskListController : UITableViewController
 {
     NSArray *tasks;
     BOOL reloadSideMenu;
 }
+
+@property(nonatomic, retain) NSString *filter;
+@property(nonatomic, retain) Project *project;
 
 @end

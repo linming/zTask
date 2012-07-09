@@ -152,6 +152,12 @@
 		239B6AFA15A4A8D600618185 /* MenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 239B6AF915A4A8D600618185 /* MenuCell.m */; };
 		239B6AFF15A4B93A00618185 /* accessoryIndicator.png in Resources */ = {isa = PBXBuildFile; fileRef = 239B6AFD15A4B93A00618185 /* accessoryIndicator.png */; };
 		239B6B0015A4B93A00618185 /* accessoryIndicator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 239B6AFE15A4B93A00618185 /* accessoryIndicator@2x.png */; };
+		23A5FC8715AB0B5A0018B784 /* ProjectListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A5FC8515AB0B5A0018B784 /* ProjectListController.m */; };
+		23A5FC8815AB0B5A0018B784 /* ProjectListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23A5FC8615AB0B5A0018B784 /* ProjectListController.xib */; };
+		23A5FC8F15AB29280018B784 /* eye.png in Resources */ = {isa = PBXBuildFile; fileRef = 23A5FC8E15AB29280018B784 /* eye.png */; };
+		23A5FC9115AB3A9A0018B784 /* eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23A5FC9015AB3A9A0018B784 /* eye@2x.png */; };
+		23A5FC9415AB3B5C0018B784 /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23A5FC9215AB3B5C0018B784 /* check@2x.png */; };
+		23A5FC9515AB3B5C0018B784 /* uncheck@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23A5FC9315AB3B5C0018B784 /* uncheck@2x.png */; };
 		23B6783715A1D73100761213 /* AVRecorderMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6783615A1D73100761213 /* AVRecorderMeterView.m */; };
 		23B6783B15A1D75000761213 /* AVPlayerMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6783A15A1D75000761213 /* AVPlayerMeterView.m */; };
 		23B6784215A1E23F00761213 /* DateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6784115A1E23F00761213 /* DateUtil.m */; };
@@ -414,6 +420,13 @@
 		239B6AF915A4A8D600618185 /* MenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuCell.m; sourceTree = "<group>"; };
 		239B6AFD15A4B93A00618185 /* accessoryIndicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accessoryIndicator.png; sourceTree = "<group>"; };
 		239B6AFE15A4B93A00618185 /* accessoryIndicator@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "accessoryIndicator@2x.png"; sourceTree = "<group>"; };
+		23A5FC8415AB0B5A0018B784 /* ProjectListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectListController.h; sourceTree = "<group>"; };
+		23A5FC8515AB0B5A0018B784 /* ProjectListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectListController.m; sourceTree = "<group>"; };
+		23A5FC8615AB0B5A0018B784 /* ProjectListController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectListController.xib; sourceTree = "<group>"; };
+		23A5FC8E15AB29280018B784 /* eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eye.png; sourceTree = "<group>"; };
+		23A5FC9015AB3A9A0018B784 /* eye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "eye@2x.png"; sourceTree = "<group>"; };
+		23A5FC9215AB3B5C0018B784 /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
+		23A5FC9315AB3B5C0018B784 /* uncheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uncheck@2x.png"; sourceTree = "<group>"; };
 		23B6783515A1D73100761213 /* AVRecorderMeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVRecorderMeterView.h; sourceTree = "<group>"; };
 		23B6783615A1D73100761213 /* AVRecorderMeterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVRecorderMeterView.m; sourceTree = "<group>"; };
 		23B6783915A1D75000761213 /* AVPlayerMeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerMeterView.h; sourceTree = "<group>"; };
@@ -529,13 +542,17 @@
 		2329E9711594195700FFC5AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				23A5FC8E15AB29280018B784 /* eye.png */,
+				23A5FC9015AB3A9A0018B784 /* eye@2x.png */,
 				239B6AFD15A4B93A00618185 /* accessoryIndicator.png */,
 				239B6AFE15A4B93A00618185 /* accessoryIndicator@2x.png */,
 				239B6AF415A4966E00618185 /* menu.png */,
 				239B6AF515A4966E00618185 /* menu@2x.png */,
 				2329BA17159E17BE006C1AF7 /* inbox_plus.png */,
 				230E6D09159B6BB400807C76 /* check.png */,
+				23A5FC9215AB3B5C0018B784 /* check@2x.png */,
 				230E6D0A159B6BB400807C76 /* uncheck.png */,
+				23A5FC9315AB3B5C0018B784 /* uncheck@2x.png */,
 				230E6CF3159B4F1300807C76 /* flag.png */,
 				230E6CF4159B4F1300807C76 /* inbox.png */,
 				230E6CF5159B4F1300807C76 /* project.png */,
@@ -956,6 +973,9 @@
 				2363821F159EF6DC00CB565E /* NoteViewController.h */,
 				23638220159EF6DC00CB565E /* NoteViewController.m */,
 				23638221159EF6DD00CB565E /* NoteViewController.xib */,
+				23A5FC8415AB0B5A0018B784 /* ProjectListController.h */,
+				23A5FC8515AB0B5A0018B784 /* ProjectListController.m */,
+				23A5FC8615AB0B5A0018B784 /* ProjectListController.xib */,
 			);
 			path = Tasks;
 			sourceTree = "<group>";
@@ -1070,6 +1090,11 @@
 				239B6AF715A4966E00618185 /* menu@2x.png in Resources */,
 				239B6AFF15A4B93A00618185 /* accessoryIndicator.png in Resources */,
 				239B6B0015A4B93A00618185 /* accessoryIndicator@2x.png in Resources */,
+				23A5FC8815AB0B5A0018B784 /* ProjectListController.xib in Resources */,
+				23A5FC8F15AB29280018B784 /* eye.png in Resources */,
+				23A5FC9115AB3A9A0018B784 /* eye@2x.png in Resources */,
+				23A5FC9415AB3B5C0018B784 /* check@2x.png in Resources */,
+				23A5FC9515AB3B5C0018B784 /* uncheck@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1174,6 +1199,7 @@
 				23B6784215A1E23F00761213 /* DateUtil.m in Sources */,
 				239B6AEA15A4823B00618185 /* PPRevealSideViewController.m in Sources */,
 				239B6AFA15A4A8D600618185 /* MenuCell.m in Sources */,
+				23A5FC8715AB0B5A0018B784 /* ProjectListController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

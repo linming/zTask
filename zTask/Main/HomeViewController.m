@@ -11,6 +11,7 @@
 #import "WiFiViewController.h"
 #import "TaskListController.h"
 #import "TaskViewController.h"
+#import "ProjectListController.h"
 #import "CountIndicator.h"
 #import "MenuCell.h"
 
@@ -41,6 +42,8 @@
     tableItems = [[NSArray alloc] initWithObjects: @"Inbox", @"Projects", @"Flagged", @"Search", @"WiFi", @"Settings", nil];
     
     self.tableView.backgroundColor = [UIColor darkGrayColor];
+    
+    [self hideEmptySeparators];
 }
 
 - (void)viewDidUnload
@@ -53,6 +56,13 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)hideEmptySeparators
+{
+    UIView *emptyFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    emptyFooterView.backgroundColor = [UIColor clearColor];
+    [self.tableView setTableFooterView:emptyFooterView];
 }
 
 #pragma mark - Table view data source
@@ -176,9 +186,16 @@
         [self.revealSideViewController popViewControllerWithNewCenterController:navigationController
                                                                        animated:YES];
     } else if ([title isEqualToString:@"Projects"]) {
-
+        ProjectListController *projectListController = [[ProjectListController alloc] initWithNibName:@"ProjectListController" bundle:nil];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:projectListController];
+        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController
+                                                                       animated:YES];
     } else if ([title isEqualToString:@"Flagged"]) {
-
+        TaskListController *taskListController = [[TaskListController alloc] initWithNibName:@"TaskListController" bundle:nil];
+        taskListController.filter = @"Flagged";
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:taskListController];
+        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController
+                                                                       animated:YES];
     } else if ([title isEqualToString:@"Search"]) {
 
     } else if ([title isEqualToString:@"WiFi"]) {
