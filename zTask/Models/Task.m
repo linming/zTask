@@ -121,7 +121,7 @@
 {
     FMDatabase *db = [DBUtil openDatabase];
     NSString *sql = @"update tasks set project_id = ?, title = ?, note = ?, status = ?, flag = ?, start_date = ?, due_date = ?, created = ? where rowid = ?";
-    [db executeUpdate: sql, task.projectId, task.title, task.note, [NSNumber numberWithInteger:(task.status ? 1 : 0)], [NSNumber numberWithInteger:(task.flag ? 1 : 0)], task.startDate, task.dueDate, task.created, [NSNumber numberWithInteger:task.rowid]];
+    [db executeUpdate: sql, [NSNumber numberWithInteger:task.projectId], task.title, task.note, [NSNumber numberWithInteger:(task.status ? 1 : 0)], [NSNumber numberWithInteger:(task.flag ? 1 : 0)], task.startDate, task.dueDate, task.created, [NSNumber numberWithInteger:task.rowid]];
     [db close];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TasksChanged" object:nil];

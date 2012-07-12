@@ -17,6 +17,7 @@
         // Initialization code
         normalImage = [UIImage imageNamed: @"uncheck.png"];
         selectedImage = [UIImage imageNamed: @"check.png"];
+        isSelected = status;
         imageView = [[UIImageView alloc] initWithImage: (status ? selectedImage : normalImage)];
         [imageView setFrame:CGRectMake(0, 0, 24, 24)];
         [self addSubview:imageView];

@@ -88,6 +88,14 @@
     // e.g. self.myOutlet = nil;
 }
 
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    if (taskId) {
+        [Task update:task];
+    }
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -162,7 +170,13 @@
                         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                         cell.textLabel.text = @"project";
                         projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
-                        projectLabel.text = @"None";
+                        if (task.projectId) {
+                            Project *project = [Project find:task.projectId];
+                            projectLabel.text = project.name;
+                        } else {
+                            projectLabel.text = @"None";
+                        }
+                        
                         projectLabel.backgroundColor = [UIColor clearColor];
                         [cell.contentView addSubview:projectLabel];
                         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -178,7 +192,12 @@
                         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                         cell.textLabel.text = @"due";
                         dueDateTextField = [[UITextField alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
-                        dueDateTextField.text = @"None";
+                        if (task.dueDate) {
+                            dueDateTextField.text = [DateUtil formatDate:task.dueDate to:@"yyyy-MM-dd"];
+                        } else {
+                            dueDateTextField.text = @"None";
+                        }
+                        
                         dueDateTextField.tag = TAG_DUE_DATE;
                         dueDateTextField.delegate = self;
                         
@@ -360,9 +379,7 @@
 
 - (void)flagSwitchDidChange
 {
-    if (taskId) {
-        //update flag
-    }
+    task.flag = flagSwitch.on;
 }
 
 - (void)changeTaskStatus
@@ -372,7 +389,8 @@
 
 - (void)datePickerValueChanged
 {
-    dueDateTextField.text = [DateUtil formatDate:dueDatePicker.date to:@"yyyy-MM-dd"] ;
+    dueDateTextField.text = [DateUtil formatDate:dueDatePicker.date to:@"yyyy-MM-dd"];
+    task.dueDate = dueDatePicker.date;
 }
 
 - (void)takePhoto
@@ -571,6 +589,11 @@
 
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height {
     [self updateTableViewHeaderWithHeight:height];
+}
+
+- (void)growingTextViewDidEndEditing:(HPGrowingTextView *)growingTextView
+{
+    task.title = growingTextView.text;
 }
 
 #pragma mark - TextField Delegater

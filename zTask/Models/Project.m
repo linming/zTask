@@ -50,7 +50,7 @@
 {
     Project *project = [[Project alloc] init];
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = [NSString stringWithFormat: @"select rowid, name, intro, created from projects where rowid = %d", rowid];
+    NSString *sql = [NSString stringWithFormat: @"select rowid, name, created from projects where rowid = %d", rowid];
     FMResultSet *result = [db executeQuery:sql];
     while ([result next]) {
         project.rowid = [result intForColumn:@"rowid"];

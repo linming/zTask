@@ -26,28 +26,23 @@
     if (self) {
         UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
         
-        UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash 
+        UIBarButtonItem *organizeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize
                                                                                       target:self 
-                                                                                      action:@selector(deleteTasks)];
-        
-        UIBarButtonItem *organizeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize 
-                                                                                      target:self 
-                                                                                      action:@selector(deleteTasks)];
-        
+                                                                                      action:@selector(organizeTasks)];
         
         UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"eye"] 
                                                                           style:UIBarButtonItemStylePlain
                                                                          target:self
-                                                                         action:@selector(retweet:)];
+                                                                         action:@selector(filterTasks)];
         
         
         NSArray *toolbarItems = [NSArray arrayWithObjects:
                                  flexibleSpace,
                                  filterButton,
                                  flexibleSpace,
-                                 organizeButton,
                                  flexibleSpace,
-                                 deleteButton,
+                                 flexibleSpace,
+                                 organizeButton,
                                  flexibleSpace,
                                  nil];
         self.toolbarItems = toolbarItems;
@@ -128,7 +123,16 @@
     [self.tableView reloadData];
 }
 
-- (void)deleteTasks
+- (void)organizeTasks
+{
+    if (self.tableView.editing) {
+        [self.tableView setEditing:NO];
+    } else {
+        [self.tableView setEditing:YES];
+    }
+}
+
+- (void)filterTasks
 {
     
 }
@@ -187,16 +191,16 @@
     return cell;
 }
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
+
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -208,23 +212,27 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
 
-/*
+
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+    NSLog(@"move from %d to %d", fromIndexPath.row, toIndexPath.row);
 }
-*/
 
-/*
+
+
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the item to be re-orderable.
-    return YES;
+    if ([filter isEqualToString:@"Project"]) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
-*/
+
 
 #pragma mark - Table view delegate
 
