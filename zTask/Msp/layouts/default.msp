@@ -7,14 +7,16 @@
 		<link rel="stylesheet" type="text/css" href="/css/default.css" />
 		<link rel="stylesheet" type="text/css" href="/css/tasks.css" />
 		<link rel="stylesheet" type="text/css" href="/css/smoothness/jquery-ui-1.8.18.custom.css" />
+		<link rel="stylesheet" type="text/css" href="/js/chosen/chosen.css" />
 		<script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
 		<script type="text/javascript" src="/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="/js/bootstrap-scrollspy.js"></script>
+		<script type="text/javascript" src="/js/bootbox.min.js"></script>
 		<script type="text/javascript" src="/js/default.js"></script>
 		<script type="text/javascript" src="/js/tasks.js"></script>
 		<script type="text/javascript" src="/js/jquery.tmpl.min.js"></script>
 		<script type="text/javascript" src="/js/jquery-ui-1.8.18.custom.min.js"></script>
-
+		<script type="text/javascript" src="/js/chosen/chosen.jquery.min.js"></script>
 	</head>
 	<body>
 		<div class="navbar navbar-fixed-top">

@@ -8,6 +8,7 @@
 
 #import "Task.h"
 #import "DBUtil.h"
+#import "DateUtil.h"
 
 @implementation Task
 
@@ -139,10 +140,26 @@
 
 - (NSData *)jsonData
 {
-    NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-                          [NSNumber numberWithInt: self.rowid], @"rowid",
-                          self.title, @"title", 
-                          nil];
+    NSMutableDictionary *data = [NSMutableDictionary dictionary];
+    if (self.rowid) {
+        [data setObject:[NSNumber numberWithInt: self.rowid] forKey:@"rowid"];
+    }
+    if (self.title) {
+        [data setObject:self.title forKey:@"title"];
+    }
+    if (self.note) {
+        [data setObject:self.note forKey:@"note"];
+    }
+    if (self.projectId) {
+        [data setObject:[NSNumber numberWithInt: self.projectId] forKey:@"project_id"];
+    }
+    if (self.dueDate) {
+        [data setObject:[DateUtil formatDate:self.dueDate to:@"yyyy-MM-dd"] forKey:@"due_date"];
+    }
+    if (self.created) {
+        [data setObject:[DateUtil formatDate:self.created to:@"yyyy-MM-dd"] forKey:@"created"];
+    }
+
     
     NSError *writeError = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data options:NSJSONWritingPrettyPrinted error:&writeError];

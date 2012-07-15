@@ -158,6 +158,8 @@
 		23A5FC9115AB3A9A0018B784 /* eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23A5FC9015AB3A9A0018B784 /* eye@2x.png */; };
 		23A5FC9415AB3B5C0018B784 /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23A5FC9215AB3B5C0018B784 /* check@2x.png */; };
 		23A5FC9515AB3B5C0018B784 /* uncheck@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23A5FC9315AB3B5C0018B784 /* uncheck@2x.png */; };
+		23B62F3B15B16BB7004BE6E0 /* SearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B62F3915B16BB7004BE6E0 /* SearchController.m */; };
+		23B62F3C15B16BB7004BE6E0 /* SearchController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23B62F3A15B16BB7004BE6E0 /* SearchController.xib */; };
 		23B6783715A1D73100761213 /* AVRecorderMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6783615A1D73100761213 /* AVRecorderMeterView.m */; };
 		23B6783B15A1D75000761213 /* AVPlayerMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6783A15A1D75000761213 /* AVPlayerMeterView.m */; };
 		23B6784215A1E23F00761213 /* DateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6784115A1E23F00761213 /* DateUtil.m */; };
@@ -427,6 +429,9 @@
 		23A5FC9015AB3A9A0018B784 /* eye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "eye@2x.png"; sourceTree = "<group>"; };
 		23A5FC9215AB3B5C0018B784 /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
 		23A5FC9315AB3B5C0018B784 /* uncheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uncheck@2x.png"; sourceTree = "<group>"; };
+		23B62F3815B16BB7004BE6E0 /* SearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchController.h; sourceTree = "<group>"; };
+		23B62F3915B16BB7004BE6E0 /* SearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchController.m; sourceTree = "<group>"; };
+		23B62F3A15B16BB7004BE6E0 /* SearchController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchController.xib; sourceTree = "<group>"; };
 		23B6783515A1D73100761213 /* AVRecorderMeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVRecorderMeterView.h; sourceTree = "<group>"; };
 		23B6783615A1D73100761213 /* AVRecorderMeterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVRecorderMeterView.m; sourceTree = "<group>"; };
 		23B6783915A1D75000761213 /* AVPlayerMeterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerMeterView.h; sourceTree = "<group>"; };
@@ -976,6 +981,9 @@
 				23A5FC8415AB0B5A0018B784 /* ProjectListController.h */,
 				23A5FC8515AB0B5A0018B784 /* ProjectListController.m */,
 				23A5FC8615AB0B5A0018B784 /* ProjectListController.xib */,
+				23B62F3815B16BB7004BE6E0 /* SearchController.h */,
+				23B62F3915B16BB7004BE6E0 /* SearchController.m */,
+				23B62F3A15B16BB7004BE6E0 /* SearchController.xib */,
 			);
 			path = Tasks;
 			sourceTree = "<group>";
@@ -1095,6 +1103,7 @@
 				23A5FC9115AB3A9A0018B784 /* eye@2x.png in Resources */,
 				23A5FC9415AB3B5C0018B784 /* check@2x.png in Resources */,
 				23A5FC9515AB3B5C0018B784 /* uncheck@2x.png in Resources */,
+				23B62F3C15B16BB7004BE6E0 /* SearchController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1200,6 +1209,7 @@
 				239B6AEA15A4823B00618185 /* PPRevealSideViewController.m in Sources */,
 				239B6AFA15A4A8D600618185 /* MenuCell.m in Sources */,
 				23A5FC8715AB0B5A0018B784 /* ProjectListController.m in Sources */,
+				23B62F3B15B16BB7004BE6E0 /* SearchController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

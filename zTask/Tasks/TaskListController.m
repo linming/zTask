@@ -26,9 +26,9 @@
     if (self) {
         UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
         
-        UIBarButtonItem *organizeButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize
+        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
                                                                                       target:self 
-                                                                                      action:@selector(organizeTasks)];
+                                                                                      action:@selector(addTask)];
         
         UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"eye"] 
                                                                           style:UIBarButtonItemStylePlain
@@ -37,13 +37,9 @@
         
         
         NSArray *toolbarItems = [NSArray arrayWithObjects:
-                                 flexibleSpace,
                                  filterButton,
                                  flexibleSpace,
-                                 flexibleSpace,
-                                 flexibleSpace,
-                                 organizeButton,
-                                 flexibleSpace,
+                                 addButton,
                                  nil];
         self.toolbarItems = toolbarItems;
     }
@@ -62,19 +58,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    viewOption = VIEW_OPTION_ALL;
     
     if ([filter isEqualToString:@"Project"]) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
+                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
                                                   target:self
-                                                  action:@selector(compose)];        
+                                                  action:@selector(editTasks)];        
         self.navigationItem.title = project.name;
-        tasks = [Task findAllByConditions:[NSString stringWithFormat:@"where project_id = %d", project.rowid]];
+        tasks = [self findTasks:[NSString stringWithFormat:@"project_id = %d", project.rowid]];
     } else if ([filter isEqualToString:@"Flagged"]) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
+                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
                                                   target:self
-                                                  action:@selector(compose)];
+                                                  action:@selector(editTasks)];
         
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] 
                                                  initWithImage:[UIImage imageNamed:@"menu"] 
@@ -83,12 +80,12 @@
                                                  action:@selector(showMenu)];
         
         self.navigationItem.title = @"Flagged";
-        tasks = [Task findAllByConditions:@"where flag = 1"];
+        tasks = [self findTasks:@"where flag = 1"];
     } else {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
+                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
                                                   target:self
-                                                  action:@selector(compose)];
+                                                  action:@selector(editTasks)];
         
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] 
                                                  initWithImage:[UIImage imageNamed:@"menu"] 
@@ -97,12 +94,34 @@
                                                  action:@selector(showMenu)];
         
         self.navigationItem.title = @"zTask";
-        tasks = [Task findAll:20 page:1]; 
+        tasks = [self findTasks:nil];
     }
 
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTasks) name:@"TasksChanged" object:nil];
     reloadSideMenu = NO;
+    
+    [self hideEmptySeparators];
+}
+
+- (void)hideEmptySeparators
+{
+    UIView *emptyFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    emptyFooterView.backgroundColor = [UIColor clearColor];
+    [self.tableView setTableFooterView:emptyFooterView];
+}
+
+- (NSArray *)findTasks:(NSString *)conditions
+{
+    viewConditions = conditions;
+    NSString *sql = @"where 1=1";
+    if (viewOption == VIEW_OPTION_REMAINING) {
+        sql = [sql stringByAppendingString:@" and status=1"];
+    }
+    if (conditions) {
+        sql = [sql stringByAppendingFormat:@" and %@", conditions];
+    }
+    return [Task findAllByConditions:sql];
 }
 
 - (void)showMenu
@@ -110,7 +129,7 @@
     [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
 }
 
-- (void)compose
+- (void)addTask
 {
     TaskViewController *taskViewController = [[TaskViewController alloc] initWithNibName:@"TaskViewController" bundle:nil];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:taskViewController];
@@ -119,11 +138,11 @@
 
 - (void)reloadTasks
 {
-    tasks = [Task findAll:20 page:1]; 
+    tasks = [self findTasks:viewConditions];
     [self.tableView reloadData];
 }
 
-- (void)organizeTasks
+- (void)editTasks
 {
     if (self.tableView.editing) {
         [self.tableView setEditing:NO];
@@ -134,7 +153,12 @@
 
 - (void)filterTasks
 {
-    
+    if (viewOption == VIEW_OPTION_ALL) {
+        viewOption = VIEW_OPTION_REMAINING;
+    } else {
+        viewOption = VIEW_OPTION_ALL;
+    }
+    [self reloadTasks];
 }
 
 - (void)viewDidUnload
@@ -159,6 +183,12 @@
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.navigationController setToolbarHidden:YES];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -168,18 +198,24 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return [tasks count];
+    NSInteger taskCount = [tasks count];
+    return taskCount == 0 ? 1 : taskCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([tasks count] == 0) {
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        cell.textLabel.text = @"No Tasks";
+        cell.userInteractionEnabled = NO;
+        return cell;
+    }
+    
     static NSString *CellIdentifier = @"TaskCell";
     TaskCell *cell = (TaskCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 

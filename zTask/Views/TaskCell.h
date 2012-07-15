@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "Task.h"
+#import "Project.h"
 #import "ToggleImageControl.h"
 
 @interface TaskCell : UITableViewCell
 
 @property(nonatomic, retain) Task *task;
 @property(nonatomic, retain) IBOutlet UILabel *titleLabel;
+@property(nonatomic, retain) IBOutlet UILabel *projectLabel;
 @property(nonatomic, retain) IBOutlet ToggleImageControl *statusControl;
+@property(nonatomic, retain) IBOutlet UIImageView *flagImageView;
 
 @end

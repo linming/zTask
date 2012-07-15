@@ -1,5 +1,9 @@
 var ori_value = '';
 $(document).ready(function() {
+
+	$("#due_date").datepicker();
+	$("#project").chosen({allow_single_deselect:true});
+	
 	$('#new_task').click(function(){
 		$.post('/tasks/add', {}, function(data){
 			$('#markup_new_task').tmpl(data).prependTo(".task_list");
@@ -9,12 +13,17 @@ $(document).ready(function() {
 	});
 
 	$('#delete_task').click(function(){
-		if (confirm('你确定要删除这个任务吗?')){
-			var task_id = $('#panel_frame').attr('data_id');
-			$.post('/tasks/delete', {task_id: task_id}, function(data){
-				$('.drawpanel').animate({left: 0});
-			}, 'json');			
-		}
+		bootbox.confirm("Are you sure to delete this task?", function(result) {
+			if (result) {
+				var task_id = $('#panel_frame').attr('data_id');
+				$.post('/tasks/delete', {task_id: task_id}, function(data){
+					$('.drawpanel').animate({left: 0});
+				}, 'json');			
+
+			} else {
+
+			}
+		});
 	});
 
 	$('.task .task_checkbox_real').change(function(){
@@ -38,9 +47,11 @@ $(document).ready(function() {
 			$('#panel_frame').attr('data_id', selected_id);
 			//load data
 			$.get('/tasks/view/' + selected_id, {}, function(data){
-				$('#assignee').val(data.assignee_nick);
-				$('#task_desc').val(data.description);
+				$('#project').val(data.project_id);
+				$("#project").trigger("liszt:updated");
+				$('#note').val(data.note);
 				$('#due_date').val(data.due_date);
+				$('#created').text('created at ' + data.created);
 				$('#tasks_logs').html($('#markup_task_log').tmpl(data.tasks_logs));
 			}, 'json');
 		}
@@ -57,7 +68,7 @@ $(document).ready(function() {
 		//editable
 
 		var parent = $(this).parent();
-		parent.html('<textarea onblur="task_save_title(this)" onfocus="store_ori_value(this)" style="width: 360px; height: 22px;">' + $(this).text() + '</textarea>');
+		parent.html('<input onblur="task_save_title(this)" onfocus="store_ori_value(this)" style="width: 360px; height: 22px;" value="' + $(this).text() + '"/>');
 		parent.children(':first').focus();
 
 		return true;
@@ -75,24 +86,33 @@ function store_ori_value(target) {
 	ori_value = $(target).val();
 }
 
-function task_save_title(textarea) {
-	if ($(textarea).val() == ori_value) {
-		$(textarea).parent().html('<span class="title">'+$(textarea).val()+'</span>');
+function task_save_title(textinput) {
+	if ($(textinput).val() == ori_value) {
+		$(textinput).parent().html('<span class="title">'+$(textinput).val()+'</span>');
 		return;
 	}
-	$.post('/tasks/edit/' + $(textarea).parent().parent().parent().attr('data_id'), {title: $(textarea).val()}, function(data){
-		$(textarea).parent().html('<span class="title">'+$(textarea).val()+'</span>');
+	$.post('/tasks/edit/' + $(textinput).parent().parent().parent().attr('data_id'), {title: $(textinput).val()}, function(data){
+		$(textinput).parent().html('<span class="title">'+$(textinput).val()+'</span>');
 	}, 'json');
 }
 
-function task_save_desc(textarea) {
-	var desc = $(textarea).val();
-	if (desc == ori_value) {
+function task_save_note(textarea) {
+	var note = $(textarea).val();
+	if (note == ori_value) {
 		return;
 	}
 
-	$.post('/tasks/edit/' + $('#panel_frame').attr('data_id'), {description:desc}, function(data){
+	$.post('/tasks/edit/' + $('#panel_frame').attr('data_id'), {note:note}, function(data){
 		
+	}, 'json');
+}
+
+function task_save_project(select) {
+	var project_id = $(select).val();
+	if (project_id == ori_value) {
+		return;
+	}
+	$.post('/tasks/edit/' + $('#panel_frame').attr('data_id'), {project_id:project_id}, function(data){		
 	}, 'json');
 }
 

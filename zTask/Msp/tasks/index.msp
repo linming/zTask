@@ -6,13 +6,18 @@
 		</div>
 		<div class="drawpanel_body">
 			<div class="controls">
+				<style>
+					.chzn-container-single{
+					vertical-align: middle;
+					}
+				</style>
 				<div class="input-prepend">
-					<span class="add-on"><i class="icon-user"></i></span><input type="text" id="assignee" name="assignee" onfocus="store_ori_value(this)" onblur="task_save_assignee(this)" placeholder="Assignee" class="span2">
-				</div>
-			</div>
-			<div class="controls">
-				<div class="input-prepend">
-					<span class="add-on"><i class="icon-folder-close"></i></span><input type="text" id="project" name="project" onfocus="store_ori_value(this)" placeholder="Project" class="span2">
+					<span class="add-on"><i class="icon-folder-close"></i></span><select id="project" class="span2" style="width:240px;" data-placeholder="Choose a Project" onfocus="store_ori_value(this)" onchange="task_save_project(this)">
+						<option value="0">None</option>
+						{{#projects}}
+						<option value="{{rowid}}">{{name}}</option>
+						{{/projects}}
+					</select>
 				</div>
 			</div>
 			<div class="controls">
@@ -21,31 +26,16 @@
 				</div>
 			</div>
 			<div class="input">
-				<textarea id="task_desc" class="task_desc" placeholder="Description" onfocus="store_ori_value(this)" onblur="task_save_desc(this)"></textarea>
+				<textarea id="note" class="note" placeholder="Notes" onfocus="store_ori_value(this)" onblur="task_save_note(this)"></textarea>
 			</div>
-			<div class="hide">
-				<div class="task_logs_title">Comments & Logs:</div>
-				<div class="task_log">
-					<div id="task_input_fake_tips">
-						<input value="Click to reply..." onfocus="show_real_input()" class="comment_input_fake_tips span2">
-					</div>
-					<div id="task_comment_owner" class="task_comment_owner hide">
-						<img src="/img/avatar.png"/>
-					</div>
-					<div id="task_comment_main" class="task_comment_main hide">
-						<span>
-							<textarea onkeyup="do_comment_summit(event)" onblur="hide_real_input()" name="comment_content" type="text" class="comment_textarea" id="comment_textarea"></textarea>
-						</span>
-						<div class="task_comment_footer">
-							<span class="task_comment_time">Press enter to submit</span>
-						</div>
-					</div>							  
-				</div>
-				<ul id="tasks_logs">
+			<div class="attachments">
+				<div class="attaches_title">Attachments:</div>
+				<ul id="attaches">
 				</ul>
 			</div>
 		</div>
 		<div class="drawpanel_footer">
+			<span id="created"></span>
 			<a href="javascript:void(0);" id="delete_task" class="pull-right">
 				<i class="icon-trash"></i>
 			</a>
@@ -62,9 +52,6 @@
 				<label class="task_checkbox">
 					<input type="checkbox" class="task_checkbox_real"/>
 				</label>
-				<div class="avatar_wrapper">
-					<img src="/img/avatar.png"/>
-				</div>
 				<div class="title_wrapper">
 					<span class="title">{{title}}</span>
 				</div>
@@ -84,9 +71,6 @@
 			<label class="task_checkbox">
 				<input type="checkbox" class="task_checkbox_real"/>
 			</label>
-			<div class="avatar_wrapper">
-				<img src="/img/avatar.png"/>
-			</div>
 			<div class="title_wrapper">
 				<textarea onblur="task_save_title(this)" style="width: 360px; height: 22px;"></textarea>
 			</div>
@@ -112,38 +96,4 @@
 			</div>
 		</div>
 	</li>
-</script>
-
-<script>
-	$(function() {
-	var availableTags = [
-	"ActionScript",
-	"AppleScript",
-	"Asp",
-	"BASIC",
-	"C",
-	"C++",
-	"Clojure",
-	"COBOL",
-	"ColdFusion",
-	"Erlang",
-	"Fortran",
-	"Groovy",
-	"Haskell",
-	"Java",
-	"JavaScript",
-	"Lisp",
-	"Perl",
-	"PHP",
-	"Python",
-	"Ruby",
-	"Scala",
-	"Scheme"
-	];
-	$("#assignee").autocomplete({
-	source: availableTags
-	});
-
-	$("#due_date").datepicker();
-	});
 </script>
