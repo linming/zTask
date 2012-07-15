@@ -18,6 +18,7 @@
     BOOL reloadSideMenu;
     NSInteger viewOption;
     NSString *viewConditions;
+    UILabel *statLabel;
 }
 
 @property(nonatomic, retain) NSString *filter;

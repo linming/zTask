@@ -36,7 +36,6 @@
                                              action:@selector(showMenu)];
     
     self.navigationItem.title = @"Projects";
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
     
     projects = [Project findAll]; 
     

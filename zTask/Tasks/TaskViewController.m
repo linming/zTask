@@ -8,12 +8,12 @@
 
 #import "TaskViewController.h"
 #import "ProjectSelectorController.h"
-#import "ImageViewController.h"
 #import "NoteViewController.h"
 #import "PSLabelSwitchCell.h"
 #import "FileUtil.h"
 #import "DateUtil.h"
 #import "Utils.h"
+#import "AppDelegate.h"
 
 
 #define SECTION_COUNT 2
@@ -333,10 +333,20 @@
         Attach *attach = [attaches objectAtIndex:indexPath.row];
         if ([attach.type isEqualToString:@"Audio"]) {
             [self playAudio: attach];
-        } else {
-            ImageViewController *imageViewController = [[ImageViewController alloc] initWithNibName:@"ImageViewController" bundle:nil];
-            imageViewController.imagePath = [attach getPath];
-            [self.navigationController pushViewController:imageViewController animated:YES];
+        } else {            
+            UIImage *image = [UIImage imageWithContentsOfFile: [attach getPath]];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+
+            [imageView setFrame:CGRectMake(0, 0, 320, 480)];
+            imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+            imageView.backgroundColor = [UIColor clearColor];
+            imageView.opaque = NO;
+            imageView.contentMode = UIViewContentModeScaleAspectFit;
+            
+            zoomImageView = [[ZoomImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 480) withImageView:imageView];
+            [zoomImageView calculateZoomSize:image];
+            AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            [appDelegate.window addSubview:zoomImageView];
         }
     }
 }

@@ -38,11 +38,15 @@
                                              style:UIBarButtonItemStylePlain 
                                              target:self 
                                              action:@selector(showMenu)];
-
+    
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
     
     [serverSwitch addTarget:self action:@selector(serverSwitchDidChange) forControlEvents:UIControlEventValueChanged];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayInfoUpdate:) name:@"WebServerStarted" object:nil];
+    
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [appDelegate startWebServer];
     
 }
 

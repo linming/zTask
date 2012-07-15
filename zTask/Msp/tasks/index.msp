@@ -5,12 +5,7 @@
 			<span class="title">Task Detail</span>
 		</div>
 		<div class="drawpanel_body">
-			<div class="controls">
-				<style>
-					.chzn-container-single{
-					vertical-align: middle;
-					}
-				</style>
+			<div class="controls" title="Project">
 				<div class="input-prepend">
 					<span class="add-on"><i class="icon-folder-close"></i></span><select id="project" class="span2" style="width:240px;" data-placeholder="Choose a Project" onfocus="store_ori_value(this)" onchange="task_save_project(this)">
 						<option value="0">None</option>
@@ -20,7 +15,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="controls">
+			<div class="controls" title="Due Date">
 				<div class="input-prepend">
 					<span class="add-on"><i class="icon-calendar"></i></span><input type="text" id="due_date" name="due_date" onfocus="store_ori_value(this)" placeholder="Due Date" class="span2">
 				</div>
@@ -47,16 +42,22 @@
 <div id="task_container">
 	<ul class="task_list">
 		{{#tasks}}
-		<li class="{{status}}" data_id="{{rowid}}">
+		<li class="status-{{status}}" data_id="{{rowid}}" id="task-{{rowid}}">
 			<div class="task">
 				<label class="task_checkbox">
-					<input type="checkbox" class="task_checkbox_real"/>
+					<input type="checkbox" class="task_checkbox_real" {{#status}}checked="checked"{{/status}}/>
 				</label>
 				<div class="title_wrapper">
 					<span class="title">{{title}}</span>
 				</div>
-				<div class="right">
-					<span class="date overdue"></span>
+				<div class="pull-right">
+					{{#flag}}
+					<a class="flag flag-red" href="javascript:void(0);" data=1></a>
+					{{/flag}}
+					{{^flag}}
+					<a class="flag flag-gray" href="javascript:void(0);" data=0></a>
+					{{/flag}}					
+					<span class="date overdue">Jul 15</span>
 				</div>
 			</div>
 		</li>
@@ -66,33 +67,33 @@
 </div>
 
 <script id="markup_new_task" type="text/x-jquery-tmpl">
-	<li class="${status}" data_id="${id}">
+	<li class="${status}" data_id="${id}" id="task-${id}">
 		<div class="task">
 			<label class="task_checkbox">
 				<input type="checkbox" class="task_checkbox_real"/>
 			</label>
 			<div class="title_wrapper">
-				<textarea onblur="task_save_title(this)" style="width: 360px; height: 22px;"></textarea>
+				<input onfocus="store_ori_value(this)" onblur="task_save_title(this)" style="width: 360px; height: 22px;"/>
 			</div>
-			<div class="right">
+			<div class="pull-right">
+				<a class="flag flag-gray" href="javascript:void(0);" data=0></a>
 				<span class="date overdue"></span>
 			</div>
 		</div>
 	</li>
 </script>
 
-<script id="markup_task_log" type="text/x-jquery-tmpl">
-	<li class="task_log">
-		<div class="task_comment_owner">
+<script id="markup_task_attach" type="text/x-jquery-tmpl">
+	<li class="task_attach">
+		<div class="task_attach_image">
 			<a href="#">
-				<img src="/img/avatar.png"/>
+				<img src="/files/tasks/${task_id}/${name}"/>
 			</a>
 		</div>
-		<div class="task_comment_main">
-			<a href="#">minglin</a>
-			<span>${action}${memo}</span>
-			<div class="task_comment_footer">
-				<span class="task_comment_time">${created}</span>
+		<div class="task_attach_main">
+			<a href="#">${name}</a>
+			<div class="task_attach_footer">
+				<span class="task_attach_time">${created}</span>
 			</div>
 		</div>
 	</li>

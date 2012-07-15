@@ -11,6 +11,7 @@
 #import "Project.h"
 #import "Task.h"
 #import "Utils.h"
+#import "DateUtil.h"
 
 @implementation TasksMSPController
 
@@ -54,9 +55,17 @@
     if ([self.request.params objectForKey:@"project_id"]) {
         task.projectId = [[self.request.params objectForKey:@"project_id"] intValue];
     }
-    
     if ([self.request.params objectForKey:@"note"]) {
         task.note = [self.request.params objectForKey:@"note"];
+    }
+    if ([self.request.params objectForKey:@"flag"]) {
+        task.flag = [[self.request.params objectForKey:@"flag"] isEqualToString:@"1"];
+    }
+    if ([self.request.params objectForKey:@"status"]) {
+        task.status = [[self.request.params objectForKey:@"status"] isEqualToString:@"1"];
+    }
+    if ([self.request.params objectForKey:@"due_date"]) {
+        task.dueDate = [DateUtil stringToDate:[self.request.params objectForKey:@"due_date"] format:@"yyyy-MM-dd"];
     }
     [Task update:task];
     return [[MSPResponse alloc] initWithData:[task jsonData] headers:headers];
@@ -67,7 +76,7 @@
     NSDictionary *headers = [[NSDictionary alloc] initWithObjectsAndKeys:@"text/json", @"Content-Type", nil];
     
     Task *task = [Task find:[taskId intValue]];
-    return [[MSPResponse alloc] initWithData:[task jsonData] headers:headers];
+    return [[MSPResponse alloc] initWithData:[task jsonDataWithAttaches] headers:headers];
 }
 
 

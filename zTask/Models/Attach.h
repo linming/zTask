@@ -21,6 +21,7 @@
 
 - (NSString *)getPath;
 - (id)initWithDict:(NSDictionary *)dict;
+- (NSMutableDictionary *)dictData;
 
 + (NSArray *)findAll:(NSInteger)taskId;
 + (NSInteger)countAll:(NSInteger)taskId;

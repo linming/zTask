@@ -58,7 +58,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [self performSelectorInBackground:@selector(startWebServer) withObject:nil];
+    //[self performSelectorInBackground:@selector(startWebServer) withObject:nil];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -188,7 +188,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 - (void)stopWebServer
 {
-    [httpServer stop]; 
+    if ([self isWebServerRunning]) {
+        [httpServer stop]; 
+    }
     [UIApplication sharedApplication].idleTimerDisabled = NO;
 }
 

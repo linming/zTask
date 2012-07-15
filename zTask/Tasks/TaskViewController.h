@@ -15,6 +15,7 @@
 #import "AVPlayerMeterView.h"
 #import "AVRecorderMeterView.h"
 #import "ToggleImageControl.h"
+#import "ZoomImageView.h"
 
 @interface TaskViewController : UITableViewController <HPGrowingTextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate, UITextFieldDelegate>
 {
@@ -37,6 +38,8 @@
     UIButton *editButton;
     UIButton *recordAudioButton;
     UISwitch *flagSwitch;
+    
+    ZoomImageView *zoomImageView;
 }
 
 @property NSInteger taskId;

@@ -31,17 +31,24 @@
 					<div class="nav-collapse">
 						<ul class="nav">
 							<li class="{{#home}}active{{/home}}">
-								<a href="/tasks/index">Home</a>
+								<a href="/tasks/index">Inbox</a>
 							</li>
-							<li class="dropdown {{#mytask}}active{{/mytask}}">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Tasks<b class="caret"></b></a>
+							<li class="dropdown {{#project}}active{{/project}}">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Projects<b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									<li><a href="/tasks/index">My Tasks</a></li>
-									<li><a href="/tasks/index?filter=created_by_me">Created by me</a></li>
+									{{#projects}}
+									<li><a href="/tasks/index">{{name}}</a></li>
+									{{/projects}}
 								</ul>
+							</li>
+							<li class="{{#flagged}}active{{/flagged}}">
+								<a href="/tasks/index">Flagged</a>
 							</li>
 						</ul>
 					</div>
+					<form class="navbar-search" action="">
+						<input class="search-query span2" type="text" placeholder="Search"/>
+					</form>
 					<a id="new_task" class="btn btn-primary pull-right" href="javascript:void(0);">Create new task</a>
 				</div>
 			</div>

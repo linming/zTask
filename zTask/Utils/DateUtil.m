@@ -10,6 +10,13 @@
 
 @implementation DateUtil
 
++ (NSDate *)stringToDate:(NSString *)dateStr format:(NSString *)format
+{
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:format];
+    return [dateFormat dateFromString:dateStr]; 
+}
+
 + (NSInteger)getIntervalDay:(NSDate *)date
 {
     NSCalendar *sysCalendar = [NSCalendar currentCalendar];

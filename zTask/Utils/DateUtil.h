@@ -10,6 +10,7 @@
 
 @interface DateUtil : NSObject
 
++ (NSDate *)stringToDate:(NSString *)dateStr format:(NSString *)format;
 + (NSInteger)getIntervalDay:(NSDate *)date;
 + (NSString *)formatDateWithoutSecond:(NSDate *)date;
 + (NSString *)formatDate:(NSDate *)date to:(NSString *)formatString;

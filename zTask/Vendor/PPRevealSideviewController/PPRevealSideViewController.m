@@ -1153,7 +1153,7 @@
     }
     else // we use the bounce animation
     {
-        PPRSLog(@"****** No controller to push ****** Think to preload controller ! ******");
+        //PPRSLog(@"****** No controller to push ****** Think to preload controller ! ******");
         [self pushOldViewControllerOnDirection:_currentPanDirection animated:YES];
         // little trick to cancel the gesture. Otherwise, as long as we pan, we continue to pass here ...
         panGesture.enabled = NO;
@@ -1286,7 +1286,7 @@
 }
 
 - (void) gestureRecognizerDidTap:(UITapGestureRecognizer*)tapGesture {
-    PPRSLog(@"Yes, the tap gesture is animated, this is normal, not a bug! Is there anybody here with a non animate interface? :P");
+    //PPRSLog(@"Yes, the tap gesture is animated, this is normal, not a bug! Is there anybody here with a non animate interface? :P");
     [self popViewControllerAnimated:YES];
 }
 

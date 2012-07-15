@@ -29,6 +29,7 @@
 + (void)remove:(NSInteger)rowid;
 
 - (NSData *)jsonData;
+- (NSData *)jsonDataWithAttaches;
 
 @end
 

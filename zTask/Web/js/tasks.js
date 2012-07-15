@@ -1,7 +1,30 @@
 var ori_value = '';
+
+$.fn.selectRange = function(start, end) {
+	return this.each(function() {
+		if (this.setSelectionRange) {
+			this.focus();
+			this.setSelectionRange(start, end);
+		} else if (this.createTextRange) {
+			var range = this.createTextRange();
+			range.collapse(true);
+			range.moveEnd('character', end);
+			range.moveStart('character', start);
+			range.select();
+		}
+	});
+};
+
+
 $(document).ready(function() {
 
-	$("#due_date").datepicker();
+	$("#due_date").datepicker({	 
+		dateFormat: 'yy-mm-dd',
+		onSelect: function(dateText, inst) {
+			var textfield = document.getElementById("due_date");
+			task_save_due_date(textfield);
+		}
+	});
 	$("#project").chosen({allow_single_deselect:true});
 	
 	$('#new_task').click(function(){
@@ -17,26 +40,26 @@ $(document).ready(function() {
 			if (result) {
 				var task_id = $('#panel_frame').attr('data_id');
 				$.post('/tasks/delete', {task_id: task_id}, function(data){
+					$('#task-'+task_id).fadeOut(1000, function(){$(this).remove();});
 					$('.drawpanel').animate({left: 0});
-				}, 'json');			
-
+				}, 'text');			
 			} else {
-
 			}
 		});
 	});
 
-	$('.task .task_checkbox_real').change(function(){
+	$('.task .task_checkbox_real').change(function(event){
+		event.stopPropagation();
 		var task_li = $(this).parent().parent().parent();
 		var is_checked = $(this).is(':checked');
-		var status = is_checked ? 'completed' : 'ongoing';
+		var status = is_checked ? 1 : 0;
 
 		$.post('/tasks/edit/' + task_li.attr('data_id'), {status: status}, function(data){
-			task_li.attr('class', data.status);			
+			task_li.attr('class', 'status-' + status);			
 		}, 'json');
 	});
 
-	$('.task_list li').live('click', function(){
+	$('.task_list li').on('click', function(){
 		$('.task_list li').removeClass('selected');
 		$(this).addClass('selected');
 		//draw panel
@@ -52,7 +75,7 @@ $(document).ready(function() {
 				$('#note').val(data.note);
 				$('#due_date').val(data.due_date);
 				$('#created').text('created at ' + data.created);
-				$('#tasks_logs').html($('#markup_task_log').tmpl(data.tasks_logs));
+				$('#attaches').html($('#markup_task_attach').tmpl(data.attaches));
 			}, 'json');
 		}
 
@@ -63,14 +86,39 @@ $(document).ready(function() {
 
 	});
 
+	$('.task_list li').on('mouseover', function(){
+		$(this).find('.flag-gray').css('visibility', 'visible');
+	});
+
+	$('.task_list li').on('mouseout', function(){
+		$(this).find('.flag-gray').css('visibility', 'hidden');
+	});
+
+	$('.flag').on('click', function(event){
+		event.stopPropagation();
+		var flag = $(this);
+		$.post('/tasks/edit/' + flag.parent().parent().parent().attr('data_id'),
+			   {flag: (flag.attr('data') == 1 ? 0 : 1) }, function(data){
+				   if (flag.attr('data') == 1) {
+					   flag.attr('data', 0);
+					   flag.removeClass('flag-red').addClass('flag-gray');
+				   } else {
+					   flag.attr('data', 1);
+					   flag.removeClass('flag-gray').addClass('flag-red');
+					   flag.css('visibility', 'visible');
+				   }
+		}, 'json');
+	});
+
 	$('.task .title').live('click', function(){
-
 		//editable
-
 		var parent = $(this).parent();
-		parent.html('<input onblur="task_save_title(this)" onfocus="store_ori_value(this)" style="width: 360px; height: 22px;" value="' + $(this).text() + '"/>');
-		parent.children(':first').focus();
-
+		parent.html('<input onblur="task_save_title(this)" onfocus="store_ori_value(this)"/>');
+		var title_input = parent.children(':first');
+		title_input.val($(this).text());
+		title_input.focus();
+		var length = title_input.val().length;
+		title_input.selectRange(length, length);
 		return true;
 	});
 	
@@ -112,21 +160,7 @@ function task_save_project(select) {
 	if (project_id == ori_value) {
 		return;
 	}
-	$.post('/tasks/edit/' + $('#panel_frame').attr('data_id'), {project_id:project_id}, function(data){		
-	}, 'json');
-}
-
-function task_save_assignee(textfield) {
-	var assignee = $(textfield).val();
-	if (assignee == ori_value) {
-		return;
-	}
-
-	if (assignee.indexOf(';') != -1) {
-		assignee = assignee.substring(0, assignee.indexOf(';'));
-	}
-	$.post('/tasks/edit/' + $('#panel_frame').attr('data_id'), {assignee:assignee}, function(data){
-		$(textfield).val(assignee);
+	$.post('/tasks/edit/' + $('#panel_frame').attr('data_id'), {project_id:project_id}, function(data){	
 	}, 'json');
 }
 
@@ -139,11 +173,6 @@ function task_save_due_date(textfield) {
 	$.post('/tasks/edit/' + $('#panel_frame').attr('data_id'), {due_date:due_date}, function(data){
 
 	}, 'json');
-}
-
-function date_select_callback() {
-	var textfield = document.getElementById("due_date");
-	task_save_due_date(textfield);
 }
 
 function show_real_input() {

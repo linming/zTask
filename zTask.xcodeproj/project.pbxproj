@@ -142,10 +142,9 @@
 		23638210159EF05F00CB565E /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 2363820F159EF05F00CB565E /* Project.m */; };
 		23638218159EF41B00CB565E /* ProjectSelectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23638216159EF41A00CB565E /* ProjectSelectorController.m */; };
 		23638219159EF41B00CB565E /* ProjectSelectorController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23638217159EF41A00CB565E /* ProjectSelectorController.xib */; };
-		2363821D159EF4DD00CB565E /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2363821B159EF4DC00CB565E /* ImageViewController.m */; };
-		2363821E159EF4DD00CB565E /* ImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2363821C159EF4DD00CB565E /* ImageViewController.xib */; };
 		23638222159EF6DD00CB565E /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23638220159EF6DC00CB565E /* NoteViewController.m */; };
 		23638223159EF6DD00CB565E /* NoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23638221159EF6DD00CB565E /* NoteViewController.xib */; };
+		237F006215B268C700F3097A /* ZoomImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 237F006115B268C700F3097A /* ZoomImageView.m */; };
 		239B6AEA15A4823B00618185 /* PPRevealSideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 239B6AE915A4823B00618185 /* PPRevealSideViewController.m */; };
 		239B6AF615A4966E00618185 /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 239B6AF415A4966E00618185 /* menu.png */; };
 		239B6AF715A4966E00618185 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 239B6AF515A4966E00618185 /* menu@2x.png */; };
@@ -408,12 +407,11 @@
 		23638215159EF41A00CB565E /* ProjectSelectorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectSelectorController.h; sourceTree = "<group>"; };
 		23638216159EF41A00CB565E /* ProjectSelectorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectSelectorController.m; sourceTree = "<group>"; };
 		23638217159EF41A00CB565E /* ProjectSelectorController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectSelectorController.xib; sourceTree = "<group>"; };
-		2363821A159EF4DC00CB565E /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
-		2363821B159EF4DC00CB565E /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
-		2363821C159EF4DD00CB565E /* ImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewController.xib; sourceTree = "<group>"; };
 		2363821F159EF6DC00CB565E /* NoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteViewController.h; sourceTree = "<group>"; };
 		23638220159EF6DC00CB565E /* NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteViewController.m; sourceTree = "<group>"; };
 		23638221159EF6DD00CB565E /* NoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteViewController.xib; sourceTree = "<group>"; };
+		237F006015B268C700F3097A /* ZoomImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomImageView.h; sourceTree = "<group>"; };
+		237F006115B268C700F3097A /* ZoomImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomImageView.m; sourceTree = "<group>"; };
 		239B6AE815A4823B00618185 /* PPRevealSideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPRevealSideViewController.h; sourceTree = "<group>"; };
 		239B6AE915A4823B00618185 /* PPRevealSideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPRevealSideViewController.m; sourceTree = "<group>"; };
 		239B6AF415A4966E00618185 /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
@@ -956,6 +954,8 @@
 				2329BA15159E125A006C1AF7 /* TaskCell.m */,
 				239B6AF815A4A8D600618185 /* MenuCell.h */,
 				239B6AF915A4A8D600618185 /* MenuCell.m */,
+				237F006015B268C700F3097A /* ZoomImageView.h */,
+				237F006115B268C700F3097A /* ZoomImageView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -972,9 +972,6 @@
 				23638215159EF41A00CB565E /* ProjectSelectorController.h */,
 				23638216159EF41A00CB565E /* ProjectSelectorController.m */,
 				23638217159EF41A00CB565E /* ProjectSelectorController.xib */,
-				2363821A159EF4DC00CB565E /* ImageViewController.h */,
-				2363821B159EF4DC00CB565E /* ImageViewController.m */,
-				2363821C159EF4DD00CB565E /* ImageViewController.xib */,
 				2363821F159EF6DC00CB565E /* NoteViewController.h */,
 				23638220159EF6DC00CB565E /* NoteViewController.m */,
 				23638221159EF6DD00CB565E /* NoteViewController.xib */,
@@ -1092,7 +1089,6 @@
 				234F5A32159BF70100AF0E78 /* TaskViewController.xib in Resources */,
 				2329BA18159E17BE006C1AF7 /* inbox_plus.png in Resources */,
 				23638219159EF41B00CB565E /* ProjectSelectorController.xib in Resources */,
-				2363821E159EF4DD00CB565E /* ImageViewController.xib in Resources */,
 				23638223159EF6DD00CB565E /* NoteViewController.xib in Resources */,
 				239B6AF615A4966E00618185 /* menu.png in Resources */,
 				239B6AF715A4966E00618185 /* menu@2x.png in Resources */,
@@ -1200,7 +1196,6 @@
 				2363820D159EF01F00CB565E /* Attach.m in Sources */,
 				23638210159EF05F00CB565E /* Project.m in Sources */,
 				23638218159EF41B00CB565E /* ProjectSelectorController.m in Sources */,
-				2363821D159EF4DD00CB565E /* ImageViewController.m in Sources */,
 				23638222159EF6DD00CB565E /* NoteViewController.m in Sources */,
 				2357A0A915A0B6EB00C48FDE /* LevelMeter.m in Sources */,
 				23B6783715A1D73100761213 /* AVRecorderMeterView.m in Sources */,
@@ -1210,6 +1205,7 @@
 				239B6AFA15A4A8D600618185 /* MenuCell.m in Sources */,
 				23A5FC8715AB0B5A0018B784 /* ProjectListController.m in Sources */,
 				23B62F3B15B16BB7004BE6E0 /* SearchController.m in Sources */,
+				237F006215B268C700F3097A /* ZoomImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

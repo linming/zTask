@@ -9,6 +9,7 @@
 #import "Attach.h"
 #import "DBUtil.h"
 #import "FileUtil.h"
+#import "DateUtil.h"
 
 @implementation Attach
 
@@ -157,6 +158,27 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"AttachsChanged" object:nil];
     }
 
+}
+
+- (NSMutableDictionary *)dictData
+{
+    NSMutableDictionary *data = [NSMutableDictionary dictionary];
+    if (self.rowid) {
+        [data setObject:[NSNumber numberWithInt: self.rowid] forKey:@"rowid"];
+    }
+    if (self.name) {
+        [data setObject:self.name forKey:@"name"];
+    }
+    if (self.type) {
+        [data setObject:self.type forKey:@"type"];
+    }
+    if (self.taskId) {
+        [data setObject:[NSNumber numberWithInt: self.taskId] forKey:@"task_id"];
+    }
+    if (self.created) {
+        [data setObject:[DateUtil formatDate:self.created to:@"yyyy-MM-dd"] forKey:@"created"];
+    }
+    return data;
 }
 
 @end

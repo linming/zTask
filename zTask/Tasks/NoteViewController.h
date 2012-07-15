@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSString *taskNote;
 
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
+@property (nonatomic, retain) IBOutlet UIView *titleView;
 @property (nonatomic, retain) IBOutlet UITextView *noteTextView;
 
 @end

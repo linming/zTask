@@ -9,6 +9,7 @@
 #import "Task.h"
 #import "DBUtil.h"
 #import "DateUtil.h"
+#import "Attach.h"
 
 @implementation Task
 
@@ -138,7 +139,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TasksChanged" object:nil];
 }
 
-- (NSData *)jsonData
+- (NSMutableDictionary *)dictData
 {
     NSMutableDictionary *data = [NSMutableDictionary dictionary];
     if (self.rowid) {
@@ -159,10 +160,31 @@
     if (self.created) {
         [data setObject:[DateUtil formatDate:self.created to:@"yyyy-MM-dd"] forKey:@"created"];
     }
+    
+    [data setObject:[NSNumber numberWithBool:self.status] forKey:@"status"];
+    [data setObject:[NSNumber numberWithBool:self.flag] forKey:@"flag"];
+    return data;
+}
 
+- (NSData *)jsonData
+{
+    NSError *writeError = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self dictData] options:NSJSONWritingPrettyPrinted error:&writeError];
+    return jsonData;
+}
+
+- (NSData *)jsonDataWithAttaches
+{
+    NSMutableDictionary *dictData = [self dictData];
+    NSArray *attaches = [Attach findAll:self.rowid];
+    NSMutableArray *attachesDictArray = [NSMutableArray array];
+    for (Attach *attach in attaches) {
+        [attachesDictArray addObject:[attach dictData]];
+    }
+    [dictData setObject:attachesDictArray forKey:@"attaches"];
     
     NSError *writeError = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data options:NSJSONWritingPrettyPrinted error:&writeError];
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dictData options:NSJSONWritingPrettyPrinted error:&writeError];
     return jsonData;
 }
 

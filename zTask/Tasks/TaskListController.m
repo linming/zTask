@@ -97,11 +97,18 @@
         tasks = [self findTasks:nil];
     }
 
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTasks) name:@"TasksChanged" object:nil];
     reloadSideMenu = NO;
     
     [self hideEmptySeparators];
+    
+    statLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, 160, 44)];
+    statLabel.backgroundColor = [UIColor clearColor];
+    statLabel.textAlignment = UITextAlignmentCenter;
+    statLabel.textColor = [UIColor whiteColor];
+    //statLabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
+    statLabel.text = [NSString stringWithFormat:@"Total: %d task(s)", [tasks count]];
+    [self.navigationController.toolbar addSubview:statLabel];
 }
 
 - (void)hideEmptySeparators
@@ -139,6 +146,11 @@
 - (void)reloadTasks
 {
     tasks = [self findTasks:viewConditions];
+    if (viewOption == VIEW_OPTION_REMAINING) {
+        statLabel.text = [NSString stringWithFormat:@"Remaining: %d task(s)", [tasks count]];
+    } else {
+        statLabel.text = [NSString stringWithFormat:@"Total: %d task(s)", [tasks count]];
+    }
     [self.tableView reloadData];
 }
 
@@ -178,7 +190,6 @@
         reloadSideMenu = NO;
     }
     
-    self.navigationController.toolbar.barStyle = UIBarStyleBlackTranslucent;
     [self.navigationController setToolbarHidden:NO];
     
 }
