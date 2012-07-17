@@ -14,11 +14,12 @@
 
 @interface TaskListController : UITableViewController
 {
-    NSArray *tasks;
+    NSMutableArray *tasks;
     BOOL reloadSideMenu;
     NSInteger viewOption;
     NSString *viewConditions;
     UILabel *statLabel;
+    BOOL hasReordered;
 }
 
 @property(nonatomic, retain) NSString *filter;

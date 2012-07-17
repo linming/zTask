@@ -62,14 +62,16 @@
     
     if ([filter isEqualToString:@"Project"]) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+                                                  initWithTitle:@"Edit" 
+                                                  style:UIBarButtonItemStyleBordered 
                                                   target:self
                                                   action:@selector(editTasks)];        
         self.navigationItem.title = project.name;
-        tasks = [self findTasks:[NSString stringWithFormat:@"project_id = %d", project.rowid]];
+        tasks = [self findTasks:[NSString stringWithFormat:@"project_id = %d order by weight", project.rowid]];
     } else if ([filter isEqualToString:@"Flagged"]) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+                                                  initWithTitle:@"Edit" 
+                                                  style:UIBarButtonItemStyleBordered 
                                                   target:self
                                                   action:@selector(editTasks)];
         
@@ -83,7 +85,8 @@
         tasks = [self findTasks:@"where flag = 1"];
     } else {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+                                                  initWithTitle:@"Edit" 
+                                                  style:UIBarButtonItemStyleBordered 
                                                   target:self
                                                   action:@selector(editTasks)];
         
@@ -102,11 +105,21 @@
     
     [self hideEmptySeparators];
     
+    [self addStatLabel];
+}
+
+- (void)addStatLabel
+{
+    for (UIView *subview in [self.navigationController.toolbar subviews]) {
+        if ([subview isKindOfClass:[UILabel class]]) {
+            [subview removeFromSuperview];
+        }
+    }
+    
     statLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, 160, 44)];
     statLabel.backgroundColor = [UIColor clearColor];
     statLabel.textAlignment = UITextAlignmentCenter;
     statLabel.textColor = [UIColor whiteColor];
-    //statLabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
     statLabel.text = [NSString stringWithFormat:@"Total: %d task(s)", [tasks count]];
     [self.navigationController.toolbar addSubview:statLabel];
 }
@@ -118,7 +131,7 @@
     [self.tableView setTableFooterView:emptyFooterView];
 }
 
-- (NSArray *)findTasks:(NSString *)conditions
+- (NSMutableArray *)findTasks:(NSString *)conditions
 {
     viewConditions = conditions;
     NSString *sql = @"where 1=1";
@@ -158,8 +171,15 @@
 {
     if (self.tableView.editing) {
         [self.tableView setEditing:NO];
+        [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleBordered];
+        [self.navigationItem.rightBarButtonItem setTitle:@"Edit"];
+        if ([filter isEqualToString:@"Project"] && hasReordered) {
+            [Task saveOrder:tasks];
+        }
     } else {
         [self.tableView setEditing:YES];
+        [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleDone];
+        [self.navigationItem.rightBarButtonItem setTitle:@"Done"];
     }
 }
 
@@ -223,6 +243,9 @@
     if ([tasks count] == 0) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         cell.textLabel.text = @"No Tasks";
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.textColor = [UIColor grayColor];
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]];
         cell.userInteractionEnabled = NO;
         return cell;
     }
@@ -264,7 +287,18 @@
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-    NSLog(@"move from %d to %d", fromIndexPath.row, toIndexPath.row);
+    int from = fromIndexPath.row;
+    int to = toIndexPath.row;
+    if (to != from) {
+        id obj = [tasks objectAtIndex:from];
+        [tasks removeObjectAtIndex:from];
+        if (to >= [tasks count]) {
+            [tasks addObject:obj];
+        } else {
+            [tasks insertObject:obj atIndex:to];
+        }
+        hasReordered = YES;
+    }
 }
 
 

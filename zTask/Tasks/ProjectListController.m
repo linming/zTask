@@ -9,6 +9,7 @@
 #import "ProjectListController.h"
 #import "HomeViewController.h"
 #import "TaskListController.h"
+#import "Task.h"
 
 @interface ProjectListController ()
 
@@ -86,11 +87,21 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [projects count];
+    return [projects count] == 0 ? 1 : [projects count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([projects count] == 0) {
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        cell.textLabel.text = @"No Projects";
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.textColor = [UIColor grayColor];
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]];
+        cell.userInteractionEnabled = NO;
+        return cell;
+    }
+    
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -99,6 +110,12 @@
     // Configure the cell...
     Project *project = [projects objectAtIndex:indexPath.row];
     cell.textLabel.text = project.name;
+    cell.imageView.image = [UIImage imageNamed:@"project.png"];
+    
+    NSArray *tasks = [Task findAllByConditions:[NSString stringWithFormat:@"where project_id = %d", project.rowid]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d remaining", [tasks count]];
+    
+    [cell setAccessoryType: UITableViewCellAccessoryDisclosureIndicator];
     return cell;
 }
 

@@ -16,7 +16,7 @@
 @synthesize rowid, projectId, title, note, status, flag, startDate, dueDate, created;
 
 
-+ (NSArray *)findAll:(NSInteger)perPage page:(NSInteger)page
++ (NSMutableArray *)findAll:(NSInteger)perPage page:(NSInteger)page
 {
     NSInteger rowStart = (page - 1) * perPage;
     NSMutableArray *tasks = [NSMutableArray array];
@@ -41,7 +41,7 @@
     return tasks;
 }
 
-+ (NSArray *)findAllByConditions:(NSString *)conditions
++ (NSMutableArray *)findAllByConditions:(NSString *)conditions
 {
     NSMutableArray *tasks = [NSMutableArray array];
     FMDatabase *db = [DBUtil openDatabase];
@@ -137,6 +137,19 @@
     [db close];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TasksChanged" object:nil];
+}
+
++ (void)saveOrder:(NSArray *)tasks
+{
+    FMDatabase *db = [DBUtil openDatabase];
+    NSString *sql = @"update tasks set weight = ? where rowid = ?";
+    int i = 0;
+    for (Task *task in tasks) {
+        i++;
+        [db executeUpdate:sql, [NSNumber numberWithInteger:i], [NSNumber numberWithInteger:task.rowid]];
+    }
+    
+    [db close];
 }
 
 - (NSMutableDictionary *)dictData

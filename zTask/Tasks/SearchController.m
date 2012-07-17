@@ -37,19 +37,12 @@
                                              target:self 
                                              action:@selector(showMenu)];
     
-    [self hideEmptySeparators];
+    [taskSearchBar becomeFirstResponder];
 }
 
 - (void)showMenu
 {
     [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
-}
-
-- (void)hideEmptySeparators
-{
-    UIView *emptyFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    emptyFooterView.backgroundColor = [UIColor clearColor];
-    [self.tableView setTableFooterView:emptyFooterView];
 }
 
 - (void)viewDidUnload
@@ -85,14 +78,17 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSInteger taskCount = [tasks count];
-    return taskCount == 0 ? 1 : taskCount;
+    return (taskCount == 0 && taskSearchBar.text) ? 1 : taskCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([tasks count] == 0) {
+    if ([tasks count] == 0 && taskSearchBar.text) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         cell.textLabel.text = @"No Results Found";
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.textColor = [UIColor grayColor];
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]];
         cell.userInteractionEnabled = NO;
         return cell;
     }

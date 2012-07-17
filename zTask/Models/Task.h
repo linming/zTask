@@ -20,13 +20,14 @@
 @property (nonatomic, retain) NSDate *dueDate;
 @property (nonatomic, retain) NSDate *created;
 
-+ (NSArray *)findAll:(NSInteger)perPage page:(NSInteger)page;
-+ (NSArray *)findAllByConditions:(NSString *)conditions;
++ (NSMutableArray *)findAll:(NSInteger)perPage page:(NSInteger)page;
++ (NSMutableArray *)findAllByConditions:(NSString *)conditions;
 + (NSInteger)countAll;
 + (Task *)find:(NSInteger)rowid;
 + (NSInteger)create:(Task *)task;
 + (void)update:(Task *)task;
 + (void)remove:(NSInteger)rowid;
++ (void)saveOrder:(NSArray *)tasks;
 
 - (NSData *)jsonData;
 - (NSData *)jsonDataWithAttaches;
