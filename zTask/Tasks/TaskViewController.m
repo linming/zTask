@@ -21,10 +21,12 @@
 #define SECTION_ATTACHMENT 1
 
 #define ROW_PROJECT 0
-#define ROW_DUE_DATE 1
-#define ROW_FLAG 2
+#define ROW_FLAG 1
+#define ROW_DUE_DATE 2
+#define ROW_FINISH_DATE 3
 
 #define TAG_DUE_DATE 101
+#define TAG_FINISH_DATE 102
 
 @interface TaskViewController ()
 
@@ -48,13 +50,11 @@
     [super viewDidLoad];
 
     if (taskId) {
-        NSLog(@"edit task: %d", taskId);
         task = [Task find:taskId];
         attaches = [[Attach findAll:taskId] mutableCopy];
         
         self.navigationItem.title = @"Edit Task";
     } else { 
-        NSLog(@"new task");
         task = [[Task alloc] init];
         attaches = [NSMutableArray array];
         
@@ -111,7 +111,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == SECTION_DETAIL) {
-        return 3;
+        return 4;
     } else if (section == SECTION_ATTACHMENT) {
         return [attaches count];
     } else {
@@ -184,7 +184,24 @@
                     return cell;
                     break;
                 }
-                case 1: 
+                case ROW_FLAG: 
+                {
+                    NSString *CellIdentifier = @"CELL_DETAIL_FLAG";
+                    PSLabelSwitchCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                    if (cell == nil) {
+                        cell = [[PSLabelSwitchCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+                    }
+                    // Configure the cell...
+                    cell.textLabel.text = @"flag";
+                    flagSwitch = cell.switcher;
+                    [cell.switcher addTarget:self action:@selector(flagSwitchDidChange) forControlEvents:UIControlEventValueChanged];
+                    if (task.flag) {
+                        [cell.switcher setOn:YES];
+                    }
+                    return cell;
+                    break;
+                }
+                case ROW_DUE_DATE: 
                 {
                     NSString *CellIdentifier = @"CELL_DETAIL_DUE";
                     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -203,7 +220,7 @@
                         
                         dueDatePicker = [[UIDatePicker alloc] init];
                         dueDatePicker.datePickerMode = UIDatePickerModeDate;
-                        [dueDatePicker addTarget:self action:@selector(datePickerValueChanged) forControlEvents:UIControlEventValueChanged];
+                        [dueDatePicker addTarget:self action:@selector(dueDatePickerValueChanged) forControlEvents:UIControlEventValueChanged];
                         dueDatePicker.tag = indexPath.row;
                         dueDateTextField.inputView = dueDatePicker;
 
@@ -213,19 +230,31 @@
                     return cell;
                     break;
                 }
-                case 2: 
+                case ROW_FINISH_DATE: 
                 {
-                    NSString *CellIdentifier = @"CELL_DETAIL_FLAG";
-                    PSLabelSwitchCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                    NSString *CellIdentifier = @"CELL_DETAIL_FINISH";
+                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
                     if (cell == nil) {
-                        cell = [[PSLabelSwitchCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-                    }
-                    // Configure the cell...
-                    cell.textLabel.text = @"flag";
-                    flagSwitch = cell.switcher;
-                    [cell.switcher addTarget:self action:@selector(flagSwitchDidChange) forControlEvents:UIControlEventValueChanged];
-                    if (task.flag) {
-                        [cell.switcher setOn:YES];
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+                        cell.textLabel.text = @"finish";
+                        finishDateTextField = [[UITextField alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
+                        if (task.dueDate) {
+                            finishDateTextField.text = [DateUtil formatDate:task.dueDate to:@"yyyy-MM-dd"];
+                        } else {
+                            finishDateTextField.text = @"None";
+                        }
+                        
+                        finishDateTextField.tag = TAG_FINISH_DATE;
+                        finishDateTextField.delegate = self;
+                        
+                        finishDatePicker = [[UIDatePicker alloc] init];
+                        finishDatePicker.datePickerMode = UIDatePickerModeDate;
+                        [finishDatePicker addTarget:self action:@selector(finishDatePickerValueChanged) forControlEvents:UIControlEventValueChanged];
+                        finishDatePicker.tag = indexPath.row;
+                        finishDateTextField.inputView = finishDatePicker;
+                        
+                        [cell.contentView addSubview:finishDateTextField];
+                        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                     }
                     return cell;
                     break;
@@ -242,7 +271,6 @@
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             }
             Attach *attach = [attaches objectAtIndex:indexPath.row];
-            NSLog(@"attach: %@", attach.type);
             if ([attach.type isEqualToString:@"Audio"]) {
                 if ([attach.audioStatus isEqualToString:@"playing"]) {
                     playerMeterView = [[AVPlayerMeterView alloc] initWithFrame:CGRectMake(4,  4, 280, 28)];
@@ -260,9 +288,9 @@
             } else {
                 cell.textLabel.text = [NSString stringWithFormat:@"Picture taken %@", attach.created];
                 UIImage *image = [UIImage imageWithContentsOfFile: [attach getPath]];
-                NSLog(@"cell attach path: %@",[attach getPath]);
                 cell.imageView.image = [Utils resizeImage:image scaledToSizeWithSameAspectRatio:CGSizeMake(32, 32)];
             }
+            cell.textLabel.font = [UIFont boldSystemFontOfSize:[UIFont smallSystemFontSize]];
             return cell;
             break;   
         }
@@ -397,10 +425,16 @@
     task.status = statusControl.isSelected;
 }
 
-- (void)datePickerValueChanged
+- (void)dueDatePickerValueChanged
 {
     dueDateTextField.text = [DateUtil formatDate:dueDatePicker.date to:@"yyyy-MM-dd"];
-    task.dueDate = dueDatePicker.date;
+    task.dueDate = dueDatePicker.date;    
+}
+
+- (void)finishDatePickerValueChanged
+{
+    finishDateTextField.text = [DateUtil formatDate:finishDatePicker.date to:@"yyyy-MM-dd"];
+    task.finishDate = finishDatePicker.date;    
 }
 
 - (void)takePhoto
@@ -622,6 +656,7 @@
     if (height == 0) {
         height = 44;
     }
+    
     if (taskViewHeaderContainer == nil) {
         taskViewHeaderContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, height)];
         
@@ -655,7 +690,7 @@
 
         
     } else {
-        taskViewHeaderContainer.frame = CGRectMake(0, 0, 320, height + 17);
+        taskViewHeaderContainer.frame = CGRectMake(0, 0, 320, height + 9);
     }
 
     

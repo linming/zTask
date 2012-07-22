@@ -42,6 +42,7 @@
 
 - (void)showMenu
 {
+    [taskSearchBar resignFirstResponder];
     [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
 }
 

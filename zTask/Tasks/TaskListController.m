@@ -136,7 +136,7 @@
     viewConditions = conditions;
     NSString *sql = @"where 1=1";
     if (viewOption == VIEW_OPTION_REMAINING) {
-        sql = [sql stringByAppendingString:@" and status=1"];
+        sql = [sql stringByAppendingString:@" and status=0"];
     }
     if (conditions) {
         sql = [sql stringByAppendingFormat:@" and %@", conditions];

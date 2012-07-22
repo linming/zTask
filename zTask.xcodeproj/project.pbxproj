@@ -18,6 +18,8 @@
 		230E6D08159B5D6200807C76 /* HPTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 230E6D06159B5D6200807C76 /* HPTextViewInternal.m */; };
 		230E6D0B159B6BB400807C76 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 230E6D09159B6BB400807C76 /* check.png */; };
 		230E6D0C159B6BB400807C76 /* uncheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 230E6D0A159B6BB400807C76 /* uncheck.png */; };
+		2323F59515BBA93800A91CC8 /* ReportController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2323F59315BBA93800A91CC8 /* ReportController.m */; };
+		2323F59615BBA93800A91CC8 /* ReportController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2323F59415BBA93800A91CC8 /* ReportController.xib */; };
 		2329BA12159E0C44006C1AF7 /* CountIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329BA11159E0C44006C1AF7 /* CountIndicator.m */; };
 		2329BA16159E125A006C1AF7 /* TaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329BA15159E125A006C1AF7 /* TaskCell.m */; };
 		2329BA18159E17BE006C1AF7 /* inbox_plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329BA17159E17BE006C1AF7 /* inbox_plus.png */; };
@@ -157,6 +159,8 @@
 		23A5FC9115AB3A9A0018B784 /* eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23A5FC9015AB3A9A0018B784 /* eye@2x.png */; };
 		23A5FC9415AB3B5C0018B784 /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23A5FC9215AB3B5C0018B784 /* check@2x.png */; };
 		23A5FC9515AB3B5C0018B784 /* uncheck@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23A5FC9315AB3B5C0018B784 /* uncheck@2x.png */; };
+		23A90A9F15BC458E007C536E /* WeekView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23A90A9E15BC458E007C536E /* WeekView.m */; };
+		23A90AA215BC47F5007C536E /* Kal.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 23A90AA115BC47F5007C536E /* Kal.bundle */; };
 		23B62F3B15B16BB7004BE6E0 /* SearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B62F3915B16BB7004BE6E0 /* SearchController.m */; };
 		23B62F3C15B16BB7004BE6E0 /* SearchController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 23B62F3A15B16BB7004BE6E0 /* SearchController.xib */; };
 		23B6783715A1D73100761213 /* AVRecorderMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6783615A1D73100761213 /* AVRecorderMeterView.m */; };
@@ -179,6 +183,9 @@
 		230E6D06159B5D6200807C76 /* HPTextViewInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTextViewInternal.m; sourceTree = "<group>"; };
 		230E6D09159B6BB400807C76 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		230E6D0A159B6BB400807C76 /* uncheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uncheck.png; sourceTree = "<group>"; };
+		2323F59215BBA93800A91CC8 /* ReportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportController.h; sourceTree = "<group>"; };
+		2323F59315BBA93800A91CC8 /* ReportController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportController.m; sourceTree = "<group>"; };
+		2323F59415BBA93800A91CC8 /* ReportController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportController.xib; sourceTree = "<group>"; };
 		2329BA10159E0C44006C1AF7 /* CountIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountIndicator.h; sourceTree = "<group>"; };
 		2329BA11159E0C44006C1AF7 /* CountIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountIndicator.m; sourceTree = "<group>"; };
 		2329BA14159E125A006C1AF7 /* TaskCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCell.h; sourceTree = "<group>"; };
@@ -427,6 +434,9 @@
 		23A5FC9015AB3A9A0018B784 /* eye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "eye@2x.png"; sourceTree = "<group>"; };
 		23A5FC9215AB3B5C0018B784 /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
 		23A5FC9315AB3B5C0018B784 /* uncheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uncheck@2x.png"; sourceTree = "<group>"; };
+		23A90A9D15BC458E007C536E /* WeekView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeekView.h; sourceTree = "<group>"; };
+		23A90A9E15BC458E007C536E /* WeekView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeekView.m; sourceTree = "<group>"; };
+		23A90AA115BC47F5007C536E /* Kal.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Kal.bundle; sourceTree = "<group>"; };
 		23B62F3815B16BB7004BE6E0 /* SearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchController.h; sourceTree = "<group>"; };
 		23B62F3915B16BB7004BE6E0 /* SearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchController.m; sourceTree = "<group>"; };
 		23B62F3A15B16BB7004BE6E0 /* SearchController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchController.xib; sourceTree = "<group>"; };
@@ -545,6 +555,7 @@
 		2329E9711594195700FFC5AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				23A90AA115BC47F5007C536E /* Kal.bundle */,
 				23A5FC8E15AB29280018B784 /* eye.png */,
 				23A5FC9015AB3A9A0018B784 /* eye@2x.png */,
 				239B6AFD15A4B93A00618185 /* accessoryIndicator.png */,
@@ -956,6 +967,8 @@
 				239B6AF915A4A8D600618185 /* MenuCell.m */,
 				237F006015B268C700F3097A /* ZoomImageView.h */,
 				237F006115B268C700F3097A /* ZoomImageView.m */,
+				23A90A9D15BC458E007C536E /* WeekView.h */,
+				23A90A9E15BC458E007C536E /* WeekView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -981,6 +994,9 @@
 				23B62F3815B16BB7004BE6E0 /* SearchController.h */,
 				23B62F3915B16BB7004BE6E0 /* SearchController.m */,
 				23B62F3A15B16BB7004BE6E0 /* SearchController.xib */,
+				2323F59215BBA93800A91CC8 /* ReportController.h */,
+				2323F59315BBA93800A91CC8 /* ReportController.m */,
+				2323F59415BBA93800A91CC8 /* ReportController.xib */,
 			);
 			path = Tasks;
 			sourceTree = "<group>";
@@ -1100,6 +1116,8 @@
 				23A5FC9415AB3B5C0018B784 /* check@2x.png in Resources */,
 				23A5FC9515AB3B5C0018B784 /* uncheck@2x.png in Resources */,
 				23B62F3C15B16BB7004BE6E0 /* SearchController.xib in Resources */,
+				2323F59615BBA93800A91CC8 /* ReportController.xib in Resources */,
+				23A90AA215BC47F5007C536E /* Kal.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1206,6 +1224,8 @@
 				23A5FC8715AB0B5A0018B784 /* ProjectListController.m in Sources */,
 				23B62F3B15B16BB7004BE6E0 /* SearchController.m in Sources */,
 				237F006215B268C700F3097A /* ZoomImageView.m in Sources */,
+				2323F59515BBA93800A91CC8 /* ReportController.m in Sources */,
+				23A90A9F15BC458E007C536E /* WeekView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,6 +17,7 @@
 @property BOOL status;
 @property BOOL flag;
 @property (nonatomic, retain) NSDate *startDate;
+@property (nonatomic, retain) NSDate *finishDate;
 @property (nonatomic, retain) NSDate *dueDate;
 @property (nonatomic, retain) NSDate *created;
 

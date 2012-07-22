@@ -22,10 +22,10 @@
         //toggleControl.tag = indexPath.row;  // for reference in notifications.
         [self.contentView addSubview: statusControl];
         
-        titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 6, 250, 24)];
+        titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 5, 250, 24)];
         [self.contentView addSubview:titleLabel];
         
-        projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 30, 250, 14)];
+        projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 29, 250, 13)];
         projectLabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
         projectLabel.textColor = [UIColor grayColor];
         [self.contentView addSubview:projectLabel];
@@ -52,7 +52,7 @@
     titleLabel.text = newTask.title;
     if (task.projectId) {
         Project *project = [Project find:task.projectId];
-        projectLabel.text = [NSString stringWithFormat:@"[ %@ ]", project.name];
+        projectLabel.text = [NSString stringWithFormat:@"%@", project.name];
     }
     
     if (task.flag) {

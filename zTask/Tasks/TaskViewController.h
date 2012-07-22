@@ -33,7 +33,10 @@
     
     UILabel *projectLabel;
     UITextField *dueDateTextField;
+    UITextField *finishDateTextField;
+    
     UIDatePicker *dueDatePicker;
+    UIDatePicker *finishDatePicker;
     
     UIButton *editButton;
     UIButton *recordAudioButton;

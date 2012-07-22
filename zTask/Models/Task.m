@@ -13,7 +13,7 @@
 
 @implementation Task
 
-@synthesize rowid, projectId, title, note, status, flag, startDate, dueDate, created;
+@synthesize rowid, projectId, title, note, status, flag, startDate, finishDate, dueDate, created;
 
 
 + (NSMutableArray *)findAll:(NSInteger)perPage page:(NSInteger)page
@@ -21,7 +21,7 @@
     NSInteger rowStart = (page - 1) * perPage;
     NSMutableArray *tasks = [NSMutableArray array];
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = [NSString stringWithFormat:@"select rowid, project_id, title, note, status, flag, start_date, due_date, created from tasks order by created desc limit %d,%d", rowStart, perPage];
+    NSString *sql = [NSString stringWithFormat:@"select rowid, project_id, title, note, status, flag, start_date, finish_date, due_date, created from tasks order by created desc limit %d,%d", rowStart, perPage];
     FMResultSet *result = [db executeQuery:sql];
     while ([result next]) {
         Task *task = [[Task alloc] init];
@@ -32,6 +32,7 @@
         task.status = [result boolForColumn:@"status"];
         task.flag = [result boolForColumn:@"flag"];
         task.startDate = [result dateForColumn:@"start_date"];
+        task.finishDate = [result dateForColumn:@"finish_date"];
         task.dueDate = [result dateForColumn:@"due_date"];
         task.created = [result dateForColumn:@"created"];
         [tasks addObject:task];
@@ -45,7 +46,7 @@
 {
     NSMutableArray *tasks = [NSMutableArray array];
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = [NSString stringWithFormat:@"select rowid, project_id, title, note, status, flag, start_date, due_date, created from tasks %@", conditions];
+    NSString *sql = [NSString stringWithFormat:@"select rowid, project_id, title, note, status, flag, start_date, finish_date, due_date, created from tasks %@", conditions];
     FMResultSet *result = [db executeQuery:sql];
     while ([result next]) {
         Task *task = [[Task alloc] init];
@@ -56,6 +57,7 @@
         task.status = [result boolForColumn:@"status"];
         task.flag = [result boolForColumn:@"flag"];
         task.startDate = [result dateForColumn:@"start_date"];
+        task.finishDate = [result dateForColumn:@"finish_date"];
         task.dueDate = [result dateForColumn:@"due_date"];
         task.created = [result dateForColumn:@"created"];
         [tasks addObject:task];
@@ -83,7 +85,7 @@
 {
     Task *task = [[Task alloc] init];
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = [NSString stringWithFormat: @"select rowid, project_id, title, note, status, flag, start_date, due_date, created from tasks where rowid = %d", rowid];
+    NSString *sql = [NSString stringWithFormat: @"select rowid, project_id, title, note, status, flag, start_date, finish_date, due_date, created from tasks where rowid = %d", rowid];
     FMResultSet *result = [db executeQuery:sql];
     while ([result next]) {
         task.rowid = [result intForColumn:@"rowid"];
@@ -93,6 +95,7 @@
         task.status = [result boolForColumn:@"status"];
         task.flag = [result boolForColumn:@"flag"];
         task.startDate = [result dateForColumn:@"start_date"];
+        task.finishDate = [result dateForColumn:@"finish_date"];
         task.dueDate = [result dateForColumn:@"due_date"];
         task.created = [result dateForColumn:@"created"];
     }
@@ -107,8 +110,8 @@
         task.created = [NSDate date];
     }
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = @"insert into tasks (project_id, title, note, status, flag, start_date, due_date, created) values (?, ?, ?, ?, ?, ?, ?, ?)";
-    BOOL result = [db executeUpdate: sql, [NSNumber numberWithInteger:task.projectId], task.title, task.note, [NSNumber numberWithInteger:(task.status ? 1 : 0)], [NSNumber numberWithInteger:(task.flag ? 1 : 0)], task.startDate, task.dueDate, task.created];
+    NSString *sql = @"insert into tasks (project_id, title, note, status, flag, start_date, finish_date, due_date, created) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    BOOL result = [db executeUpdate: sql, [NSNumber numberWithInteger:task.projectId], task.title, task.note, [NSNumber numberWithInteger:(task.status ? 1 : 0)], [NSNumber numberWithInteger:(task.flag ? 1 : 0)], task.startDate, task.finishDate, task.dueDate, task.created];
     if (!result) {
         NSLog(@"db error: %@", [db lastErrorMessage]);
     }
@@ -122,8 +125,8 @@
 + (void)update:(Task *)task
 {
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = @"update tasks set project_id = ?, title = ?, note = ?, status = ?, flag = ?, start_date = ?, due_date = ?, created = ? where rowid = ?";
-    [db executeUpdate: sql, [NSNumber numberWithInteger:task.projectId], task.title, task.note, [NSNumber numberWithInteger:(task.status ? 1 : 0)], [NSNumber numberWithInteger:(task.flag ? 1 : 0)], task.startDate, task.dueDate, task.created, [NSNumber numberWithInteger:task.rowid]];
+    NSString *sql = @"update tasks set project_id = ?, title = ?, note = ?, status = ?, flag = ?, start_date = ?, finish_date = ?, due_date = ?, created = ? where rowid = ?";
+    [db executeUpdate: sql, [NSNumber numberWithInteger:task.projectId], task.title, task.note, [NSNumber numberWithInteger:(task.status ? 1 : 0)], [NSNumber numberWithInteger:(task.flag ? 1 : 0)], task.startDate, task.finishDate, task.dueDate, task.created, [NSNumber numberWithInteger:task.rowid]];
     [db close];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"TasksChanged" object:nil];
@@ -169,6 +172,12 @@
     }
     if (self.dueDate) {
         [data setObject:[DateUtil formatDate:self.dueDate to:@"yyyy-MM-dd"] forKey:@"due_date"];
+    }
+    if (self.startDate) {
+        [data setObject:[DateUtil formatDate:self.dueDate to:@"yyyy-MM-dd"] forKey:@"start_date"];
+    }
+    if (self.finishDate) {
+        [data setObject:[DateUtil formatDate:self.dueDate to:@"yyyy-MM-dd"] forKey:@"finish_date"];
     }
     if (self.created) {
         [data setObject:[DateUtil formatDate:self.created to:@"yyyy-MM-dd"] forKey:@"created"];

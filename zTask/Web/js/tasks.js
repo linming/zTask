@@ -75,7 +75,14 @@ $(document).ready(function() {
 				$('#note').val(data.note);
 				$('#due_date').val(data.due_date);
 				$('#created').text('created at ' + data.created);
-				$('#attaches').html($('#markup_task_attach').tmpl(data.attaches));
+				for (i = 0; i < data.attaches.length; i++) {
+					var attach = data.attaches[i];
+					if (attach.type == 'Audio') {
+						$('#attaches').append($('#markup_task_attach_audio').tmpl(attach));
+					} else {
+						$('#attaches').append($('#markup_task_attach_photo').tmpl(attach));
+					}
+				}
 			}, 'json');
 		}
 

@@ -13,6 +13,7 @@
 #import "TaskViewController.h"
 #import "ProjectListController.h"
 #import "SearchController.h"
+#import "ReportController.h"
 #import "CountIndicator.h"
 #import "MenuCell.h"
 
@@ -40,7 +41,7 @@
 
     self.navigationItem.title = @"zTask";
     
-    tableItems = [[NSArray alloc] initWithObjects: @"Inbox", @"Projects", @"Flagged", @"Search", @"WiFi", @"Settings", nil];
+    tableItems = [[NSArray alloc] initWithObjects: @"Inbox", @"Projects", @"Flagged", @"Report", @"Search", @"WiFi", @"Settings", nil];
     
     self.tableView.backgroundColor = [UIColor darkGrayColor];
     
@@ -109,34 +110,32 @@
     if ([title isEqualToString: @"Inbox"]) {
         TaskListController *taskListController = [[TaskListController alloc] initWithNibName:@"TaskListController" bundle:nil];
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:taskListController];
-        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController
-                                                                       animated:YES];
+        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController animated:YES];
     } else if ([title isEqualToString:@"Projects"]) {
         ProjectListController *projectListController = [[ProjectListController alloc] initWithNibName:@"ProjectListController" bundle:nil];
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:projectListController];
-        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController
-                                                                       animated:YES];
+        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController animated:YES];
     } else if ([title isEqualToString:@"Flagged"]) {
         TaskListController *taskListController = [[TaskListController alloc] initWithNibName:@"TaskListController" bundle:nil];
         taskListController.filter = @"Flagged";
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:taskListController];
-        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController
-                                                                       animated:YES];
+        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController animated:YES];
+    } else if ([title isEqualToString:@"Report"]) {
+        ReportController *reportController = [[ReportController alloc] initWithNibName:@"ReportController" bundle:nil];
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:reportController];
+        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController animated:YES];
     } else if ([title isEqualToString:@"Search"]) {
         SearchController *searchController = [[SearchController alloc] initWithNibName:@"SearchController" bundle:nil];
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:searchController];
-        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController
-                                                                       animated:YES];
+        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController animated:YES];
     } else if ([title isEqualToString:@"WiFi"]) {
         WiFiViewController *wifiViewController = [[WiFiViewController alloc] initWithNibName:@"WiFiViewController" bundle:nil];
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:wifiViewController];
-        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController
-                                                                       animated:YES];
+        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController animated:YES];
     } else if ([title isEqualToString:@"Settings"]) {
         SettingsController *settingsController = [[SettingsController alloc] initWithNibName:@"SettingsController" bundle:nil];
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:settingsController];
-        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController
-                                                                       animated:YES];
+        [self.revealSideViewController popViewControllerWithNewCenterController:navigationController animated:YES];
     } else {
         
     }
