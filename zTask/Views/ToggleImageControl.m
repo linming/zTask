@@ -10,6 +10,8 @@
 
 @implementation ToggleImageControl
 
+@synthesize delegate;
+
 - (id)initWithFrame:(CGRect)frame status:(BOOL)status
 {
     self = [super initWithFrame:frame];
@@ -28,19 +30,14 @@
 }
 
 - (void)viewDidLoad {
-    NSLog(@"ToggleImageControl viewDidLoad");
+
 }
 
 - (void)toggleImage {
-    NSLog(@"ToggleImageControl toggleImage");
     isSelected = !isSelected;
     imageView.image = (isSelected ? selectedImage : normalImage); 
     
-    // Use NSNotification or other method to notify data model about state change.
-    // Notification example:
-    NSDictionary *dict = [NSDictionary dictionaryWithObject: [NSNumber numberWithInt: self.tag] forKey: @"CellCheckToggled"];
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"CellCheckToggled" object: self userInfo: dict];
-    
+    [delegate imageToggled:isSelected];
 }
 
 - (BOOL)isSelected

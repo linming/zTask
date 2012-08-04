@@ -10,6 +10,24 @@
 
 @implementation DateUtil
 
+
++ (NSArray *)getWeekdays:(NSDate *)selectedDate
+{
+    NSMutableArray *days = [NSMutableArray array];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *weekdayComponents = [gregorian components:(NSDayCalendarUnit | NSWeekdayCalendarUnit) fromDate:selectedDate];
+    //NSInteger day = [weekdayComponents day];
+    NSInteger weekday = [weekdayComponents weekday];
+    
+    for (int i = 0; i < 7; i++) {
+        NSDateComponents *comps = [[NSDateComponents alloc] init];
+        [comps setDay: i - weekday + 1];
+        [days addObject:[gregorian dateByAddingComponents:comps toDate:selectedDate options:0]];
+    }
+
+    return days;
+}
+
 + (NSDate *)stringToDate:(NSString *)dateStr format:(NSString *)format
 {
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -36,6 +54,9 @@
 
 + (NSString *)formatDate:(NSDate *)date to:(NSString *)formatString
 {
+    if (date == nil) {
+        return nil;
+    }
     static NSDateFormatter *dateFormatter = nil;
     if (dateFormatter == nil) 
         dateFormatter = [[NSDateFormatter alloc] init];

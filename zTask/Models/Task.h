@@ -30,6 +30,12 @@
 + (void)remove:(NSInteger)rowid;
 + (void)saveOrder:(NSArray *)tasks;
 
+- (NSString *)getStartDateStr;
+- (NSString *)getFinishDateStr;
+- (NSString *)getDueDateStr;
+- (NSString *)getCreatedStr;
+
+
 - (NSData *)jsonData;
 - (NSData *)jsonDataWithAttaches;
 

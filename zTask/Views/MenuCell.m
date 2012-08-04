@@ -30,7 +30,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    NSLog(@"frame: %@", self.accessoryView.frame);
+    //NSLog(@"frame: %@", self.accessoryView.frame);
     
     CGRect r = self.accessoryView.frame;
     r.origin.x -= 120;

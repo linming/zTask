@@ -11,7 +11,7 @@
 #import "Project.h"
 #import "ToggleImageControl.h"
 
-@interface TaskCell : UITableViewCell
+@interface TaskCell : UITableViewCell <ToggleImageDelegate>
 
 @property(nonatomic, retain) Task *task;
 @property(nonatomic, retain) IBOutlet UILabel *titleLabel;

@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ToggleImageDelegate
+
+- (void)imageToggled:(BOOL)status;
+
+@end
+
 @interface ToggleImageControl : UIControl
 {
     UIImageView *imageView;
@@ -16,6 +22,7 @@
     BOOL isSelected;
 }
 
+@property (nonatomic, assign) id<ToggleImageDelegate> delegate;
 
 - (id)initWithFrame:(CGRect)frame status:(BOOL)status;
 

@@ -36,12 +36,11 @@
                                                                          action:@selector(filterTasks)];
         
         
-        NSArray *toolbarItems = [NSArray arrayWithObjects:
-                                 filterButton,
-                                 flexibleSpace,
-                                 addButton,
-                                 nil];
-        self.toolbarItems = toolbarItems;
+        self.toolbarItems = [NSArray arrayWithObjects:
+                             filterButton,
+                             flexibleSpace,
+                             addButton,
+                             nil];
     }
     return self;
 }

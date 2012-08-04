@@ -15,5 +15,6 @@
 + (NSString *)formatDateWithoutSecond:(NSDate *)date;
 + (NSString *)formatDate:(NSDate *)date to:(NSString *)formatString;
 + (NSString *)dateToInterval:(NSDate *)date;
++ (NSArray *)getWeekdays:(NSDate *)selectedDate;
 
 @end

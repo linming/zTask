@@ -19,7 +19,7 @@
         // Initialization code
         
         statusControl = [[ToggleImageControl alloc] initWithFrame: CGRectMake(10, 10, 24, 24) status:NO];
-        //toggleControl.tag = indexPath.row;  // for reference in notifications.
+        statusControl.delegate = self;
         [self.contentView addSubview: statusControl];
         
         titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 5, 250, 24)];
@@ -62,6 +62,12 @@
     }
     
     [statusControl setIsSelected:task.status];
+}
+
+- (void)imageToggled:(BOOL)status
+{
+    task.status = status;
+    [Task update:task];
 }
 
 @end

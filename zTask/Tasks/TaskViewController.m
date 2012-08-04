@@ -79,6 +79,7 @@
 {
     [titleTextView resignFirstResponder];
     [dueDateTextField resignFirstResponder];
+    [finishDateTextField resignFirstResponder];
 }
 
 - (void)viewDidUnload
@@ -111,7 +112,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == SECTION_DETAIL) {
-        return 4;
+        return task.status ? 4 : 3;
     } else if (section == SECTION_ATTACHMENT) {
         return [attaches count];
     } else {
@@ -209,11 +210,6 @@
                         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                         cell.textLabel.text = @"due";
                         dueDateTextField = [[UITextField alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
-                        if (task.dueDate) {
-                            dueDateTextField.text = [DateUtil formatDate:task.dueDate to:@"yyyy-MM-dd"];
-                        } else {
-                            dueDateTextField.text = @"None";
-                        }
                         
                         dueDateTextField.tag = TAG_DUE_DATE;
                         dueDateTextField.delegate = self;
@@ -227,6 +223,11 @@
                         [cell.contentView addSubview:dueDateTextField];
                         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                     }
+                    if (task.dueDate) {
+                        dueDateTextField.text = [task getDueDateStr];
+                    } else {
+                        dueDateTextField.text = @"None";
+                    }
                     return cell;
                     break;
                 }
@@ -238,11 +239,7 @@
                         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
                         cell.textLabel.text = @"finish";
                         finishDateTextField = [[UITextField alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
-                        if (task.dueDate) {
-                            finishDateTextField.text = [DateUtil formatDate:task.dueDate to:@"yyyy-MM-dd"];
-                        } else {
-                            finishDateTextField.text = @"None";
-                        }
+
                         
                         finishDateTextField.tag = TAG_FINISH_DATE;
                         finishDateTextField.delegate = self;
@@ -255,6 +252,13 @@
                         
                         [cell.contentView addSubview:finishDateTextField];
                         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    }
+                    NSLog(@"finish date:%@", task.finishDate);
+                    NSLog(@"created date:%@", task.created);
+                    if (task.finishDate) {
+                        finishDateTextField.text = [task getFinishDateStr];
+                    } else {
+                        finishDateTextField.text = @"None";
                     }
                     return cell;
                     break;
@@ -423,6 +427,10 @@
 - (void)changeTaskStatus
 {
     task.status = statusControl.isSelected;
+    if (task.status) {
+        task.finishDate = [NSDate date];
+    }
+    [self.tableView reloadData];
 }
 
 - (void)dueDatePickerValueChanged
@@ -490,7 +498,7 @@
 #pragma mark - Image Picker Delegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo 
 {
-    NSString *imageName = [NSString stringWithFormat:@"%d.JPG", (long)[[NSDate date] timeIntervalSince1970]];
+    NSString *imageName = [NSString stringWithFormat:@"%ld.JPG", (long)[[NSDate date] timeIntervalSince1970]];
     Attach *attach = [self addAttach:imageName type:@"Photo" audioStatus:nil];
     
     NSData *imageData = UIImagePNGRepresentation(image);
@@ -549,7 +557,7 @@
 {
     NSLog(@"record audio");
     
-    NSString *soundFileName = [NSString stringWithFormat:@"%d.caf", (long)[[NSDate date] timeIntervalSince1970]];
+    NSString *soundFileName = [NSString stringWithFormat:@"%ld.caf", (long)[[NSDate date] timeIntervalSince1970]];
     Attach *attach = [self addAttach:soundFileName type:@"Audio" audioStatus:@"recording"];
     [self prepareAudio: [attach getPath]];
     if (!audioRecorder.recording) {
