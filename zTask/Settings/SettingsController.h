@@ -12,8 +12,6 @@
 {
     UISwitch *passwordSwitch;
     UITextField *passwordTextField;
-    UISwitch *serviceSwitch;
-    UITextField *passcodeTextField;
     UITextField *portTextField;
 }
 

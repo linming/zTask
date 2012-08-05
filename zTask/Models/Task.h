@@ -17,8 +17,8 @@
 @property BOOL status;
 @property BOOL flag;
 @property (nonatomic, retain) NSDate *startDate;
-@property (nonatomic, retain) NSDate *finishDate;
 @property (nonatomic, retain) NSDate *dueDate;
+@property (nonatomic, retain) NSDate *completed;
 @property (nonatomic, retain) NSDate *created;
 
 + (NSMutableArray *)findAll:(NSInteger)perPage page:(NSInteger)page;
@@ -31,8 +31,8 @@
 + (void)saveOrder:(NSArray *)tasks;
 
 - (NSString *)getStartDateStr;
-- (NSString *)getFinishDateStr;
 - (NSString *)getDueDateStr;
+- (NSString *)getCompletedStr;
 - (NSString *)getCreatedStr;
 
 

@@ -40,8 +40,6 @@
 		2329EA7F1594195700FFC5AA /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329E9761594195700FFC5AA /* home.png */; };
 		2329EA801594195700FFC5AA /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329E9771594195700FFC5AA /* Icon.png */; };
 		2329EA811594195700FFC5AA /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329E9781594195700FFC5AA /* Icon@2x.png */; };
-		2329EA821594195700FFC5AA /* Icon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329E9791594195700FFC5AA /* Icon@2x~ipad.png */; };
-		2329EA831594195700FFC5AA /* Icon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329E97A1594195700FFC5AA /* Icon~ipad.png */; };
 		2329EA841594195700FFC5AA /* pages.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329E97B1594195700FFC5AA /* pages.png */; };
 		2329EA851594195700FFC5AA /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329E97C1594195700FFC5AA /* settings.png */; };
 		2329EA871594195700FFC5AA /* WiFiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329E9811594195700FFC5AA /* WiFiViewController.m */; };
@@ -137,6 +135,12 @@
 		2329EB111594202F00FFC5AA /* TaskListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329EB0F1594202F00FFC5AA /* TaskListController.m */; };
 		2329EB121594202F00FFC5AA /* TaskListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2329EB101594202F00FFC5AA /* TaskListController.xib */; };
 		2329EB1E159451C500FFC5AA /* TasksMSPController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2329EB1D159451C500FFC5AA /* TasksMSPController.m */; };
+		233CDDD315CD57D9000A5A90 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 233CDDCF15CD57D9000A5A90 /* back.png */; };
+		233CDDD415CD57D9000A5A90 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 233CDDD015CD57D9000A5A90 /* back@2x.png */; };
+		233CDDD515CD57D9000A5A90 /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 233CDDD115CD57D9000A5A90 /* forward.png */; };
+		233CDDD615CD57D9000A5A90 /* forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 233CDDD215CD57D9000A5A90 /* forward@2x.png */; };
+		2349E2D815CE290600F79E70 /* audio.png in Resources */ = {isa = PBXBuildFile; fileRef = 2349E2D715CE290600F79E70 /* audio.png */; };
+		2349E2DA15CE4ACA00F79E70 /* audio@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2349E2D915CE4ACA00F79E70 /* audio@2x.png */; };
 		234F5A31159BF70100AF0E78 /* TaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 234F5A2F159BF70100AF0E78 /* TaskViewController.m */; };
 		234F5A32159BF70100AF0E78 /* TaskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 234F5A30159BF70100AF0E78 /* TaskViewController.xib */; };
 		234F5A35159BF9E800AF0E78 /* ToggleImageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 234F5A34159BF9E800AF0E78 /* ToggleImageControl.m */; };
@@ -223,8 +227,6 @@
 		2329E9761594195700FFC5AA /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		2329E9771594195700FFC5AA /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		2329E9781594195700FFC5AA /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
-		2329E9791594195700FFC5AA /* Icon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x~ipad.png"; sourceTree = "<group>"; };
-		2329E97A1594195700FFC5AA /* Icon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon~ipad.png"; sourceTree = "<group>"; };
 		2329E97B1594195700FFC5AA /* pages.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pages.png; sourceTree = "<group>"; };
 		2329E97C1594195700FFC5AA /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		2329E9801594195700FFC5AA /* WiFiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WiFiViewController.h; sourceTree = "<group>"; };
@@ -412,6 +414,12 @@
 		2329EB101594202F00FFC5AA /* TaskListController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskListController.xib; sourceTree = "<group>"; };
 		2329EB1C159451C500FFC5AA /* TasksMSPController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksMSPController.h; sourceTree = "<group>"; };
 		2329EB1D159451C500FFC5AA /* TasksMSPController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksMSPController.m; sourceTree = "<group>"; };
+		233CDDCF15CD57D9000A5A90 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		233CDDD015CD57D9000A5A90 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
+		233CDDD115CD57D9000A5A90 /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
+		233CDDD215CD57D9000A5A90 /* forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward@2x.png"; sourceTree = "<group>"; };
+		2349E2D715CE290600F79E70 /* audio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = audio.png; sourceTree = "<group>"; };
+		2349E2D915CE4ACA00F79E70 /* audio@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audio@2x.png"; sourceTree = "<group>"; };
 		234F5A2E159BF70100AF0E78 /* TaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskViewController.h; sourceTree = "<group>"; };
 		234F5A2F159BF70100AF0E78 /* TaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskViewController.m; sourceTree = "<group>"; };
 		234F5A30159BF70100AF0E78 /* TaskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TaskViewController.xib; sourceTree = "<group>"; };
@@ -591,6 +599,12 @@
 		2329E9711594195700FFC5AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				2349E2D715CE290600F79E70 /* audio.png */,
+				2349E2D915CE4ACA00F79E70 /* audio@2x.png */,
+				233CDDCF15CD57D9000A5A90 /* back.png */,
+				233CDDD015CD57D9000A5A90 /* back@2x.png */,
+				233CDDD115CD57D9000A5A90 /* forward.png */,
+				233CDDD215CD57D9000A5A90 /* forward@2x.png */,
 				23A5FC8E15AB29280018B784 /* eye.png */,
 				23A5FC9015AB3A9A0018B784 /* eye@2x.png */,
 				239B6AFD15A4B93A00618185 /* accessoryIndicator.png */,
@@ -614,8 +628,6 @@
 				2329E9761594195700FFC5AA /* home.png */,
 				2329E9771594195700FFC5AA /* Icon.png */,
 				2329E9781594195700FFC5AA /* Icon@2x.png */,
-				2329E9791594195700FFC5AA /* Icon@2x~ipad.png */,
-				2329E97A1594195700FFC5AA /* Icon~ipad.png */,
 				2329E97B1594195700FFC5AA /* pages.png */,
 				2329E97C1594195700FFC5AA /* settings.png */,
 			);
@@ -1144,8 +1156,6 @@
 				2329EA7F1594195700FFC5AA /* home.png in Resources */,
 				2329EA801594195700FFC5AA /* Icon.png in Resources */,
 				2329EA811594195700FFC5AA /* Icon@2x.png in Resources */,
-				2329EA821594195700FFC5AA /* Icon@2x~ipad.png in Resources */,
-				2329EA831594195700FFC5AA /* Icon~ipad.png in Resources */,
 				2329EA841594195700FFC5AA /* pages.png in Resources */,
 				2329EA851594195700FFC5AA /* settings.png in Resources */,
 				2329EA891594195700FFC5AA /* WiFiViewController.xib in Resources */,
@@ -1184,6 +1194,12 @@
 				23B62F3C15B16BB7004BE6E0 /* SearchController.xib in Resources */,
 				2323F59615BBA93800A91CC8 /* ReportController.xib in Resources */,
 				23A4215A15C3E5F1004C3748 /* Kal.bundle in Resources */,
+				233CDDD315CD57D9000A5A90 /* back.png in Resources */,
+				233CDDD415CD57D9000A5A90 /* back@2x.png in Resources */,
+				233CDDD515CD57D9000A5A90 /* forward.png in Resources */,
+				233CDDD615CD57D9000A5A90 /* forward@2x.png in Resources */,
+				2349E2D815CE290600F79E70 /* audio.png in Resources */,
+				2349E2DA15CE4ACA00F79E70 /* audio@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

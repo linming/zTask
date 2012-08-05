@@ -65,9 +65,9 @@
     NSString *sql;
     if (isWeekReport) {
         NSArray *weekdays = weekView.weekdays;
-        sql = [NSString stringWithFormat:@"where date(finish_date, 'unixepoch', 'localtime') >= '%@' and date(finish_date, 'unixepoch', 'localtime') <= '%@'", [DateUtil formatDate:[weekdays objectAtIndex:0] to:@"yyyy-MM-dd"], [DateUtil formatDate:[weekdays objectAtIndex:6] to:@"yyyy-MM-dd"]];
+        sql = [NSString stringWithFormat:@"where date(completed, 'unixepoch', 'localtime') >= '%@' and date(finish_date, 'unixepoch', 'localtime') <= '%@'", [DateUtil formatDate:[weekdays objectAtIndex:0] to:@"yyyy-MM-dd"], [DateUtil formatDate:[weekdays objectAtIndex:6] to:@"yyyy-MM-dd"]];
     } else {
-        sql = [NSString stringWithFormat:@"where date(finish_date, 'unixepoch', 'localtime') = '%@'", [DateUtil formatDate:weekView.selectedDate to:@"yyyy-MM-dd"]];
+        sql = [NSString stringWithFormat:@"where date(completed, 'unixepoch', 'localtime') = '%@'", [DateUtil formatDate:weekView.selectedDate to:@"yyyy-MM-dd"]];
     }
     NSLog(@"sql:%@",sql);
     tasks = [Task findAllByConditions:sql];

@@ -32,20 +32,20 @@
     HPGrowingTextView *titleTextView;
     
     UILabel *projectLabel;
-    UITextField *dueDateTextField;
-    UITextField *finishDateTextField;
-    
-    UIDatePicker *dueDatePicker;
-    UIDatePicker *finishDatePicker;
+    UITextField *completedTextField;
+    UIDatePicker *completedPicker;
     
     UIButton *editButton;
     UIButton *recordAudioButton;
     UISwitch *flagSwitch;
     
     ZoomImageView *zoomImageView;
+    UISegmentedControl *navSegmentedControl;
 }
 
 @property NSInteger taskId;
+@property NSInteger currentIndex;
+@property (nonatomic, retain) NSArray *tasks;
 
 - (void)updateProject:(NSInteger)projectId projectName:(NSString *)projectName;
 - (void)updateNote:(NSString *)note;

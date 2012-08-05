@@ -16,6 +16,7 @@
 @property(nonatomic, retain) Task *task;
 @property(nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property(nonatomic, retain) IBOutlet UILabel *projectLabel;
+@property(nonatomic, retain) IBOutlet UILabel *completedLabel;
 @property(nonatomic, retain) IBOutlet ToggleImageControl *statusControl;
 @property(nonatomic, retain) IBOutlet UIImageView *flagImageView;
 

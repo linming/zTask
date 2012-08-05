@@ -10,7 +10,7 @@
 
 @implementation TaskCell
 
-@synthesize task, statusControl, titleLabel, projectLabel, flagImageView;
+@synthesize task, statusControl, titleLabel, projectLabel, flagImageView, completedLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -25,7 +25,7 @@
         titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 5, 250, 24)];
         [self.contentView addSubview:titleLabel];
         
-        projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 29, 250, 13)];
+        projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 29, 100, 13)];
         projectLabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
         projectLabel.textColor = [UIColor grayColor];
         [self.contentView addSubview:projectLabel];
@@ -33,6 +33,11 @@
         flagImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"flag.png"]];
         flagImageView.frame = CGRectMake(300, 6, 16, 16);
         [self.contentView addSubview:flagImageView];
+        
+        completedLabel = [[UILabel alloc] initWithFrame:CGRectMake(240, 29, 70, 13)];
+        completedLabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
+        completedLabel.textColor = [UIColor grayColor];
+        [self.contentView addSubview:completedLabel];
     }
     return self;
 }
@@ -61,12 +66,17 @@
         flagImageView.frame = CGRectMake(0, 0, 0, 0);
     }
     
+    if (task.status && task.completed) {
+        completedLabel.text = [NSString stringWithFormat:@"%@", [task getCompletedStr] ];
+    }
+    
     [statusControl setIsSelected:task.status];
 }
 
 - (void)imageToggled:(BOOL)status
 {
     task.status = status;
+    task.completed = [NSDate date];
     [Task update:task];
 }
 

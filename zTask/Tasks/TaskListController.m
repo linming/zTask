@@ -81,7 +81,7 @@
                                                  action:@selector(showMenu)];
         
         self.navigationItem.title = @"Flagged";
-        tasks = [self findTasks:@"where flag = 1"];
+        tasks = [self findTasks:@"flag = 1"];
     } else {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                                   initWithTitle:@"Edit" 
@@ -96,7 +96,7 @@
                                                  action:@selector(showMenu)];
         
         self.navigationItem.title = @"zTask";
-        tasks = [self findTasks:nil];
+        tasks = [self findTasks:@"project_id = 0"];
     }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTasks) name:@"TasksChanged" object:nil];
@@ -329,6 +329,8 @@
     TaskViewController *taskViewController = [[TaskViewController alloc] initWithNibName:@"TaskViewController" bundle:nil];
     Task *task = [tasks objectAtIndex:indexPath.row];
     taskViewController.taskId = task.rowid;
+    taskViewController.tasks = tasks;
+    taskViewController.currentIndex = indexPath.row;
     [self.navigationController pushViewController:taskViewController animated:YES];
 }
 

@@ -22,11 +22,9 @@
 
 #define ROW_PROJECT 0
 #define ROW_FLAG 1
-#define ROW_DUE_DATE 2
-#define ROW_FINISH_DATE 3
+#define ROW_FINISH_DATE 2
 
-#define TAG_DUE_DATE 101
-#define TAG_FINISH_DATE 102
+#define TAG_FINISH_DATE 101
 
 @interface TaskViewController ()
 
@@ -34,7 +32,7 @@
 
 @implementation TaskViewController
 
-@synthesize taskId;
+@synthesize taskId, tasks, currentIndex;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -52,9 +50,19 @@
     if (taskId) {
         task = [Task find:taskId];
         attaches = [[Attach findAll:taskId] mutableCopy];
+        self.navigationItem.title = @"Task";
         
-        self.navigationItem.title = @"Edit Task";
-    } else { 
+        if (tasks != nil) {
+            NSArray *buttonNames = [NSArray arrayWithObjects:[UIImage imageNamed:@"back"], [UIImage imageNamed:@"forward"], nil];
+            navSegmentedControl = [[UISegmentedControl alloc] initWithItems:buttonNames];
+            navSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+            navSegmentedControl.momentary = YES;
+            [navSegmentedControl addTarget:self action:@selector(taskNavAction) forControlEvents:UIControlEventValueChanged];
+            UIBarButtonItem *segButton = [[UIBarButtonItem alloc] initWithCustomView:navSegmentedControl];
+            self.navigationItem.rightBarButtonItem = segButton;
+            [self updateNavSegmentedControlStatus];
+        }
+    } else {
         task = [[Task alloc] init];
         attaches = [NSMutableArray array];
         
@@ -75,11 +83,19 @@
     [self.tableView addGestureRecognizer:gestureRecognizer];
 }
 
-- (void)hideKeyboard 
+- (void)reloadTaskView
+{
+    task = [Task find:taskId];
+    attaches = [[Attach findAll:taskId] mutableCopy];
+    titleTextView.text = task.title;
+    [statusControl setIsSelected:task.status];
+    [self.tableView reloadData];
+}
+
+- (void)hideKeyboard
 {
     [titleTextView resignFirstResponder];
-    [dueDateTextField resignFirstResponder];
-    [finishDateTextField resignFirstResponder];
+    [completedTextField resignFirstResponder];
 }
 
 - (void)viewDidUnload
@@ -112,7 +128,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == SECTION_DETAIL) {
-        return task.status ? 4 : 3;
+        return task.status ? 3 : 2;
     } else if (section == SECTION_ATTACHMENT) {
         return [attaches count];
     } else {
@@ -142,11 +158,14 @@
         
         if (!audioRecorder.recording && !audioPlayer.playing) {
             if ([attaches count] > 0) {
-                editButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-                [editButton setTitle:@"Edit" forState:UIControlStateNormal];
+                editButton = [UIButton buttonWithType:UIButtonTypeCustom];
                 [editButton setFrame:CGRectMake(250, 3, 50, 24)];
-                [editButton setBackgroundColor:[tableView backgroundColor]];
+                editButton.layer.cornerRadius = 5;
+                editButton.layer.borderWidth = 1;
+                editButton.titleLabel.font = [UIFont boldSystemFontOfSize:[UIFont smallSystemFontSize]];
+                [editButton setTitle:@"Edit" forState:UIControlStateNormal];
                 [editButton addTarget:self action:@selector(editAttach) forControlEvents:UIControlEventTouchUpInside];
+                [editButton setBackgroundColor: [UIColor colorWithRed:.196 green:0.3098 blue:0.52 alpha:1.0]];
                 [headerView addSubview:editButton];
             }
         }
@@ -168,19 +187,16 @@
                     NSString *CellIdentifier = @"CELL_DETAIL_PROJECT";
                     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
                     if (cell == nil) {
-                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-                        cell.textLabel.text = @"project";
-                        projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
-                        if (task.projectId) {
-                            Project *project = [Project find:task.projectId];
-                            projectLabel.text = project.name;
-                        } else {
-                            projectLabel.text = @"None";
-                        }
-                        
-                        projectLabel.backgroundColor = [UIColor clearColor];
-                        [cell.contentView addSubview:projectLabel];
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+                        cell.textLabel.text = @"Project";
+                        projectLabel = cell.detailTextLabel;
                         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    }
+                    if (task.projectId) {
+                        Project *project = [Project find:task.projectId];
+                        cell.detailTextLabel.text = project.name;
+                    } else {
+                        cell.detailTextLabel.text = @"None";
                     }
                     return cell;
                     break;
@@ -191,43 +207,11 @@
                     PSLabelSwitchCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
                     if (cell == nil) {
                         cell = [[PSLabelSwitchCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+                        cell.textLabel.text = @"Flag";
+                        flagSwitch = cell.switcher;
+                        [cell.switcher addTarget:self action:@selector(flagSwitchDidChange) forControlEvents:UIControlEventValueChanged];
                     }
-                    // Configure the cell...
-                    cell.textLabel.text = @"flag";
-                    flagSwitch = cell.switcher;
-                    [cell.switcher addTarget:self action:@selector(flagSwitchDidChange) forControlEvents:UIControlEventValueChanged];
-                    if (task.flag) {
-                        [cell.switcher setOn:YES];
-                    }
-                    return cell;
-                    break;
-                }
-                case ROW_DUE_DATE: 
-                {
-                    NSString *CellIdentifier = @"CELL_DETAIL_DUE";
-                    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-                    if (cell == nil) {
-                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-                        cell.textLabel.text = @"due";
-                        dueDateTextField = [[UITextField alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
-                        
-                        dueDateTextField.tag = TAG_DUE_DATE;
-                        dueDateTextField.delegate = self;
-                        
-                        dueDatePicker = [[UIDatePicker alloc] init];
-                        dueDatePicker.datePickerMode = UIDatePickerModeDate;
-                        [dueDatePicker addTarget:self action:@selector(dueDatePickerValueChanged) forControlEvents:UIControlEventValueChanged];
-                        dueDatePicker.tag = indexPath.row;
-                        dueDateTextField.inputView = dueDatePicker;
-
-                        [cell.contentView addSubview:dueDateTextField];
-                        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                    }
-                    if (task.dueDate) {
-                        dueDateTextField.text = [task getDueDateStr];
-                    } else {
-                        dueDateTextField.text = @"None";
-                    }
+                    [cell.switcher setOn:task.flag];
                     return cell;
                     break;
                 }
@@ -236,29 +220,27 @@
                     NSString *CellIdentifier = @"CELL_DETAIL_FINISH";
                     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
                     if (cell == nil) {
-                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-                        cell.textLabel.text = @"finish";
-                        finishDateTextField = [[UITextField alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+                        cell.textLabel.text = @"Completed";
+                        completedTextField = [[UITextField alloc] initWithFrame:CGRectMake(198.0, 9.0, 94.0, 27.0)];
 
                         
-                        finishDateTextField.tag = TAG_FINISH_DATE;
-                        finishDateTextField.delegate = self;
+                        completedTextField.tag = TAG_FINISH_DATE;
+                        completedTextField.delegate = self;
                         
-                        finishDatePicker = [[UIDatePicker alloc] init];
-                        finishDatePicker.datePickerMode = UIDatePickerModeDate;
-                        [finishDatePicker addTarget:self action:@selector(finishDatePickerValueChanged) forControlEvents:UIControlEventValueChanged];
-                        finishDatePicker.tag = indexPath.row;
-                        finishDateTextField.inputView = finishDatePicker;
+                        completedPicker = [[UIDatePicker alloc] init];
+                        completedPicker.datePickerMode = UIDatePickerModeDate;
+                        [completedPicker addTarget:self action:@selector(completedPickerValueChanged) forControlEvents:UIControlEventValueChanged];
+                        completedPicker.tag = indexPath.row;
+                        completedTextField.inputView = completedPicker;
                         
-                        [cell.contentView addSubview:finishDateTextField];
+                        [cell.contentView addSubview:completedTextField];
                         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                     }
-                    NSLog(@"finish date:%@", task.finishDate);
-                    NSLog(@"created date:%@", task.created);
-                    if (task.finishDate) {
-                        finishDateTextField.text = [task getFinishDateStr];
+                    if (task.completed) {
+                        completedTextField.text = [task getCompletedStr];
                     } else {
-                        finishDateTextField.text = @"None";
+                        completedTextField.text = @"None";
                     }
                     return cell;
                     break;
@@ -276,21 +258,22 @@
             }
             Attach *attach = [attaches objectAtIndex:indexPath.row];
             if ([attach.type isEqualToString:@"Audio"]) {
+                cell.imageView.image = [UIImage imageNamed:@"audio"];
                 if ([attach.audioStatus isEqualToString:@"playing"]) {
-                    playerMeterView = [[AVPlayerMeterView alloc] initWithFrame:CGRectMake(4,  4, 280, 28)];
+                    playerMeterView = [[AVPlayerMeterView alloc] initWithFrame:CGRectMake(22,  4, 240, 28)];
                     playerMeterView.audioPlayer = audioPlayer;
                     [playerMeterView startUpdating];
                     [cell.contentView addSubview:playerMeterView];
                 } else if ([attach.audioStatus isEqualToString:@"recording"]) {
-                    recorderMeterView = [[AVRecorderMeterView alloc] initWithFrame:CGRectMake(4,  4, 280, 28)];
+                    recorderMeterView = [[AVRecorderMeterView alloc] initWithFrame:CGRectMake(22,  4, 240, 28)];
                     recorderMeterView.audioRecorder = audioRecorder;
                     [recorderMeterView startUpdating];
                     [cell.contentView addSubview:recorderMeterView];
                 } else {
-                    cell.textLabel.text = [NSString stringWithFormat:@"%@ created at %@", attach.type, attach.created];
+                    cell.textLabel.text = [NSString stringWithFormat:@"Audio recorded %@", [attach getCreatedInterval]];
                 }
             } else {
-                cell.textLabel.text = [NSString stringWithFormat:@"Picture taken %@", attach.created];
+                cell.textLabel.text = [NSString stringWithFormat:@"Picture taken %@", [attach getCreatedInterval]];
                 UIImage *image = [UIImage imageWithContentsOfFile: [attach getPath]];
                 cell.imageView.image = [Utils resizeImage:image scaledToSizeWithSameAspectRatio:CGSizeMake(32, 32)];
             }
@@ -356,6 +339,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == SECTION_DETAIL && indexPath.row == ROW_PROJECT) {
         ProjectSelectorController *projectSelectorController = [[ProjectSelectorController alloc] initWithNibName:@"ProjectSelectorController" bundle:nil];
         projectSelectorController.taskViewController = self;
@@ -428,21 +412,15 @@
 {
     task.status = statusControl.isSelected;
     if (task.status) {
-        task.finishDate = [NSDate date];
+        task.completed = [NSDate date];
     }
     [self.tableView reloadData];
 }
 
-- (void)dueDatePickerValueChanged
+- (void)completedPickerValueChanged
 {
-    dueDateTextField.text = [DateUtil formatDate:dueDatePicker.date to:@"yyyy-MM-dd"];
-    task.dueDate = dueDatePicker.date;    
-}
-
-- (void)finishDatePickerValueChanged
-{
-    finishDateTextField.text = [DateUtil formatDate:finishDatePicker.date to:@"yyyy-MM-dd"];
-    task.finishDate = finishDatePicker.date;    
+    completedTextField.text = [DateUtil formatDate:completedPicker.date to:@"yyyy-MM-dd"];
+    task.completed = completedPicker.date;
 }
 
 - (void)takePhoto
@@ -651,11 +629,6 @@
 #pragma mark - TextField Delegater
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    if (textField.tag == TAG_DUE_DATE) {
-        if ([textField.text isEqualToString:@"None"]) {
-            textField.text = [DateUtil formatDate:[NSDate date] to:@"yyyy-MM-dd"];
-        }
-    }
 }
 
 #pragma mark - TableView Header & Footer
@@ -758,6 +731,50 @@
 - (void)updateNote:(NSString *)note
 {
     task.note = note;
+}
+
+#pragma mark - task nav button action
+
+- (void)taskNavAction
+{
+	switch (navSegmentedControl.selectedSegmentIndex) {
+        case 0:
+            if (currentIndex > 0) {
+                currentIndex--;
+                task = [tasks objectAtIndex:currentIndex];
+                taskId = task.rowid;
+                [self reloadTaskView];
+            }
+            break;
+        case 1:
+            if(currentIndex < [tasks count] - 1) {
+                currentIndex++;
+                task = [tasks objectAtIndex:currentIndex];
+                taskId = task.rowid;
+                [self reloadTaskView];
+            }
+            break;
+        default:
+            break;
+    }
+    [self updateNavSegmentedControlStatus];
+}
+
+- (void)updateNavSegmentedControlStatus
+{
+    if ([tasks count] == 1) {
+        [navSegmentedControl setEnabled:NO forSegmentAtIndex:0];
+        [navSegmentedControl setEnabled:NO forSegmentAtIndex:1];
+    } else if (currentIndex == 0) {
+        [navSegmentedControl setEnabled:NO forSegmentAtIndex:0];
+        [navSegmentedControl setEnabled:YES forSegmentAtIndex:1];
+    } else if (currentIndex == [tasks count] - 1) {
+        [navSegmentedControl setEnabled:YES forSegmentAtIndex:0];
+        [navSegmentedControl setEnabled:NO forSegmentAtIndex:1];
+    } else {
+        [navSegmentedControl setEnabled:YES forSegmentAtIndex:0];
+        [navSegmentedControl setEnabled:YES forSegmentAtIndex:1];
+    }
 }
 
 @end

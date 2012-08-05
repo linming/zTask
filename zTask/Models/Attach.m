@@ -26,6 +26,11 @@
     return [FileUtil getFilePath:relativePath];
 }
 
+- (NSString *)getCreatedInterval
+{
+    return [DateUtil dateToInterval:self.created];
+}
+
 - (id)initWithDict:(NSDictionary *)dict
 {
     self = [super init];
