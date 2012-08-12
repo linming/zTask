@@ -46,8 +46,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayInfoUpdate:) name:@"WebServerStarted" object:nil];
     
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [appDelegate startWebServer];
-    
+    if (![appDelegate isWebServerRunning]) {
+        [appDelegate startWebServer];
+    } else {
+        [serverSwitch setOn:YES];
+        [self showUrlHints:appDelegate.wifiInfo];
+    }
 }
 
 - (void)showMenu
@@ -74,9 +78,7 @@
 
 
 - (void)displayInfoUpdate:(NSNotification *)notification
-{
-	NSLog(@"displayInfoUpdate:");
-    
+{    
     NSString *info;
 	if (notification) {
 		info = [[notification object] copy];
@@ -90,6 +92,8 @@
     } else {
         [serverSwitch setOn:YES];
         [self showUrlHints:info];
+        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        appDelegate.wifiInfo = info;
     }
 }
 

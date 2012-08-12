@@ -111,6 +111,7 @@
     if (taskId) {
         [Task update:task];
     }
+    [self stopAudio];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -186,18 +187,27 @@
                 {
                     NSString *CellIdentifier = @"CELL_DETAIL_PROJECT";
                     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                    
                     if (cell == nil) {
                         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
                         cell.textLabel.text = @"Project";
-                        projectLabel = cell.detailTextLabel;
+                        projectButton = [[UIButton alloc] init];
+                        [projectButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                        [projectButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+
+                        [projectButton addTarget:self action:@selector(showProjectSelector) forControlEvents:UIControlEventTouchUpInside];
+                        projectButton.frame = CGRectMake(120, 5, 168, 34);
+                        [cell.contentView addSubview:projectButton];
                         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                     }
+                    
                     if (task.projectId) {
                         Project *project = [Project find:task.projectId];
-                        cell.detailTextLabel.text = project.name;
+                        [projectButton setTitle:project.name forState:UIControlStateNormal];
                     } else {
-                        cell.detailTextLabel.text = @"None";
+                        [projectButton setTitle:@"None" forState:UIControlStateNormal];
                     }
+                    
                     return cell;
                     break;
                 }
@@ -275,7 +285,7 @@
             } else {
                 cell.textLabel.text = [NSString stringWithFormat:@"Picture taken %@", [attach getCreatedInterval]];
                 UIImage *image = [UIImage imageWithContentsOfFile: [attach getPath]];
-                cell.imageView.image = [Utils resizeImage:image scaledToSizeWithSameAspectRatio:CGSizeMake(32, 32)];
+                cell.imageView.image = [Utils scaleImage:image size:CGSizeMake(32, 32)];
             }
             cell.textLabel.font = [UIFont boldSystemFontOfSize:[UIFont smallSystemFontSize]];
             return cell;
@@ -340,12 +350,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    /*
     if (indexPath.section == SECTION_DETAIL && indexPath.row == ROW_PROJECT) {
-        ProjectSelectorController *projectSelectorController = [[ProjectSelectorController alloc] initWithNibName:@"ProjectSelectorController" bundle:nil];
-        projectSelectorController.taskViewController = self;
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:projectSelectorController];
-        [self presentModalViewController:navigationController animated:YES];
-    } else if (indexPath.section == SECTION_ATTACHMENT) {
+
+    }
+     */
+        
+        
+    if (indexPath.section == SECTION_ATTACHMENT) {
         Attach *attach = [attaches objectAtIndex:indexPath.row];
         if ([attach.type isEqualToString:@"Audio"]) {
             [self playAudio: attach];
@@ -401,6 +413,14 @@
     noteViewController.taskTitle = titleTextView.text;
     noteViewController.taskNote = task.note;
     [self.navigationController pushViewController:noteViewController animated:YES];
+}
+
+- (void)showProjectSelector
+{
+    ProjectSelectorController *projectSelectorController = [[ProjectSelectorController alloc] initWithNibName:@"ProjectSelectorController" bundle:nil];
+    projectSelectorController.taskViewController = self;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:projectSelectorController];
+    [self presentModalViewController:navigationController animated:YES];
 }
 
 - (void)flagSwitchDidChange
@@ -479,9 +499,11 @@
     NSString *imageName = [NSString stringWithFormat:@"%ld.JPG", (long)[[NSDate date] timeIntervalSince1970]];
     Attach *attach = [self addAttach:imageName type:@"Photo" audioStatus:nil];
     
-    NSData *imageData = UIImagePNGRepresentation(image);
+    UIImage *sImage = [Utils scaleAndRotateImage:image];
+    
+    NSData *imageData = UIImagePNGRepresentation(sImage);
     [imageData writeToFile:[attach getPath] atomically:NO];
-
+    
     NSLog(@"attach path: %@", [attach getPath]);
     
     [picker dismissModalViewControllerAnimated:YES];
@@ -549,16 +571,13 @@
 
 - (void)stopAudio 
 {
-    NSLog(@"stop audio");
     if (audioRecorder.recording) {
-        NSLog(@"stop audioRecorder");
         [recorderMeterView stopUpdating];
         recorderMeterView.audioRecorder = nil;
         [audioRecorder stop];
     } 
     
     if (audioPlayer.playing) {
-        NSLog(@"stop audioPlayer");
         [playerMeterView stopUpdating];
         playerMeterView.audioPlayer = nil;
         [audioPlayer stop];
@@ -592,7 +611,6 @@
 
 #pragma mark - Audio Player&Recorder Delegate
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
-    NSLog(@"audioPlayerDidFinishPlaying");
     [playerMeterView stopUpdating];
     playerMeterView.audioPlayer = nil;
     [recordAudioButton setTitle:@"Record Audio" forState:UIControlStateNormal];
@@ -725,7 +743,7 @@
 - (void)updateProject:(NSInteger)projectId projectName:(NSString *)projectName
 {
     task.projectId = projectId;
-    projectLabel.text = projectName;
+    [projectButton setTitle:projectName forState:UIControlStateNormal];
 }
 
 - (void)updateNote:(NSString *)note

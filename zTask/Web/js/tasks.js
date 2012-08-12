@@ -30,7 +30,7 @@ $(document).ready(function() {
 	$('#new_task').click(function(){
 		$.post('/tasks/add', {}, function(data){
 			$('#markup_new_task').tmpl(data).prependTo(".task_list");
-			$('.task_list').children(':first').find('textarea:first').focus();
+			$('.task_list').children(':first').find('.title_wrapper input').focus();
 		}, 'json');
 
 	});

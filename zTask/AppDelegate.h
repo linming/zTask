@@ -18,6 +18,7 @@
 @property (strong, nonatomic) PPRevealSideViewController *revealSideViewController;
 
 @property (nonatomic, retain) NSMutableDictionary *session;
+@property (nonatomic, retain) NSString *wifiInfo;
 
 - (void)startWebServer;
 - (void)stopWebServer;

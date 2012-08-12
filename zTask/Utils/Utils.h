@@ -18,6 +18,10 @@
 
 + (NSInteger)getPortNumber;
 
++ (UIImage *)scaleAndRotateImage:(UIImage *)image;
+
++ (UIImage *)scaleImage:(UIImage*)sourceImage size:(CGSize)size;
+
 + (UIImage *)resizeImage:(UIImage *)sourceImage scaledToSizeWithSameAspectRatio:(CGSize)targetSize;
 
 + (NSString *)getPaginationHtml:(NSString *)url total:(NSInteger)total perPage:(NSInteger)perPage currentPage:(NSInteger)currentPage;

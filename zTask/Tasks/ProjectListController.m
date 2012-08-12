@@ -112,7 +112,7 @@
     cell.textLabel.text = project.name;
     cell.imageView.image = [UIImage imageNamed:@"project.png"];
     
-    NSArray *tasks = [Task findAllByConditions:[NSString stringWithFormat:@"where project_id = %d", project.rowid]];
+    NSArray *tasks = [Task findAllByConditions:[NSString stringWithFormat:@"project_id = %d", project.rowid] order:@"weight"];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%d remaining", [tasks count]];
     
     [cell setAccessoryType: UITableViewCellAccessoryDisclosureIndicator];

@@ -37,18 +37,17 @@
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Projects<b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									{{#projects}}
-									<li><a href="/tasks/index">{{name}}</a></li>
+									<li><a href="/tasks/index?project_id={{rowid}}">{{name}}</a></li>
 									{{/projects}}
 								</ul>
 							</li>
-							<li class="{{#flagged}}active{{/flagged}}">
-								<a href="/tasks/index">Flagged</a>
-							</li>
 						</ul>
 					</div>
+					<!--
 					<form class="navbar-search" action="">
 						<input class="search-query span2" type="text" placeholder="Search"/>
 					</form>
+					-->
 					<a id="new_task" class="btn btn-primary pull-right" href="javascript:void(0);">Create new task</a>
 				</div>
 			</div>

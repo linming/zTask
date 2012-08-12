@@ -58,11 +58,15 @@
     return tasks;
 }
 
-+ (NSMutableArray *)findAllByConditions:(NSString *)conditions
++ (NSMutableArray *)findAllByConditions:(NSString *)conditions order:(NSString *)order
 {
+    if (!order) {
+        order = @"created desc";
+    }
     NSMutableArray *tasks = [NSMutableArray array];
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = [NSString stringWithFormat:@"select rowid, project_id, title, note, status, flag, start_date, completed, due_date, created from tasks %@", conditions];
+    NSString *sql = [NSString stringWithFormat:@"select rowid, project_id, title, note, status, flag, start_date, completed, due_date, created from tasks where %@ order by %@", conditions, order];
+    NSLog(@"sql:%@", sql);
     FMResultSet *result = [db executeQuery:sql];
     while ([result next]) {
         Task *task = [[Task alloc] init];

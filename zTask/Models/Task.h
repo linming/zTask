@@ -22,7 +22,7 @@
 @property (nonatomic, retain) NSDate *created;
 
 + (NSMutableArray *)findAll:(NSInteger)perPage page:(NSInteger)page;
-+ (NSMutableArray *)findAllByConditions:(NSString *)conditions;
++ (NSMutableArray *)findAllByConditions:(NSString *)conditions order:(NSString *)order;
 + (NSInteger)countAll;
 + (Task *)find:(NSInteger)rowid;
 + (NSInteger)create:(Task *)task;

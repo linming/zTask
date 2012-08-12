@@ -123,9 +123,8 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    NSString *sql = [NSString stringWithFormat:@"where title like '%%%@%%'", searchBar.text];
-    NSLog(@"search sql: %@", sql);
-    tasks = [Task findAllByConditions:sql];
+    NSString *sql = [NSString stringWithFormat:@"title like '%%%@%%'", searchBar.text];
+    tasks = [Task findAllByConditions:sql order:nil];
     [self.tableView reloadData];
 }
 

@@ -11,6 +11,7 @@ html, body {
 	position: relative;
 	height: auto !important;
 	overflow: hidden;
+	height: 5000px;
 }
 
 #main-container {

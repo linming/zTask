@@ -20,7 +20,7 @@
 
 @synthesize window = _window;
 @synthesize revealSideViewController = _revealSideViewController;
-@synthesize session;
+@synthesize session, wifiInfo;
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
@@ -198,5 +198,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 {
     return [httpServer isRunning];
 }
+
 
 @end

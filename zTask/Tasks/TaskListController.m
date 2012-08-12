@@ -66,7 +66,7 @@
                                                   target:self
                                                   action:@selector(editTasks)];        
         self.navigationItem.title = project.name;
-        tasks = [self findTasks:[NSString stringWithFormat:@"project_id = %d order by weight", project.rowid]];
+        tasks = [self findTasks:[NSString stringWithFormat:@"project_id = %d", project.rowid] order:@"weight"];
     } else if ([filter isEqualToString:@"Flagged"]) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                                   initWithTitle:@"Edit" 
@@ -81,7 +81,7 @@
                                                  action:@selector(showMenu)];
         
         self.navigationItem.title = @"Flagged";
-        tasks = [self findTasks:@"flag = 1"];
+        tasks = [self findTasks:@"flag = 1" order:nil];
     } else {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                                   initWithTitle:@"Edit" 
@@ -96,7 +96,7 @@
                                                  action:@selector(showMenu)];
         
         self.navigationItem.title = @"zTask";
-        tasks = [self findTasks:@"project_id = 0"];
+        tasks = [self findTasks:@"project_id = 0" order:nil];
     }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTasks) name:@"TasksChanged" object:nil];
@@ -130,17 +130,18 @@
     [self.tableView setTableFooterView:emptyFooterView];
 }
 
-- (NSMutableArray *)findTasks:(NSString *)conditions
+- (NSMutableArray *)findTasks:(NSString *)conditions order:(NSString *)order
 {
     viewConditions = conditions;
-    NSString *sql = @"where 1=1";
+    viewOrders = order;
+    NSString *sql = @"1 = 1";
     if (viewOption == VIEW_OPTION_REMAINING) {
         sql = [sql stringByAppendingString:@" and status=0"];
     }
     if (conditions) {
         sql = [sql stringByAppendingFormat:@" and %@", conditions];
     }
-    return [Task findAllByConditions:sql];
+    return [Task findAllByConditions:sql order:order];
 }
 
 - (void)showMenu
@@ -157,7 +158,7 @@
 
 - (void)reloadTasks
 {
-    tasks = [self findTasks:viewConditions];
+    tasks = [self findTasks:viewConditions order:viewOrders];
     if (viewOption == VIEW_OPTION_REMAINING) {
         statLabel.text = [NSString stringWithFormat:@"Remaining: %d task(s)", [tasks count]];
     } else {
@@ -275,7 +276,12 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        [tableView beginUpdates];
+        Task *deletedTask = [tasks objectAtIndex:indexPath.row];
+        [tasks removeObjectAtIndex:indexPath.row];
+        [Task remove:deletedTask.rowid];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [tableView endUpdates];
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view

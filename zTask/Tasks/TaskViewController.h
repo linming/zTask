@@ -31,7 +31,7 @@
     UIView *taskViewHeaderContainer;
     HPGrowingTextView *titleTextView;
     
-    UILabel *projectLabel;
+    UIButton *projectButton;
     UITextField *completedTextField;
     UIDatePicker *completedPicker;
     

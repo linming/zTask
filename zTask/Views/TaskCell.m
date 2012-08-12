@@ -58,6 +58,8 @@
     if (task.projectId) {
         Project *project = [Project find:task.projectId];
         projectLabel.text = [NSString stringWithFormat:@"%@", project.name];
+    } else {
+         projectLabel.text = @"";
     }
     
     if (task.flag) {
@@ -68,6 +70,10 @@
     
     if (task.status && task.completed) {
         completedLabel.text = [NSString stringWithFormat:@"%@", [task getCompletedStr] ];
+        titleLabel.textColor = [UIColor grayColor];
+    } else {
+        completedLabel.text = @"";
+        titleLabel.textColor = [UIColor blackColor];
     }
     
     [statusControl setIsSelected:task.status];

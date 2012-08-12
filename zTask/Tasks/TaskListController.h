@@ -18,6 +18,7 @@
     BOOL reloadSideMenu;
     NSInteger viewOption;
     NSString *viewConditions;
+    NSString *viewOrders;
     UILabel *statLabel;
     BOOL hasReordered;
 }
