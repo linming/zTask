@@ -127,8 +127,8 @@
 + (NSInteger)create:(Task *)task
 {
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = @"insert into tasks (project_id, title, note, status, flag, start_date, completed, due_date) values (?, ?, ?, ?, ?, ?, ?, ?)";
-    BOOL result = [db executeUpdate: sql, [NSNumber numberWithInteger:task.projectId], task.title, task.note, [NSNumber numberWithInteger:(task.status ? 1 : 0)], [NSNumber numberWithInteger:(task.flag ? 1 : 0)], task.startDate, task.completed, task.dueDate];
+    NSString *sql = @"insert into tasks (project_id, title, note, status, flag, start_date, completed, due_date, created) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    BOOL result = [db executeUpdate: sql, [NSNumber numberWithInteger:task.projectId], task.title, task.note, [NSNumber numberWithInteger:(task.status ? 1 : 0)], [NSNumber numberWithInteger:(task.flag ? 1 : 0)], task.startDate, task.completed, task.dueDate, [NSDate date]];
     if (!result) {
         NSLog(@"db error: %@", [db lastErrorMessage]);
     }

@@ -102,11 +102,14 @@
 
 <script id="markup_task_attach_audio" type="text/x-jquery-tmpl">
 	<li class="task_attach">
-		<audio src="/files/tasks/${task_id}/${name}" controls="controls" style="display:block; height: 20px">
-			Your browser does not support the audio element.
-		</audio>
-		<div class="task_attach_main hide">
-			<a href="#">${name}</a>
+		<div class="task_attach_image">
+			<img src="/img/audio.png"/>
+		</div>
+		<div class="task_attach_main">
+			<audio src="/files/tasks/${task_id}/${name}" controls="controls" style="display:block;">
+				Your browser does not support the audio element.
+			</audio>
+			<a href="/files/tasks/${task_id}/${name}" target="_blank">${name}</a>
 			<div class="task_attach_footer">
 				<span class="task_attach_time">${created}</span>
 			</div>

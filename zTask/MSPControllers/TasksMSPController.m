@@ -17,6 +17,7 @@
 
 - (NSDictionary *)index
 {
+    /*
     NSInteger total = [Task countAll];
     NSInteger perPage = 20;
     NSString *page = [self.request.params objectForKey:@"page"];
@@ -24,12 +25,19 @@
     if (page) {
         currentPage = [page intValue];
     }
+    [dictionary setObject:@"page" forKey:@"page"];
+    [dictionary setObject:[Utils getPaginationHtml:@"/tasks/index" total:total perPage:perPage currentPage:currentPage] forKey:@"pagination"];
+     */
     
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    [dictionary setObject:@"page" forKey:@"page"];
-    [dictionary setObject:[Task findAll:perPage page:currentPage] forKey:@"tasks"];
+    NSArray *tasks = nil;
+    if ([self.request.params objectForKey:@"project_id"]) {
+        tasks = [Task findAllByConditions:[NSString stringWithFormat:@"project_id = %@", [self.request.params objectForKey:@"project_id"]] order:@"weight"];
+    } else {
+        tasks = [Task findAllByConditions:@"project_id = 0" order:nil];
+    }
+    [dictionary setObject:tasks forKey:@"tasks"];
     [dictionary setObject:[Project findAll] forKey:@"projects"];
-    [dictionary setObject:[Utils getPaginationHtml:@"/tasks/index" total:total perPage:perPage currentPage:currentPage] forKey:@"pagination"];
     return dictionary;
 }
 

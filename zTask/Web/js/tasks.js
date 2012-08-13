@@ -17,6 +17,10 @@ $.fn.selectRange = function(start, end) {
 
 
 $(document).ready(function() {
+	if($('#task_container').height() < $('#panel_frame').height()) {
+		$('#task_container').height($('#panel_frame').height());
+	}
+
 
 	$("#due_date").datepicker({	 
 		dateFormat: 'yy-mm-dd',
@@ -29,6 +33,7 @@ $(document).ready(function() {
 	
 	$('#new_task').click(function(){
 		$.post('/tasks/add', {}, function(data){
+			$(window).scrollTop(0);
 			$('#markup_new_task').tmpl(data).prependTo(".task_list");
 			$('.task_list').children(':first').find('.title_wrapper input').focus();
 		}, 'json');
