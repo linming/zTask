@@ -49,7 +49,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.navigationItem.title = @"Report";
+    self.navigationItem.title = @"Daily Report";
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] 
                                              initWithImage:[UIImage imageNamed:@"menu"] 
@@ -64,10 +64,12 @@
 {
     NSString *sql;
     if (isWeekReport) {
+        self.navigationItem.title = @"Weekly Report";
         NSArray *weekdays = weekView.weekdays;
-        sql = [NSString stringWithFormat:@"date(completed, 'unixepoch', 'localtime') >= '%@' and date(completed, 'unixepoch', 'localtime') <= '%@'", [DateUtil formatDate:[weekdays objectAtIndex:0] to:@"yyyy-MM-dd"], [DateUtil formatDate:[weekdays objectAtIndex:6] to:@"yyyy-MM-dd"]];
+        sql = [NSString stringWithFormat:@"date(completed, 'unixepoch', 'localtime') >= '%@' and date(completed, 'unixepoch', 'localtime') <= '%@' and status = 1", [DateUtil formatDate:[weekdays objectAtIndex:0] to:@"yyyy-MM-dd"], [DateUtil formatDate:[weekdays objectAtIndex:6] to:@"yyyy-MM-dd"]];
     } else {
-        sql = [NSString stringWithFormat:@"date(completed, 'unixepoch', 'localtime') = '%@'", [DateUtil formatDate:weekView.selectedDate to:@"yyyy-MM-dd"]];
+        self.navigationItem.title = @"Daily Report";
+        sql = [NSString stringWithFormat:@"date(completed, 'unixepoch', 'localtime') = '%@' and status = 1", [DateUtil formatDate:weekView.selectedDate to:@"yyyy-MM-dd"]];
     }
     tasks = [Task findAllByConditions:sql order:@"completed asc"];
     [taskListView reloadData];

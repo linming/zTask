@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "HPGrowingTextView.h"
 #import "Task.h"
+#import "Project.h"
 #import "Attach.h"
 #import "AVPlayerMeterView.h"
 #import "AVRecorderMeterView.h"
@@ -45,6 +46,7 @@
 
 @property NSInteger taskId;
 @property NSInteger currentIndex;
+@property (nonatomic, retain) Project *project;
 @property (nonatomic, retain) NSArray *tasks;
 
 - (void)updateProject:(NSInteger)projectId projectName:(NSString *)projectName;

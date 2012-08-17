@@ -16,6 +16,7 @@
 {
     NSArray *tasks;
     BOOL reloadSideMenu;
+    BOOL isSearched;
 }
 
 @property (nonatomic, retain) IBOutlet UISearchBar *taskSearchBar;

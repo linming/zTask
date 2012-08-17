@@ -57,16 +57,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    viewOption = VIEW_OPTION_ALL;
+    viewOption = VIEW_OPTION_REMAINING;
     
     if ([filter isEqualToString:@"Project"]) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                                   initWithTitle:@"Edit" 
                                                   style:UIBarButtonItemStyleBordered 
                                                   target:self
-                                                  action:@selector(editTasks)];        
+                                                  action:@selector(editTasks)];
         self.navigationItem.title = project.name;
-        tasks = [self findTasks:[NSString stringWithFormat:@"project_id = %d", project.rowid] order:@"weight"];
+        viewConditions = [NSString stringWithFormat:@"project_id = %d", project.rowid];
+        viewOrders = @"weight, created desc";
     } else if ([filter isEqualToString:@"Flagged"]) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                                   initWithTitle:@"Edit" 
@@ -81,7 +82,8 @@
                                                  action:@selector(showMenu)];
         
         self.navigationItem.title = @"Flagged";
-        tasks = [self findTasks:@"flag = 1" order:nil];
+        viewConditions = @"flag = 1";
+        viewOrders = nil;
     } else {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                                   initWithTitle:@"Edit" 
@@ -96,7 +98,8 @@
                                                  action:@selector(showMenu)];
         
         self.navigationItem.title = @"zTask";
-        tasks = [self findTasks:@"project_id = 0" order:nil];
+        viewConditions = @"project_id = 0";
+        viewOrders = nil;
     }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTasks) name:@"TasksChanged" object:nil];
@@ -105,6 +108,8 @@
     [self hideEmptySeparators];
     
     [self addStatLabel];
+    
+    [self reloadTasks];
 }
 
 - (void)addStatLabel
@@ -115,11 +120,10 @@
         }
     }
     
-    statLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 0, 160, 44)];
+    statLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, 200, 44)];
     statLabel.backgroundColor = [UIColor clearColor];
     statLabel.textAlignment = UITextAlignmentCenter;
     statLabel.textColor = [UIColor whiteColor];
-    statLabel.text = [NSString stringWithFormat:@"Total: %d task(s)", [tasks count]];
     [self.navigationController.toolbar addSubview:statLabel];
 }
 
@@ -130,20 +134,6 @@
     [self.tableView setTableFooterView:emptyFooterView];
 }
 
-- (NSMutableArray *)findTasks:(NSString *)conditions order:(NSString *)order
-{
-    viewConditions = conditions;
-    viewOrders = order;
-    NSString *sql = @"1 = 1";
-    if (viewOption == VIEW_OPTION_REMAINING) {
-        sql = [sql stringByAppendingString:@" and status=0"];
-    }
-    if (conditions) {
-        sql = [sql stringByAppendingFormat:@" and %@", conditions];
-    }
-    return [Task findAllByConditions:sql order:order];
-}
-
 - (void)showMenu
 {
     [self.revealSideViewController pushOldViewControllerOnDirection:PPRevealSideDirectionLeft animated:YES];
@@ -152,17 +142,27 @@
 - (void)addTask
 {
     TaskViewController *taskViewController = [[TaskViewController alloc] initWithNibName:@"TaskViewController" bundle:nil];
+    if (project) {
+        [taskViewController setProject:project];
+    }
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:taskViewController];
     [self presentModalViewController:navigationController animated:YES];
 }
 
 - (void)reloadTasks
 {
-    tasks = [self findTasks:viewConditions order:viewOrders];
+    NSString *sql = @"1 = 1";
     if (viewOption == VIEW_OPTION_REMAINING) {
-        statLabel.text = [NSString stringWithFormat:@"Remaining: %d task(s)", [tasks count]];
+        sql = [sql stringByAppendingString:@" and status = 0"];
+    }
+    if (viewConditions) {
+        sql = [sql stringByAppendingFormat:@" and %@", viewConditions];
+    }
+    tasks = [Task findAllByConditions:sql order:viewOrders];
+    if (viewOption == VIEW_OPTION_REMAINING) {
+        statLabel.text = [NSString stringWithFormat:@"Remaining: %d task%@", [tasks count], [tasks count] < 2 ? @"" : @"s"];
     } else {
-        statLabel.text = [NSString stringWithFormat:@"Total: %d task(s)", [tasks count]];
+        statLabel.text = [NSString stringWithFormat:@"Total: %d task%@", [tasks count], [tasks count] < 2 ? @"" : @"s"];
     }
     [self.tableView reloadData];
 }

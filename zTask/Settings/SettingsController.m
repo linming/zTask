@@ -50,7 +50,7 @@
                  [NSArray arrayWithObjects:@"version number", nil],
                  nil];
     self.sections = [NSArray arrayWithObjects:
-                     @"Sharing with Browser",
+                     @"WiFi Share",
                      @"Connection",
                      @"About",
                      nil];
@@ -115,7 +115,7 @@
         
         passwordSwitch = cell.switcher;
         [passwordSwitch addTarget:self action:@selector(requirePasswordSwitchDidChange) forControlEvents:UIControlEventValueChanged];
-        NSNumber *status = [[NSUserDefaults standardUserDefaults] objectForKey:@"PORTSITE_REQUIRE_PASSWORD"];
+        NSNumber *status = [[NSUserDefaults standardUserDefaults] objectForKey:@"WIFI_REQUIRE_PASSWORD"];
         if (status) {
             passwordSwitch.on = [status boolValue];
         }
@@ -134,9 +134,8 @@
         [passwordTextField setPlaceholder:@"enter password here"];
         [passwordTextField setTextAlignment:UITextAlignmentRight];
         [passwordTextField setTag: kPasswordTextField];
-        [passwordTextField setSecureTextEntry:YES];
         [passwordTextField setDelegate:self];
-        NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"PORTSITE_PASSWORD"];
+        NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"WIFI_PASSWORD"];
         if (password) {
             [passwordTextField setText:password];
         }
@@ -156,7 +155,7 @@
         [portTextField setKeyboardType:UIKeyboardTypeNumberPad];
         [portTextField setTag: kPortTextField];
         [portTextField setDelegate:self];
-        NSString *port = [[NSUserDefaults standardUserDefaults] objectForKey:@"PORTSITE_PORT"];
+        NSString *port = [[NSUserDefaults standardUserDefaults] objectForKey:@"WIFI_PORT"];
         if (port) {
             [portTextField setText:port];
         }
@@ -200,7 +199,7 @@
     if (theTextField.tag == kPortTextField) {
         NSString *port = [theTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         if (port.intValue > 1024 && port.intValue < 65535) {
-            [[NSUserDefaults standardUserDefaults] setObject:port forKey:@"PORTSITE_PORT"];
+            [[NSUserDefaults standardUserDefaults] setObject:port forKey:@"WIFI_PORT"];
             AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
             if ([delegate isWebServerRunning]) {
                 [delegate stopWebServer];
@@ -208,18 +207,18 @@
             } 
         } else {
             [Utils alertWithMessage:@"Port number must be between 1024 and 65535."];
-            theTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"PORTSITE_PORT"];
+            theTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"WIFI_PORT"];
         }
     
     } else if (theTextField.tag == kPasswordTextField) {
         NSString *password = [theTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"PORTSITE_PASSWORD"];
+        [[NSUserDefaults standardUserDefaults] setObject:password forKey:@"WIFI_PASSWORD"];
     }
 }
 
 - (void)requirePasswordSwitchDidChange
 {
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:passwordSwitch.on] forKey:@"PORTSITE_REQUIRE_PASSWORD"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:passwordSwitch.on] forKey:@"WIFI_REQUIRE_PASSWORD"];
 }
 
 @end

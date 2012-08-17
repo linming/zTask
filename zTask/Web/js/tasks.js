@@ -80,6 +80,10 @@ $(document).ready(function() {
 				$('#note').val(data.note);
 				$('#due_date').val(data.due_date);
 				$('#created').text('created at ' + data.created);
+				$('#attaches').empty();
+				if (data.attaches.length == 0) {
+					$('#attaches').html('<li class="task_attach" style="color:gray;">No Attachment</li>');
+				}
 				for (i = 0; i < data.attaches.length; i++) {
 					var attach = data.attaches[i];
 					if (attach.type == 'Audio') {

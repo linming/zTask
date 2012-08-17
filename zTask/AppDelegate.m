@@ -103,29 +103,29 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 {
     [DBUtil createDatabase];
     
-    NSNumber *requirePassword = [[NSUserDefaults standardUserDefaults] objectForKey:@"PORTSITE_REQUIRE_PASSWORD"];
+    NSNumber *requirePassword = [[NSUserDefaults standardUserDefaults] objectForKey:@"WIFI_REQUIRE_PASSWORD"];
     if (!requirePassword) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"PORTSITE_REQUIRE_PASSWORD"];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:NO] forKey:@"WIFI_REQUIRE_PASSWORD"];
     }
     
-    NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"PORTSITE_PASSWORD"];
+    NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"WIFI_PASSWORD"];
     if (!password) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"PORTSITE_PASSWORD"];
+        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"WIFI_PASSWORD"];
     }
     
-    NSNumber *serviceBrowserable = [[NSUserDefaults standardUserDefaults] objectForKey:@"PORTSITE_SERVICE_BROWSERABLE"];
+    NSNumber *serviceBrowserable = [[NSUserDefaults standardUserDefaults] objectForKey:@"WIFI_SERVICE_BROWSERABLE"];
     if (!serviceBrowserable) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"PORTSITE_SERVICE_BROWSERABLE"];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"WIFI_SERVICE_BROWSERABLE"];
     }
     
-    NSString *passcode = [[NSUserDefaults standardUserDefaults] objectForKey:@"PORTSITE_PASSCODE"];
+    NSString *passcode = [[NSUserDefaults standardUserDefaults] objectForKey:@"WIFI_PASSCODE"];
     if (!passcode) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"PORTSITE_PASSCODE"];
+        [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"WIFI_PASSCODE"];
     }
     
-    NSString *port = [[NSUserDefaults standardUserDefaults] objectForKey:@"PORTSITE_PORT"];
+    NSString *port = [[NSUserDefaults standardUserDefaults] objectForKey:@"WIFI_PORT"];
     if (!port) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"12345" forKey:@"PORTSITE_PORT"];
+        [[NSUserDefaults standardUserDefaults] setObject:@"12345" forKey:@"WIFI_PORT"];
     }
     
     [FileUtil makeFilePath:@"/files/tmp"];
@@ -156,10 +156,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 	// Tell the server to broadcast its presence via Bonjour.
 	// This allows browsers such as Safari to automatically discover our service.
     
-    NSNumber *serviceBrowserable = [[NSUserDefaults standardUserDefaults] objectForKey:@"PORTSITE_SERVICE_BROWSERABLE"];
-    if ([serviceBrowserable boolValue]) {
-        [httpServer setType:@"_http._tcp."];
-    }
+    [httpServer setType:@"_http._tcp."];
 	
 	// Normally there's no need to run our server on any specific port.
 	// Technologies like Bonjour allow clients to dynamically discover the server's port at runtime.

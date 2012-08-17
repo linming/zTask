@@ -79,12 +79,12 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSInteger taskCount = [tasks count];
-    return (taskCount == 0 && taskSearchBar.text) ? 1 : taskCount;
+    return (taskCount == 0 && isSearched) ? 1 : taskCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([tasks count] == 0 && taskSearchBar.text) {
+    if ([tasks count] == 0 && isSearched) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         cell.textLabel.text = @"No Results Found";
         cell.textLabel.textAlignment = UITextAlignmentCenter;
@@ -126,6 +126,8 @@
     NSString *sql = [NSString stringWithFormat:@"title like '%%%@%%'", searchBar.text];
     tasks = [Task findAllByConditions:sql order:nil];
     [self.tableView reloadData];
+    [searchBar resignFirstResponder];
+    isSearched = YES;
 }
 
 @end

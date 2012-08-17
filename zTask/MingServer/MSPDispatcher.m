@@ -18,7 +18,7 @@
 {
     NSArray *whiteList = [NSArray arrayWithObjects:@"/apis/login", @"/apis/need_passcode", @"/apis/verify_passcode", nil];
     //verify login
-    NSNumber *requirePasswordNumber = [[NSUserDefaults standardUserDefaults] objectForKey:@"PORTSITE_REQUIRE_PASSWORD"];
+    NSNumber *requirePasswordNumber = [[NSUserDefaults standardUserDefaults] objectForKey:@"WIFI_REQUIRE_PASSWORD"];
     if (requirePasswordNumber && requirePasswordNumber.boolValue) {
         if (![whiteList containsObject:request.relativePath]) {
             AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;

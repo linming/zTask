@@ -65,6 +65,10 @@
     } else {
         task = [[Task alloc] init];
         attaches = [NSMutableArray array];
+        if (self.project) {
+            task.projectId = self.project.rowid;
+            projectButton.titleLabel.text = self.project.name;
+        }
         
         self.navigationItem.title = @"New Task";
         UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancel)];
@@ -672,6 +676,8 @@
         titleTextView.backgroundColor = [UIColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
         if (taskId) {
             titleTextView.text = task.title;
+        } else {
+            [titleTextView becomeFirstResponder];
         }
         [taskViewHeaderContainer addSubview:titleTextView];
         

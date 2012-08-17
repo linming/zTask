@@ -25,7 +25,7 @@
         titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 5, 250, 24)];
         [self.contentView addSubview:titleLabel];
         
-        projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 29, 100, 13)];
+        projectLabel = [[UILabel alloc] initWithFrame:CGRectMake(44, 29, 160, 13)];
         projectLabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
         projectLabel.textColor = [UIColor grayColor];
         [self.contentView addSubview:projectLabel];

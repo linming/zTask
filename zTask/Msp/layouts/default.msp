@@ -39,6 +39,9 @@
 									{{#projects}}
 									<li><a href="/tasks/index?project_id={{rowid}}">{{name}}</a></li>
 									{{/projects}}
+									{{^projects}}
+									<li><span style="margin:5px 10px;">No Project</span></li>
+									{{/projects}}
 								</ul>
 							</li>
 						</ul>

@@ -15,17 +15,23 @@
 
 - (MSPResponse *)login
 {
-    NSString *output = @"<script> window.location = '/photos/index'; </script>";
-    NSString *sessionId = [NSString stringWithFormat:@"MSP%d", rand()];
-    
-    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    [delegate.session setObject:[NSDate date] forKey:sessionId];
-    
-    NSString *cookie = [NSString stringWithFormat:@"SESSIONID=%@;path=/;max-age=7200", sessionId];
-    NSDictionary *headers = [NSDictionary dictionaryWithObjectsAndKeys:cookie, @"Set-Cookie", nil];
-    return [[MSPResponse alloc] initWithData: [output dataUsingEncoding:NSUTF8StringEncoding] headers:headers];
-    
-    //return [[MSPRedirectResponse alloc] initWithPath:@"/photos/index" cookie:@"SESSIONID:12345;path=/;max-age=7200"];
+    NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:@"WIFI_PASSWORD"];
+    NSLog(@"wifi password: %@", password);
+    NSLog(@"input password: %@", [self.request.params objectForKey:@"password"]);
+    if ([[self.request.params objectForKey:@"password"] isEqualToString:password]) {
+        NSString *output = @"<script> window.location = '/tasks/index'; </script>";
+        NSString *sessionId = [NSString stringWithFormat:@"MSP%d", rand()];
+        
+        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [delegate.session setObject:[NSDate date] forKey:sessionId];
+        
+        NSString *cookie = [NSString stringWithFormat:@"SESSIONID=%@;path=/;max-age=7200", sessionId];
+        NSDictionary *headers = [NSDictionary dictionaryWithObjectsAndKeys:cookie, @"Set-Cookie", nil];
+        return [[MSPResponse alloc] initWithData: [output dataUsingEncoding:NSUTF8StringEncoding] headers:headers];
+    } else {
+        NSString *output = @"<script> window.location = '/login.html'; </script>";
+        return [[MSPResponse alloc] initWithData: [output dataUsingEncoding:NSUTF8StringEncoding] headers:nil];
+    }
 }
 
 
