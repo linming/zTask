@@ -34,7 +34,7 @@
         flagImageView.frame = CGRectMake(300, 6, 16, 16);
         [self.contentView addSubview:flagImageView];
         
-        completedLabel = [[UILabel alloc] initWithFrame:CGRectMake(240, 29, 70, 13)];
+        completedLabel = [[UILabel alloc] initWithFrame:CGRectMake(240, 29, 80, 13)];
         completedLabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
         completedLabel.textColor = [UIColor grayColor];
         [self.contentView addSubview:completedLabel];

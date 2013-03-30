@@ -7,17 +7,18 @@
 //
 
 #import "Project.h"
+#import "Task.h"
 #import "DBUtil.h"
 
 @implementation Project
 
 @synthesize rowid, name, created;
 
-+ (NSArray *)findAll
++ (NSMutableArray *)findAll
 {
     NSMutableArray *projects = [NSMutableArray array];
     FMDatabase *db = [DBUtil openDatabase];
-    NSString *sql = [NSString stringWithFormat:@"select rowid, name, created from projects order by created desc"];
+    NSString *sql = [NSString stringWithFormat:@"select rowid, name, created from projects order by weight,created desc"];
     FMResultSet *result = [db executeQuery:sql];
     while ([result next]) {
         Project *project = [[Project alloc] init];
@@ -94,11 +95,29 @@
     //remove db record
     FMDatabase *db = [DBUtil openDatabase];
     
+    NSMutableArray *tasks = [Task findAllByConditions:[NSString stringWithFormat:@"project_id = %d", rowid] order:nil];
+    for (Task *task in tasks) {
+        [Task remove:task.rowid];
+    }
+    
     NSString *sql = @"delete from projects where rowid = ?";
     [db executeUpdate: sql, [NSNumber numberWithInteger:rowid]];
     [db close];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ProjectsChanged" object:nil];
+}
+
++ (void)saveOrder:(NSArray *)projects
+{
+    FMDatabase *db = [DBUtil openDatabase];
+    NSString *sql = @"update projects set weight = ? where rowid = ?";
+    int i = 0;
+    for (Project *project in projects) {
+        i++;
+        [db executeUpdate:sql, [NSNumber numberWithInteger:i], [NSNumber numberWithInteger:project.rowid]];
+    }
+    
+    [db close];
 }
 
 @end

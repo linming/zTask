@@ -21,7 +21,7 @@
 }
 - (NSString *)getCompletedStr
 {
-    return [DateUtil formatDate:completed to:@"yyyy-MM-dd"];
+    return [DateUtil formatDate:completed to:@"MMM d, yyyy"];
 }
 - (NSString *)getDueDateStr
 {
@@ -66,7 +66,7 @@
     NSMutableArray *tasks = [NSMutableArray array];
     FMDatabase *db = [DBUtil openDatabase];
     NSString *sql = [NSString stringWithFormat:@"select rowid, project_id, title, note, status, flag, start_date, completed, due_date, created from tasks where %@ order by %@", conditions, order];
-    NSLog(@"sql:%@", sql);
+    //NSLog(@"sql:%@", sql);
     FMResultSet *result = [db executeQuery:sql];
     while ([result next]) {
         Task *task = [[Task alloc] init];
@@ -152,6 +152,12 @@
 + (void)remove:(NSInteger)rowid
 {
     FMDatabase *db = [DBUtil openDatabase];
+    
+    NSArray *attaches = [Attach findAll:rowid];
+    for (Attach *attach in attaches) {
+        [Attach remove:attach];
+    }
+    
     NSString *sql = @"delete from tasks where rowid = ?";
     [db executeUpdate: sql, [NSNumber numberWithInteger:rowid]];
     [db close];

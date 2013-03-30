@@ -32,7 +32,7 @@
 
 @implementation TaskViewController
 
-@synthesize taskId, tasks, currentIndex;
+@synthesize taskId, tasks, currentIndex, fromFlagged;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -399,6 +399,17 @@
         for (Attach *attach in attaches) {
             attach.taskId = task.rowid;
             [Attach create:attach];
+        }
+    }
+    
+    if ( fromFlagged ||
+        (task.projectId && !self.project) ||
+        (self.project && self.project.rowid != task.projectId)) {
+        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        if (!task.projectId) {
+            [appDelegate.session setObject:@"Task saved to inbox" forKey:@"HUD_MESSAGE"];
+        } else {
+            [appDelegate.session setObject:@"Task saved to project folder" forKey:@"HUD_MESSAGE"];
         }
     }
 

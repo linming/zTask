@@ -35,13 +35,19 @@
                                              style:UIBarButtonItemStylePlain 
                                              target:self 
                                              action:@selector(showMenu)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                              initWithTitle:@"Edit"
+                                              style:UIBarButtonItemStyleBordered
+                                              target:self
+                                              action:@selector(editProjects)];
     
     self.navigationItem.title = @"Projects";
     
-    projects = [Project findAll]; 
-    
+    /*
+    projects = [Project findAll];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadProjects) name:@"ProjectsChanged" object:nil];
-    reloadSideMenu = NO;
+    */
+     reloadSideMenu = NO;
 }
 
 - (void)showMenu
@@ -55,6 +61,22 @@
     [self.tableView reloadData];
 }
 
+- (void)editProjects
+{
+    if (self.tableView.editing) {
+        [self.tableView setEditing:NO];
+        [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleBordered];
+        [self.navigationItem.rightBarButtonItem setTitle:@"Edit"];
+        if (hasReordered) {
+            [Project saveOrder:projects];
+        }
+    } else {
+        [self.tableView setEditing:YES];
+        [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleDone];
+        [self.navigationItem.rightBarButtonItem setTitle:@"Done"];
+    }
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -65,6 +87,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self reloadProjects];
     
     if (reloadSideMenu) {
         HomeViewController *homeViewController = [[HomeViewController alloc] initWithNibName:@"HomeViewController" bundle:nil];
@@ -87,11 +111,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [projects count] == 0 ? 1 : [projects count];
+    return [projects count];
+    //return [projects count] == 0 ? 1 : [projects count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /*
     if ([projects count] == 0) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         cell.textLabel.text = @"No Projects";
@@ -101,6 +127,7 @@
         cell.userInteractionEnabled = NO;
         return cell;
     }
+     */
     
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -112,51 +139,68 @@
     cell.textLabel.text = project.name;
     cell.imageView.image = [UIImage imageNamed:@"project.png"];
     
-    NSArray *tasks = [Task findAllByConditions:[NSString stringWithFormat:@"project_id = %d", project.rowid] order:@"weight"];
+    NSArray *tasks = [Task findAllByConditions:[NSString stringWithFormat:@"project_id = %d and status = 0", project.rowid] order:nil];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%d remaining", [tasks count]];
     
     [cell setAccessoryType: UITableViewCellAccessoryDisclosureIndicator];
     return cell;
 }
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
+
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        [tableView beginUpdates];
+        Project *deletedProject = [projects objectAtIndex:indexPath.row];
+        [projects removeObjectAtIndex:indexPath.row];
+        [Project remove:deletedProject.rowid];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [tableView endUpdates];
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
 
-/*
+
+
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+    int from = fromIndexPath.row;
+    int to = toIndexPath.row;
+    if (to != from) {
+        id obj = [projects objectAtIndex:from];
+        [projects removeObjectAtIndex:from];
+        if (to >= [projects count]) {
+            [projects addObject:obj];
+        } else {
+            [projects insertObject:obj atIndex:to];
+        }
+        hasReordered = YES;
+    }
 }
-*/
 
-/*
+
+
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the item to be re-orderable.
     return YES;
 }
-*/
+
 
 #pragma mark - Table view delegate
 

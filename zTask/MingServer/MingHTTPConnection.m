@@ -17,7 +17,7 @@
 
 // Log levels: off, error, warn, info, verbose
 // Other flags: trace
-static const int httpLogLevel = LOG_LEVEL_VERBOSE; // | HTTP_LOG_FLAG_TRACE;
+static const int httpLogLevel = LOG_LEVEL_OFF; // | HTTP_LOG_FLAG_TRACE;
 
 - (NSObject<HTTPResponse> *)httpResponseForMethod:(NSString *)method URI:(NSString *)path
 {
@@ -25,7 +25,7 @@ static const int httpLogLevel = LOG_LEVEL_VERBOSE; // | HTTP_LOG_FLAG_TRACE;
 	NSString *documentRoot = [config documentRoot];
 	NSString *relativePath = [filePath substringFromIndex:[documentRoot length]];
     
-    NSLog(@"uri: %@", path);
+    //NSLog(@"uri: %@", path);
     
     if ([path isEqualToString:@"/"]) {
         return [[HTTPRedirectResponse alloc] initWithPath:@"/tasks/index"];

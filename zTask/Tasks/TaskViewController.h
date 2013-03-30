@@ -48,6 +48,7 @@
 @property NSInteger currentIndex;
 @property (nonatomic, retain) Project *project;
 @property (nonatomic, retain) NSArray *tasks;
+@property BOOL fromFlagged;
 
 - (void)updateProject:(NSInteger)projectId projectName:(NSString *)projectName;
 - (void)updateNote:(NSString *)note;

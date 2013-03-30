@@ -11,6 +11,8 @@
 #import "TaskCell.h"
 #import "HomeViewController.h"
 #import "TaskViewController.h"
+#import "MBProgressHUD.h"
+#import "AppDelegate.h"
 
 @interface TaskListController ()
 
@@ -105,7 +107,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTasks) name:@"TasksChanged" object:nil];
     reloadSideMenu = NO;
     
-    [self hideEmptySeparators];
+    //[self hideEmptySeparators];
     
     [self addStatLabel];
     
@@ -144,6 +146,9 @@
     TaskViewController *taskViewController = [[TaskViewController alloc] initWithNibName:@"TaskViewController" bundle:nil];
     if (project) {
         [taskViewController setProject:project];
+    }
+    if ([filter isEqualToString:@"Flagged"]) {
+        [taskViewController setFromFlagged:YES];
     }
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:taskViewController];
     [self presentModalViewController:navigationController animated:YES];
@@ -214,6 +219,26 @@
     
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *hudMessage = [appDelegate.session objectForKey:@"HUD_MESSAGE"];
+    if (hudMessage) {
+        [appDelegate.session removeObjectForKey:@"HUD_MESSAGE"];
+
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        
+        // Configure for text only and offset down
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = hudMessage;
+        hud.margin = 10.f;
+        hud.yOffset = 150.f;
+        hud.removeFromSuperViewOnHide = YES;
+        
+        [hud hide:YES afterDelay:2];
+    }
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -234,12 +259,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger taskCount = [tasks count];
-    return taskCount == 0 ? 1 : taskCount;
+    return [tasks count];
+    //NSInteger taskCount = [tasks count];
+    //return taskCount == 0 ? 1 : taskCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /*
     if ([tasks count] == 0) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         cell.textLabel.text = @"No Tasks";
@@ -249,6 +276,7 @@
         cell.userInteractionEnabled = NO;
         return cell;
     }
+     */
     
     static NSString *CellIdentifier = @"TaskCell";
     TaskCell *cell = (TaskCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -276,13 +304,14 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+
         [tableView beginUpdates];
         Task *deletedTask = [tasks objectAtIndex:indexPath.row];
         [tasks removeObjectAtIndex:indexPath.row];
         [Task remove:deletedTask.rowid];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [tableView endUpdates];
-    }   
+    }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   

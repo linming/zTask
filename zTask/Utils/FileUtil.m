@@ -13,14 +13,14 @@
 
 + (NSString *)getWebRoot
 {
-    //return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Web"];
-    return @"/Users/linming/Develop/zTask/zTask/Web";
+    return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Web"];
+    //return @"/Users/linming/Develop/zTask/zTask/Web";
 }
 
 + (NSString *)getMspRoot
 {
-    //return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Msp"];
-    return @"/Users/linming/Develop/zTask/zTask/Msp";
+    return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Msp"];
+    //return @"/Users/linming/Develop/zTask/zTask/Msp";
 }
 
 + (NSString *)getFilePath:(NSString *)relativePath

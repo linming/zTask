@@ -14,11 +14,12 @@
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSDate *created;
 
-+ (NSArray *)findAll;
++ (NSMutableArray *)findAll;
 + (NSInteger)countAll;
 + (Project *)find:(NSInteger)rowid;
 + (NSInteger)create:(Project *)project;
 + (void)update:(Project *)project;
 + (void)remove:(NSInteger)rowid;
++ (void)saveOrder:(NSArray *)projects;
 
 @end

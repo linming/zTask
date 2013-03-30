@@ -77,6 +77,7 @@
             Project *project = [projects objectAtIndex:indexPath.row];
             cell.textLabel.text = project.name;
         }
+        cell.textLabel.textColor = [UIColor blackColor];
     } else {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"None";
@@ -84,6 +85,7 @@
         } else {
             Project *project = [projects objectAtIndex:indexPath.row - 1];
             cell.textLabel.text = project.name;
+            cell.textLabel.textColor = [UIColor blackColor];
         }
     }
     

@@ -11,8 +11,9 @@
 
 @interface ProjectListController : UITableViewController
 {
-    NSArray *projects;
+    NSMutableArray *projects;
     BOOL reloadSideMenu;
+    BOOL hasReordered;
 }
 
 @end

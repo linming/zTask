@@ -181,6 +181,7 @@
 		23B6783715A1D73100761213 /* AVRecorderMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6783615A1D73100761213 /* AVRecorderMeterView.m */; };
 		23B6783B15A1D75000761213 /* AVPlayerMeterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6783A15A1D75000761213 /* AVPlayerMeterView.m */; };
 		23B6784215A1E23F00761213 /* DateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 23B6784115A1E23F00761213 /* DateUtil.m */; };
+		23E5A65E160C721C00201C9B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 23E5A65D160C721C00201C9B /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -488,6 +489,7 @@
 		23B6783A15A1D75000761213 /* AVPlayerMeterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerMeterView.m; sourceTree = "<group>"; };
 		23B6784015A1E23F00761213 /* DateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateUtil.h; sourceTree = "<group>"; };
 		23B6784115A1E23F00761213 /* DateUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateUtil.m; sourceTree = "<group>"; };
+		23E5A65D160C721C00201C9B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../../Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -599,6 +601,7 @@
 		2329E9711594195700FFC5AA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				23E5A65D160C721C00201C9B /* Default-568h@2x.png */,
 				2349E2D715CE290600F79E70 /* audio.png */,
 				2349E2D915CE4ACA00F79E70 /* audio@2x.png */,
 				233CDDCF15CD57D9000A5A90 /* back.png */,
@@ -1200,6 +1203,7 @@
 				233CDDD615CD57D9000A5A90 /* forward@2x.png in Resources */,
 				2349E2D815CE290600F79E70 /* audio.png in Resources */,
 				2349E2DA15CE4ACA00F79E70 /* audio@2x.png in Resources */,
+				23E5A65E160C721C00201C9B /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
